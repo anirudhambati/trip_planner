@@ -28,6 +28,10 @@
     <link rel="stylesheet" href={% static "/landing/css/flaticon.css" %}>
     <link rel="stylesheet" href={% static "/landing/css/icomoon.css" %}>
     <link rel="stylesheet" href={% static "/landing/css/style.css" %}>
+
+    {% block extrahead %}
+    {% endblock %}
+
   </head>
   <body>
 	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
@@ -54,7 +58,7 @@
     <!-- END nav -->
 
     {% block body %}
-    
+
     {% endblock %}
 
     <footer class="ftco-footer ftco-footer-2 ftco-section">
