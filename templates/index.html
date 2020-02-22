@@ -39,13 +39,13 @@
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
-	          <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+	          <li class="nav-item active"><a href="{% url 'landing' %}" class="nav-link">Home</a></li>
+	          <li class="nav-item"><a href="{% url 'about' %}" class="nav-link">About</a></li>
 	          <li class="nav-item"><a href="#" class="nav-link">Destination</a></li>
 	          <li class="nav-item"><a href="#" class="nav-link">Hotels &amp; Restaurant</a></li>
 	          <li class="nav-item"><a href="#" class="nav-link">Blog</a></li>
 	          <li class="nav-item"><a href="#" class="nav-link">Contact</a></li>
-	          <li class="nav-item cta"><a href="#" class="nav-link">Book Now</a></li>
+	          <li class="nav-item cta"><a href="#" class="nav-link">SignUp</a></li>
 
 	        </ul>
 	      </div>
@@ -70,14 +70,15 @@
 	    	<div class="row">
 					<div class="col-md-12">
 						<div class="search-wrap-1 ftco-animate p-4">
-							<form action="#" class="search-property-1">
+							<form action="/" class="search-property-1" method="POST">
+                {% csrf_token %}
 		        		<div class="row">
 		        			<div class="col-lg align-items-end">
 		        				<div class="form-group">
 		        					<label for="#">Destination</label>
 		          				<div class="form-field">
 		          					<div class="icon"><span class="ion-ios-search"></span></div>
-				                <input type="text" class="form-control" placeholder="Search place">
+				                <input type="text" name="place" class="form-control" placeholder="Search place">
 				              </div>
 			              </div>
 		        			</div>
@@ -86,7 +87,7 @@
 		        					<label for="#">Check-in date</label>
 		        					<div class="form-field">
 		          					<div class="icon"><span class="ion-ios-calendar"></span></div>
-				                <input type="text" class="form-control checkin_date" placeholder="Check In Date">
+				                <input type="text" name="checkin" class="form-control checkin_date" placeholder="Check In Date">
 				              </div>
 			              </div>
 		        			</div>
@@ -95,7 +96,7 @@
 		        					<label for="#">Check-out date</label>
 		        					<div class="form-field">
 		          					<div class="icon"><span class="ion-ios-calendar"></span></div>
-				                <input type="text" class="form-control checkout_date" placeholder="Check Out Date">
+				                <input type="text" name="checkout" class="form-control checkout_date" placeholder="Check Out Date">
 				              </div>
 			              </div>
 		        			</div>
@@ -105,7 +106,7 @@
 		        					<div class="form-field">
 		          					<div class="select-wrap">
 		                      <div class="icon"><i class="fas fa-rupee-sign"></i></div>
-                          <input type="number" class="form-control" placeholder="5000">
+                          <input type="number" name="price" class="form-control" placeholder="0000">
 		                    </div>
 				              </div>
 			              </div>
@@ -676,14 +677,6 @@
 	              </ul>
 	            </div>
             </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12 text-center">
-
-            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
           </div>
         </div>
       </div>
