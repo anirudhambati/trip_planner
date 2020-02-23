@@ -11,3 +11,6 @@ def about(request):
 
 def timeline(request):
     return render(request, 'timeline.html')
+
+def auth(request):
+    return render(request, 'auth.html')
