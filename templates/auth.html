@@ -255,20 +255,37 @@
 <p class="tip">Click on button in image container</p>
 <div style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius:3px;margin-top:-2%;height:510px;" class="cont">
   <div class="form sign-in">
+
+					{% if messages %}
+					<ul class="messages">
+					{% for message in messages %}
+					<div class="w3-panel w3-grey w3-display-container">
+
+						<h4 class="{{ message.tags }}" style="font-family:avenir Black ;"> {{ message }}</h4>
+
+					</div>
+					{% endfor %}
+					</ul>
+				{% endif %}
+
+
+	  <form method="POST" action="{% url 'home:login' %}">
+	  {% csrf_token %}
     <h2>Welcome back,</h2>
     <label>
       <span>Email</span>
-      <input type="email" />
+      <input type="email"  name="email"/>
     </label>
     <label>
       <span>Password</span>
-      <input type="password" />
+      <input type="password"  name="password"/>
     </label>
     <p class="forgot-pass">Forgot password?</p>
-    <button style="background:#ffb400" type="button" class="submit">Sign In</button>
+    <button style="background:#ffb400" type="submit" class="submit">Sign In</button>
     <button style="background:#de5246;color:white;margin-top:-1%;" type="button"><i class="fab fa-google-plus-g"></i> Connect with <span style="color:white">Google</span></button>
     <button style="background:#3b5998;color:white;margin-top:2%;" type="button"><i class="fab fa-facebook"></i> Connect with <span style="color:white">Facebook</span></button>
-  </div>
+</form>
+</div>
   <div class="sub-cont">
     <div class="img">
       <div class="img__text m--up">

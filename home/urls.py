@@ -5,4 +5,5 @@ app_name = 'home'
 
 urlpatterns = [
 
+    path('login/', views.login, name="login"),
     ]
