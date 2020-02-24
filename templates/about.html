@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://kit.fontawesome.com/ea0619ce99.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href={% static "/landing/css/open-iconic-bootstrap.min.css" %}>
+    <link rel="stylesheet" href={% static "/landing/css/animate.css" %}>
+
+    <link rel="stylesheet" href={% static "/landing/css/owl.carousel.min.css" %}>
+    <link rel="stylesheet" href={% static "/landing/css/owl.theme.default.min.css" %}>
+    <link rel="stylesheet" href={% static "/landing/css/magnific-popup.css" %}>
+
+    <link rel="stylesheet" href={% static "/landing/css/aos.css" %}>
+
+    <link rel="stylesheet" href={% static "/landing/css/ionicons.min.css" %}>
+
+    <link rel="stylesheet" href={% static "/landing/css/bootstrap-datepicker.css" %}>
+    <link rel="stylesheet" href={% static "/landing/css/jquery.timepicker.css" %}>
+
+    <link rel="stylesheet" href={% static "/landing/css/flaticon.css" %}>
+    <link rel="stylesheet" href={% static "/landing/css/icomoon.css" %}>
+    <link rel="stylesheet" href={% static "/landing/css/style.css" %}>
+    <title>Place</title>
+    <style>
+
+        .rate {
+          float: left;
+          height: 40px;
+          padding: 0 10px;
+        }
+        .rate:not(:checked) > input {
+          position:absolute;
+          top:-110000px;
+        }
+        .rate:not(:checked) > label {
+          float:right;
+          width:1em;
+          overflow:hidden;
+          white-space:nowrap;
+          cursor:pointer;
+          font-size:20px;
+          color:#ccc;
+        }
+        .rate:not(:checked) > label:before {
+          content: '★ ';
+        }
+        .rate > input:checked ~ label {
+          color: #ffc700;
+        }
+        .rate:not(:checked) > label:hover,
+        .rate:not(:checked) > label:hover ~ label {
+          color: #deb217;
+        }
+        .rate > input:checked + label:hover,
+        .rate > input:checked + label:hover ~ label,
+        .rate > input:checked ~ label:hover,
+        .rate > input:checked ~ label:hover ~ label,
+        .rate > label:hover ~ input:checked ~ label {
+          color: #c59b08;
+        }
+
+        .ui-widget-content a{color:#333;}
+a{background-color:transparent;}
+a:active,a:hover{outline:0;}
+@media print{
+*,*:before,*:after{background:transparent!important;color:#000!important;box-shadow:none!important;text-shadow:none!important;}
+a,a:visited{text-decoration:underline;}
+a[href]:after{content:" (" attr(href) ")";}
+}
+*{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+*:before,*:after{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+a{color:#009cde;text-decoration:none;}
+a:hover,a:focus{color:#2cc0ff;text-decoration:underline;}
+a:focus{outline:5px auto -webkit-focus-ring-color;outline-offset:-2px;}
+body a,body a:hover,body a:focus,body a:active{text-decoration:none;}
+.ui-widget-content a{color:#009cde;}
+.ui-widget-content a:hover,.ui-widget-content a:focus{color:#2cc0ff;}
+.price-module.large{height:48px;background-color:#6b9ee8;position:absolute;top:30px;left:0;padding:12px 15px;color:#fff!important;outline:0;}
+.price-module.large .from{font-size:10px;line-height:2.2;letter-spacing:1px;vertical-align:top;padding-right:10px;position:absolute;top:17px;}
+.price-module.large .price{font-size:24px;line-height:24px;padding-left:40px;}
+/*! CSS Used from: https://s.inspirockcdn.com/3.4.5/res/css/resultpage.css */
+.viator-tours.module .tours .block{color:#fff;float:none!important;}
+.viator-tours.module .tours .tour-row .tour{display:block;}
+.block{float:left;width:320px;height:320px;margin-left:20px;margin-bottom:20px;position:relative;overflow:hidden;cursor:pointer;text-align:center;color:#fff;}
+.block .box{display:-webkit-box;display:-webkit-flex;display:-moz-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;-moz-box-orient:vertical;-moz-box-direction:normal;-ms-flex-direction:column;flex-direction:column;height:100%;}
+.block .in-box{display:-webkit-box;display:-webkit-flex;display:-moz-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;-moz-box-orient:vertical;-moz-box-direction:normal;-ms-flex-direction:column;flex-direction:column;}
+.block .dest-image{position:absolute;left:0;top:0;right:0;bottom:0;background-size:cover;background-position:center;background-repeat:no-repeat;-webkit-transition:transform .4s ease;-o-transition:transform .4s ease;transition:transform .4s ease;}
+.block .dest-image:after{content:"";position:absolute;left:0;top:0;right:0;bottom:0;background:#000;opacity:.25;-webkit-transition:opacity .4s ease;-o-transition:opacity .4s ease;transition:opacity .4s ease;}
+.block .text{position:relative;padding:0 7.5%;width:100%;-webkit-box-flex:1;-webkit-flex:1;-moz-box-flex:1;-ms-flex:1;flex:1;-webkit-box-pack:center;-webkit-justify-content:center;-moz-box-pack:center;-ms-flex-pack:center;justify-content:center;}
+.block .primarytext{display:block;font-weight:500;line-height:1.2;letter-spacing:-0.3px;font-size:2em;}
+.block .subtext-box{-webkit-box-flex:0 0 auto;-webkit-flex:0 0 auto;-moz-box-flex:0 0 auto;-ms-flex:0 0 auto;flex:0 0 auto;-webkit-box-pack:flex-end;-webkit-justify-content:flex-end;-moz-box-pack:flex-end;-ms-flex-pack:flex-end;justify-content:flex-end;overflow:hidden;max-height:0;-webkit-transition:all .4s;-o-transition:all .4s;transition:all .4s;}
+.block .subtext{position:relative;display:block;padding:0 5%;font-size:.71em;line-height:1;min-height:32px;letter-spacing:1px;opacity:0;text-transform:uppercase;-webkit-transition:opacity .4s ease;-o-transition:opacity .4s ease;transition:opacity .4s ease;}
+.block:hover,.block:focus{color:#fff;}
+.block:hover .dest-image,.block:focus .dest-image{-webkit-transform:scale(1.1,1.1);-ms-transform:scale(1.1,1.1);-o-transform:scale(1.1,1.1);transform:scale(1.1,1.1);}
+.block:hover .dest-image:after,.block:focus .dest-image:after{opacity:.4;}
+.block:hover .subtext-box,.block:focus .subtext-box{max-height:32px;bottom:19px;}
+.block:hover .subtext,.block:focus .subtext{opacity:1;}
+.block.tour .primarytext{font-size:24px;text-shadow:0 0 30px rgba(0,0,0,0.5);margin:.5em 0;}
+
+
+    </style>
+  </head>
+  <body>
+
+    <section style="margin-top:1%;" class="ftco-section ftco-no-pb ftco-no-pt">
+      <div style="background:white;z-index: 10;top:0;box-shadow: 0 4px 2px -2px gray;width:101%;margin-left: 0;position:fixed;" class="row">
+        <h4 style="font-weight:600;padding-top:0.75%;padding-left: 10%;padding-bottom: 0.2%">Charminar, Hyderabad</h4>
+        <div style="border-radius:100px;padding-left: 2%;padding-right: 2%;padding-top:0.75%; float:left;border:1px solid #ccc;margin-left:30%;margin-top:0.5%;margin-bottom:0.5%;" class="row">
+          <small><b>In your plan : </b><span style="color:#ffc700;">Feb 22, 1:30pm-3:30pm</span></small>
+        </div>
+      </div>
+      <br><br>
+    	<div style="margin-top:1%;" class="container">
+	    	<div class="row">
+					<div class="col-md-12">
+            <table style="margin-top:-1%;margin-left:-1%;width:50%;">
+              <tr>
+                <td style="width:47%;">
+                  <div class="rate">
+                    <input type="radio" id="star5" name="rate" value="5">
+                    <label for="star5" title="text">5 stars</label>
+                    <input type="radio" id="star4" name="rate" value="4">
+                    <label for="star4" title="text">4 stars</label>
+                    <input type="radio" id="star3" name="rate" value="3">
+                    <label for="star3" title="text">3 stars</label>
+                    <input type="radio" id="star2" name="rate" value="2">
+                    <label for="star2" title="text">2 stars</label>
+                    <input type="radio" id="star1" name="rate" value="1">
+                    <label for="star1" title="text">1 star</label>
+                  </div>
+                  <div style="padding-top:2%;" class="rate">
+                    <span style="color:#ffc700;">4.2</span>
+                    <small>(4012 Reviews)</small>
+                  </div>
+                </td>
+                <td>
+                  <div style="border-left: 1px solid #ccc;height: 27px;"></div>
+                </td>
+                <td style="padding-left:3%">
+                  <span><small>Landmark Tourist Spot</small></span>
+                </td>
+              </tr>
+            </table>
+            <span><small><i style="color:#6b9ee8;padding-top:-5%;" class="fas fa-map-marker-alt"></i> <span id="address">Charkaman, Charminar, Hyderabad 500082, India</span></small></span>
+            <div style="margin-top:1.5%;width:95%;margin-left:2.5%;" class="row">
+              <div class="col-7">
+                <table style="width:110vh;">
+                  <tr>
+                    <td>
+                      <img style="width:40vh;height:23.3vh" src='https://lh3.googleusercontent.com/p/AF1QipOBucD9ddpTr8Z_bSlL67mbmr4UZESm8Eg6yVXR=w216-h144-c' alt="">
+                    </td>
+                    <td rowspan="3">
+                      <img style="width:70vh;height:70.8vh;" src='https://s.inspirockcdn.com/ds10/photos/India/3/charminar--705659098.jpg' alt="">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img style="width:40vh;height:23.3vh" src='https://lh3.googleusercontent.com/p/AF1QipOBnFbvueqxf1OsbPzKJFYm1I1zZYSpvw6Sqdfp=w216-h144-c' alt="">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <img style="width:40vh;height:23.3vh" src='https://lh3.googleusercontent.com/p/AF1QipMOlWEr37wYYgGUs33-ddJWruNGgdDT0CVxFaXM=w216-h144-c' alt="">
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div style="padding-left:12%;" class="col-5">
+                <h6 style="color:#666;"><b>Recommended Duration</b></h6>
+                <span style="color:#666;">2 hours</span><br><br>
+                <h6 style="color:#666;"><i style="color:#6b9ee8" class="fas fa-clock"></i> <b>Hours</b></h6>
+                <table style="color:#666;">
+                  <tr>
+                    <td>Sunday</td>
+                    <td style="padding-left:2%;">9:30am - 5:30pm</td>
+                  </tr>
+                  <tr>
+                    <td>Monday</td>
+                    <td style="padding-left:2%;">9:30am - 5:30pm</td>
+                  </tr>
+                  <tr>
+                    <td>Tuesday</td>
+                    <td style="padding-left:2%;">9:30am - 5:30pm</td>
+                  </tr>
+                  <tr>
+                    <td>Wednesday</td>
+                    <td style="padding-left:2%;">9:30am - 5:30pm</td>
+                  </tr>
+                  <tr>
+                    <td>Thursday</td>
+                    <td style="padding-left:2%;">9:30am - 5:30pm</td>
+                  </tr>
+                  <tr>
+                    <td>Friday</td>
+                    <td style="padding-left:2%;">9:30am - 5:30pm</td>
+                  </tr>
+                  <tr>
+                    <td>Saturday</td>
+                    <td style="padding-left:2%;">9:30am - 5:30pm</td>
+                  </tr>
+                </table><br>
+                <h6 style="color:#666;"><b><i style="color:#6b9ee8" class="fas fa-coins"></i> Price</b></h6>
+                <span style="color:#666;">Staring at Rs. 350</span>
+              </div>
+            </div>
+          </div>
+	    	</div>
+	    </div>
+    </section>
+
+    <section style="margin-top:2%;width:100%;overflow-x:hidden;" class="ftco-section bg-light">
+  		<div class="row">
+        <div class="row">
+          <table style="width:90%;margin-top:-5%;margin-left:4%;">
+            <tr>
+              <td style="padding-left:2%;width:33.333333%;">
+                <div style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:450px;padding:5%;background:white;border: 1px solid #999; border-radius:3px;">
+                  <h5 style="color:#ffb400;">About</h5>
+                  <p style="font-weight: 500;text-align:justify;color:#666;font-size:15px;">Stop by and admire Charminar, a towering 16th-century monument and landmark of Hyderabad. Built in an ornate Indo-Islamic style, the imposing building boasts a mosque and four elaborately decorated minarets. Situated in the heart of the old town, the iconic structure is surrounded by a lively marketplace, filled with shops and eateries. You can browse the bustling surroundings before paying a visit to the monument, rich in history and renowned for its architecture.</p>
+                </div>
+              </td>
+              <td style="padding-left:2%;width:33.333333%;">
+                <div style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:450px;padding:5%;background:white;border: 1px solid #999; border-radius:3px;">
+                  <h5 style="color:#ffb400;">What travellers are saying</h5>
+                  <p style="font-weight: 500;text-align:justify;color:#666;font-size:13px;"><i style="color:#6b9ee8;" class="fas fa-quote-left"></i> A monument too good to believe it still exists. Spellbound, no words to express it's grandeur. Work on at the site to restore it to its beauty. Hawkers and shops to keep distance from the monument. Cleanliness is a must.</p>
+                  <p style="font-weight: 500;text-align:justify;color:#666;font-size:13px;"><i style="color:#6b9ee8;" class="fas fa-quote-left"></i> A monument too good to believe it still exists. Spellbound, no words to express it's grandeur. Work on at the site to restore it to its beauty. Hawkers and shops to keep distance from the monument. Cleanliness is a must.</p>
+                  <p style="font-weight: 500;text-align:justify;color:#666;font-size:13px;"><i style="color:#6b9ee8;" class="fas fa-quote-left"></i> A monument too good to believe it still exists. Spellbound, no words to express it's grandeur. Work on at the site to restore it to its beauty. Hawkers and shops to keep distance from the monument. Cleanliness is a must.</p>
+                </div>
+              </td>
+              <td style="padding-left:2%;width:33.333333%;">
+                <div style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);height:450px;padding:5%;background:white;border: 1px solid #999; border-radius:3px;">
+                  <h5 style="color:#ffb400;">Contact</h5>
+                  <div id="map" style="width:100%; height:220px;"></div><br>
+                  <span style="font-weight: 500;text-align:justify;color:#666;font-size:14px;"><i style="color:#6b9ee8;padding-top:-5%;" class="fas fa-map-marker-alt"></i> Charkaman, Charminar, Hyderabad 500082, India</span><br>
+                  <span style="font-weight: 500;text-align:justify;color:#666;font-size:14px;"><i style="color:#6b9ee8;padding-top:-5%;" class="far fa-building"></i> Charminar</span><br>
+                  <span style="font-weight: 500;text-align:justify;color:#666;font-size:14px;"><i style="color:#6b9ee8;padding-top:-5%;" class="fas fa-phone-alt"></i> +91 40 2452 2990</span>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 3px;padding:3%;background:white;border: 1px solid #999;;width:90%;margin-left:5%;" class="row">
+          <h5 style="color:#ffb400;">Tours to Charminar</h5>
+          <table style="margin-top:5%;margin-left:-12%;">
+            <tr>
+              <td style="padding-right:2%;">
+                <a class="block sm tour viator-link" data-addable="false" href="/tour-link?tourService=viatorTourService&amp;planId=01372480-a642-4cba-a0b5-fe31444e2ba5&amp;tourId=8054P1" rel="nofollow noopener" target="_blank">
+                  <span class="dest-image lazyload" data-url="https://media.tacdn.com/media/attractions-splice-spp-674x446/06/74/b7/f2.jpg" style="border-radius:3px;background-image: url(&quot;https://media.tacdn.com/media/attractions-splice-spp-674x446/06/74/b7/f2.jpg&quot;);"></span>
+                      <span class="box">
+                      <span class="text in-box">
+                          <span class="primarytext">Hyderabad Old City Food Walking Tour</span>
+                      </span>
+                      <span class="subtext-box in-box">
+                          <span class="subtext">BOOK WITH VIATOR</span>
+                      </span>
+                      <span class="price-module in-box large notranslate">
+                          <span class="from">FROM</span>
+                          <span class="price">$41</span>
+                      </span>
+                  </span>
+                </a>
+                <p style="margin-left:5%;color:#ffc700;line-height:0.5;">4.2 <small> (12 Reviews)</small></p>
+                <p style="font-size:14px; color:#555;line-height:0.5;"><b style="margin-left:5%;">Duration: </b> 3.5 hours</p>
+              </td>
+              <td style="padding-right:2%;">
+                <a class="block sm tour viator-link" data-addable="false" href="/tour-link?tourService=viatorTourService&amp;planId=01372480-a642-4cba-a0b5-fe31444e2ba5&amp;tourId=8054P1" rel="nofollow noopener" target="_blank">
+                  <span class="dest-image lazyload" data-url="https://media.tacdn.com/media/attractions-splice-spp-674x446/06/74/b7/f2.jpg" style="border-radius:3px;background-image: url(&quot;https://media.tacdn.com/media/attractions-splice-spp-674x446/06/75/bb/a2.jpg&quot;);"></span>
+                      <span class="box">
+                      <span class="text in-box">
+                          <span class="primarytext">Full Day Hyderabad City Tour</span>
+                      </span>
+                      <span class="subtext-box in-box">
+                          <span class="subtext">BOOK WITH VIATOR</span>
+                      </span>
+                      <span class="price-module in-box large notranslate">
+                          <span class="from">FROM</span>
+                          <span class="price">$41</span>
+                      </span>
+                  </span>
+                </a>
+                <p style="margin-left:5%;color:#ffc700;line-height:0.5;">4.2 <small> (12 Reviews)</small></p>
+                <p style="font-size:14px; color:#555;line-height:0.5;"><b style="margin-left:5%;">Duration: </b> 3.5 hours</p>
+              </td>
+              <td style="padding-right:2%;">
+                <a class="block sm tour viator-link" data-addable="false" href="/tour-link?tourService=viatorTourService&amp;planId=01372480-a642-4cba-a0b5-fe31444e2ba5&amp;tourId=8054P1" rel="nofollow noopener" target="_blank">
+                  <span class="dest-image lazyload" data-url="https://media.tacdn.com/media/attractions-splice-spp-674x446/06/74/b7/f0.jpg" style="border-radius:3px;background-image: url(&quot;https://media.tacdn.com/media/attractions-splice-spp-674x446/06/74/b7/f0.jpg&quot;);"></span>
+                      <span class="box">
+                      <span class="text in-box">
+                          <span class="primarytext">Charminar Historical Walking Tour</span>
+                      </span>
+                      <span class="subtext-box in-box">
+                          <span class="subtext">BOOK WITH VIATOR</span>
+                      </span>
+                      <span class="price-module in-box large notranslate">
+                          <span class="from">FROM</span>
+                          <span class="price">$41</span>
+                      </span>
+                  </span>
+                </a>
+                <p style="margin-left:5%;color:#ffc700;line-height:0.5;">4.2 <small> (12 Reviews)</small></p>
+                <p style="font-size:14px; color:#555;line-height:0.5;"><b style="margin-left:5%;">Duration: </b> 3.5 hours</p>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCe2otGPKiUf4Qq35MmOfDWHaQm-Cjtopw&libraries=places&callback=initMap" async defer></script>
+    <script>
+    function initMap() {
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 12,
+        center: {lat: -34.397, lng: 150.644}
+      });
+      var geocoder = new google.maps.Geocoder();
+
+      document.getElementsByTagName('BODY')[0].onload = function(){
+        geocodeAddress(geocoder, map);
+      }
+    }
+
+    function geocodeAddress(geocoder, resultsMap) {
+      var address = document.getElementById('address').innerHTML;
+      geocoder.geocode({'address': address}, function(results, status) {
+        if (status === 'OK') {
+          resultsMap.setCenter(results[0].geometry.location);
+          var lat = results[0].geometry.location.lat();
+          var lng = results[0].geometry.location.lng();
+          var marker = new google.maps.Marker({
+            map: resultsMap,
+            position: results[0].geometry.location
+          });
+        } else {
+          alert('Geocode was not successful for the following reason: ' + status);
+        }
+        weather(lat , lng);
+      });
+    }
+    </script>
+  </body>
+</html>
