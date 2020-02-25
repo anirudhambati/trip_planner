@@ -216,6 +216,7 @@
     }
      .sign-in {
     	 transition-timing-function: ease-out;
+		 
     }
      .cont.s--signup .sign-in {
     	 transition-timing-function: ease-in-out;
@@ -261,17 +262,17 @@
 					{% for message in messages %}
 					<div class="w3-panel w3-grey w3-display-container">
 
-						<h4 class="{{ message.tags }}" style="font-family:avenir Black ;"> {{ message }}</h4>
+						<h10 class="{{ message.tags }}" style="color: #de5246;"> {{ message }}</h10>
 
 					</div>
 					{% endfor %}
 					</ul>
-				{% endif %}
-
+					{% endif %}
+							<!-- login -->
 
 	  <form method="POST" action="{% url 'home:login' %}">
 	  {% csrf_token %}
-    <h2>Welcome back,</h2>
+    <h2>Welcome back</h2>
     <label>
       <span>Email</span>
       <input type="email"  name="email"/>
@@ -300,21 +301,38 @@
         <span class="m--up">Sign Up</span>
         <span class="m--in">Sign In</span>
       </div>
-    </div>
-    <div class="form sign-up">
+	</div>
+	
+							<!-- sign up -->
+
+	<div class="form sign-up" >
+							{% if messages %}
+							<ul class="messages">
+							{% for message in messages %}
+							<div class="w3-panel w3-grey w3-display-container">
+
+								<h10 class="{{ message.tags }}" style="color: #de5246;"> {{ message }}</h10>
+								
+							</div>
+							{% endfor %}
+							</ul>
+							{% endif %}
+
+	<form method="POST" action="{% url 'home:signup' %}">
+			{% csrf_token %}
       <h2>Time to feel like home,</h2>
       <table style="width:80%;margin-left:4%;">
         <tr>
           <td style="width:40%;padding-right:4%;">
             <label>
               <span>Name</span>
-              <input type="text" />
+              <input type="text" name="username" />
             </label>
           </td>
           <td style="width:40%;">
             <label>
               <span>Email</span>
-              <input type="email" />
+              <input type="email" name="email" />
             </label>
           </td>
         </tr>
@@ -322,21 +340,23 @@
           <td style="width:40%;padding-right:4%;padding-top:2%;">
             <label>
               <span>Password</span>
-              <input type="password" />
+              <input type="password" name="password" />
             </label>
           </td>
           <td style="width:40%;padding-top:2%;">
             <label>
               <span>Confirm Password</span>
-              <input type="password" />
+              <input type="password" name="repassword" />
             </label>
           </td>
         </tr>
       </table>
-      <button style="background:#ffb400;margin-top:10%;" type="button" class="submit">Sign Up</button>
+      <button style="background:#ffb400;margin-top:10%;" type="submit" class="submit">Sign Up</button>
       <button style="background:#de5246;color:white;margin-top:-1%;" type="button"><i class="fab fa-google-plus-g"></i> Join with <span style="color:white">Google</span></button>
       <button style="background:#3b5998;color:white;margin-top:2%;" type="button"><i class="fab fa-facebook"></i> Join with <span style="color:white">Facebook</span></button>
-    </div>
+	</form>
+	</div>
+
   </div>
 </div>
 
