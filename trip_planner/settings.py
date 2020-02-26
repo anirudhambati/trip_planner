@@ -139,8 +139,8 @@ STATICFILES_DIRS=[
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '988131937687-92qtog0qfr49r1ft2c1bodk62c9knq02.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '4Z6h2Rjknu4pl-Y10Bsh7n2u'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'key'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'secret'
 
 #LOGIN_URL = '/auth/login/google-oauth2/'
 LOGIN_URL = 'login'
