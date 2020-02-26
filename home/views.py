@@ -174,7 +174,7 @@ def activate(request, uidb64, token):
         )
         request.session['username'] = user['username']
         request.session['email']=user['email']
-        return redirect('auth')
+        return redirect('home')
 
     else:
         return HttpResponse('Activation link is invalid!')
