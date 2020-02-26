@@ -254,7 +254,7 @@
 {% block body %}
 <br><br><br><br>
 <p class="tip"></p>
-<div style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius:3px;margin-top:-2%;height:540px;" class="cont">
+<div style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius:3px;margin-top:-5%;height:540px;" class="cont">
   <div class="form sign-in">
 
 
@@ -262,7 +262,7 @@
 
 	  <form method="POST" action="{% url 'home:login' %}">
 	  {% csrf_token %}
-    <h2>Welcome back</h2>
+    <h2 style="margin-top:-4%;">Welcome back</h2>
     <label>
       <span>Email</span>
       <input type="email"  name="email"/>
@@ -273,7 +273,6 @@
     </label>
     <p class="forgot-pass">Forgot password?</p>
     <script src='https://www.google.com/recaptcha/api.js'></script>
-    <div class="g-recaptcha" data-sitekey="6LeEjNwUAAAAAIB7W_J0Go6mNXuddOYvS1IKlU8f"></div>
     <center>
       <small>
         {% if messages %}
@@ -289,10 +288,9 @@
         {% endif %}
       </small>
     </center>
+    <div style="margin-left:24%;" class="g-recaptcha" data-sitekey="6LeEjNwUAAAAAIB7W_J0Go6mNXuddOYvS1IKlU8f"></div>
     <button style="background:#ffb400" type="submit" class="submit">Sign In</button>
     <a href="{% url 'social:begin' 'google-oauth2' %}"><button style="background:#de5246;color:white;margin-top:-1%;" type="button"><i class="fab fa-google-plus-g"></i> Connect with <span style="color:white">Google</span></button></a>
-    <button style="background:#3b5998;color:white;margin-top:2%;" type="button"><i class="fab fa-facebook"></i> Connect with <span style="color:white">Facebook</span></button>
-    <br><br>
 </form>
 </div>
   <div class="sub-cont">
@@ -366,7 +364,6 @@
       </center>
       <button style="background:#ffb400;margin-top:6%;" type="submit" class="submit">Sign Up</button>
       <button style="background:#de5246;color:white;margin-top:-1%;" type="button"><i class="fab fa-google-plus-g"></i> Join with <span style="color:white">Google</span></button>
-      <button style="background:#3b5998;color:white;margin-top:2%;" type="button"><i class="fab fa-facebook"></i> Join with <span style="color:white">Facebook</span></button>
 	</form>
 	</div>
 
