@@ -9,7 +9,12 @@ from rest_framework.views import APIView
 from rest_framework import status
 from django.contrib import sessions
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 
+@login_required
+def home(request):
+    return render(request, 'home.html')
 
 def landing(request):
     if request.method == 'POST':
@@ -54,7 +59,7 @@ def login(request):
                 request.session['username'] = response['Items'][0]['username']
                 request.session['email']=response['Items'][0]['email']
                 print(request.session['username'],request.session['email'])
-          
+
                 return redirect('landing')
             else:
                 messages.success(request, 'Failed to login as the password does not match.')
@@ -98,7 +103,7 @@ def signup(request):
                 )
                 request.session['username'] = username
                 request.session['email']=email
-            
+
                 return redirect('landing')
 
             else:
@@ -110,3 +115,7 @@ def signup(request):
     else:
         messages.success(request, 'Fill all the fields')
         return redirect('auth')
+
+def logout_view(request):
+    logout(request)
+    return redirect('/')

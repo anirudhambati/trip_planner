@@ -216,7 +216,7 @@
     }
      .sign-in {
     	 transition-timing-function: ease-out;
-		 
+
     }
      .cont.s--signup .sign-in {
     	 transition-timing-function: ease-in-out;
@@ -283,7 +283,7 @@
     </label>
     <p class="forgot-pass">Forgot password?</p>
     <button style="background:#ffb400" type="submit" class="submit">Sign In</button>
-    <button style="background:#de5246;color:white;margin-top:-1%;" type="button"><i class="fab fa-google-plus-g"></i> Connect with <span style="color:white">Google</span></button>
+    <a href="{% url 'social:begin' 'google-oauth2' %}"><button style="background:#de5246;color:white;margin-top:-1%;" type="button"><i class="fab fa-google-plus-g"></i> Connect with <span style="color:white">Google</span></button></a>
     <button style="background:#3b5998;color:white;margin-top:2%;" type="button"><i class="fab fa-facebook"></i> Connect with <span style="color:white">Facebook</span></button>
 </form>
 </div>
@@ -302,7 +302,7 @@
         <span class="m--in">Sign In</span>
       </div>
 	</div>
-	
+
 							<!-- sign up -->
 
 	<div class="form sign-up" >
@@ -312,7 +312,7 @@
 							<div class="w3-panel w3-grey w3-display-container">
 
 								<h10 class="{{ message.tags }}" style="color: #de5246;"> {{ message }}</h10>
-								
+
 							</div>
 							{% endfor %}
 							</ul>
