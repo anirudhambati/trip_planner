@@ -21,7 +21,6 @@ import json
 import urllib
 from django.conf import settings
 
-@login_required
 def home(request):
     return render(request, 'home.html')
 
@@ -44,6 +43,9 @@ def timeline(request):
 
 def auth(request):
     return render(request, 'auth.html')
+
+def plan(request):
+    return render(request, 'plan.html')
 
 def login(request):
     # if request.method == 'POST':
@@ -83,12 +85,15 @@ def login(request):
         print('\n\n\n')
         if(len(response['Items'])>0):
             if(response['Items'][0]['password']==password):
+                if(response['Items'][0]['is_active']):
 
-                request.session['username'] = response['Items'][0]['username']
-                request.session['email']=response['Items'][0]['email']
-                print(request.session['username'],request.session['email'])
+                    request.session['username'] = response['Items'][0]['username']
+                    request.session['email']=response['Items'][0]['email']
+                    print(request.session['username'],request.session['email'])
 
-                return redirect('landing')
+                    return redirect('home')
+                else:
+                    return redirect('verify')
             else:
                 messages.success(request, 'Failed to login as the password does not match.')
                 return redirect('auth')
@@ -128,8 +133,7 @@ def signup(request):
                         'is_active': False,
                     }
                 )
-                request.session['username'] = username
-                request.session['email']=email
+
 
                 # request.session['username'] = username
                 # request.session['email'] = email
@@ -145,7 +149,7 @@ def signup(request):
                 })
 
                 send_mail(mail_subject, message, 'tripplanneread@gmail.com', [email])
-                return redirect('landing')
+                return redirect('verify')
 
 
             else:
@@ -162,6 +166,8 @@ def logout_view(request):
     logout(request)
     return redirect('/')
 
+def verify(request):
+    return render(request, 'verify.html')
 
 def activate(request, uidb64, token):
     try:
@@ -189,7 +195,9 @@ def activate(request, uidb64, token):
                 },
             ReturnValues="UPDATED_NEW"
         )
-        return redirect('auth')
+        request.session['username'] = user['username']
+        request.session['email']=user['email']
+        return redirect('home')
 
     else:
         return HttpResponse('Activation link is invalid!')

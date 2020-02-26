@@ -12,10 +12,13 @@ urlpatterns = [
     path('about/', views.about, name="about"),
     path('auth/', views.auth, name="auth"),
     path('registration/', include(('home.urls','home'))),
-    url(r'^$', views.home, name='home'),
+    url('home/', views.home, name='home'),
     url(r'^login/$', auth_views.LoginView, name='login'),
     url(r'^logout/$', views.logout_view, name='logout'),
     url(r'^oauth/', include('social_django.urls', namespace='social')),
     url(r'activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/',
     views.activate, name='activate'),
+    path('plan/', views.plan, name="plan"),
+    path('verify/', views.verify, name="verify"),
+
 ]

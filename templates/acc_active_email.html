@@ -1,7 +1,10 @@
 {% autoescape off %}
 
 
-    Hi {{ user }},
+Hi {{ user }},
 Please click on the link to confirm your registration,
 http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+
+Thank you,
+Traveland-EmailVerification.
 {% endautoescape %}
