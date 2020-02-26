@@ -2,6 +2,7 @@ from django.shortcuts import render
 import boto3
 from boto3.dynamodb.conditions import Key, Attr
 from django.http import HttpResponse
+from django.core.mail import send_mail
 import hashlib
 from django.shortcuts import render,redirect
 from rest_framework.response import Response
@@ -9,6 +10,11 @@ from rest_framework.views import APIView
 from rest_framework import status
 from django.contrib import sessions
 from django.contrib import messages
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.template.loader import render_to_string
+from .tokens import account_activation_token
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
@@ -78,9 +84,8 @@ def signup(request):
     password = request.POST.get('password')
     re_password = request.POST.get('repassword')
 
-
-    if(username!='' and email!='' and password!='' and re_password!=''):
-        if(password==re_password):
+    if (username != '' and email != '' and password != '' and re_password != ''):
+        if (password == re_password):
 
             dynamodb = boto3.resource('dynamodb')
             table = dynamodb.Table('user')
@@ -89,22 +94,37 @@ def signup(request):
                 ProjectionExpression="email",
                 FilterExpression=Attr('email').eq(email)
             )
-            password=hashlib.sha256(password.encode())
-            password=password.hexdigest()
+            password = hashlib.sha256(password.encode())
+            password = password.hexdigest()
 
-            if(len(response['Items'])==0):
+            if (len(response['Items']) == 0):
                 response = table.put_item(
-                   Item={
-                    'username': username,
-                    'email': email,
-                    'password': password,
-
+                    Item={
+                        'username': username,
+                        'email': email,
+                        'password': password,
+                        'is_active': False,
                     }
                 )
                 request.session['username'] = username
                 request.session['email']=email
 
+                # request.session['username'] = username
+                # request.session['email'] = email
+                #
+                # return redirect('landing')
+                current_site = get_current_site(request)
+                mail_subject = 'Activate your account.'
+                message = render_to_string('acc_active_email.html', {
+                    'user': username,
+                    'domain': current_site.domain,
+                    'uid': urlsafe_base64_encode(force_bytes(email)),
+                    'token': account_activation_token.make_token(email),
+                })
+
+                send_mail(mail_subject, message, 'tripplanneread@gmail.com', [email])
                 return redirect('landing')
+
 
             else:
                 messages.success(request, 'The email ID is already registerd')
@@ -119,3 +139,35 @@ def signup(request):
 def logout_view(request):
     logout(request)
     return redirect('/')
+
+
+def activate(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        print(uid)
+        dynamodb = boto3.resource('dynamodb')
+        table = dynamodb.Table('user')
+
+        response = table.scan(
+            FilterExpression=Attr('email').eq(uid)
+        )
+        if (len(response['Items']) != 0):
+            user = response['Items'][0]
+    except(TypeError, ValueError, OverflowError):
+        user = None
+    if user is not None and account_activation_token.check_token(user['email'], token):
+
+        response = table.update_item(
+            Key={
+                'email': user['email'],
+            },
+            UpdateExpression="set is_active = :r",
+                ExpressionAttributeValues={
+                    ':r':True
+                },
+            ReturnValues="UPDATED_NEW"
+        )
+        return redirect('auth')
+
+    else:
+        return HttpResponse('Activation link is invalid!')
