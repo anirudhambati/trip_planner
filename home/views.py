@@ -62,12 +62,15 @@ def login(request):
         print('\n\n\n')
         if(len(response['Items'])>0):
             if(response['Items'][0]['password']==password):
+                if(response['Items'][0]['is_active']):
 
-                request.session['username'] = response['Items'][0]['username']
-                request.session['email']=response['Items'][0]['email']
-                print(request.session['username'],request.session['email'])
+                    request.session['username'] = response['Items'][0]['username']
+                    request.session['email']=response['Items'][0]['email']
+                    print(request.session['username'],request.session['email'])
 
-                return redirect('home')
+                    return redirect('home')
+                else:
+                    return redirect('verify')
             else:
                 messages.success(request, 'Failed to login as the password does not match.')
                 return redirect('auth')
@@ -107,8 +110,7 @@ def signup(request):
                         'is_active': False,
                     }
                 )
-                request.session['username'] = username
-                request.session['email']=email
+
 
                 # request.session['username'] = username
                 # request.session['email'] = email
@@ -170,6 +172,8 @@ def activate(request, uidb64, token):
                 },
             ReturnValues="UPDATED_NEW"
         )
+        request.session['username'] = user['username']
+        request.session['email']=user['email']
         return redirect('auth')
 
     else:
