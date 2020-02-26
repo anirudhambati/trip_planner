@@ -36,6 +36,8 @@ def timeline(request):
 def auth(request):
     return render(request, 'auth.html')
 
+def plan(request):
+    return render(request, 'plan.html')
 
 def login(request):
     # if request.method == 'POST':

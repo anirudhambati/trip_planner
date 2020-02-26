@@ -252,8 +252,8 @@
 {% endblock %}
 
 {% block body %}
-
-<p class="tip">Click on button in image container</p>
+<br><br><br><br>
+<p class="tip"></p>
 <div style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius:3px;margin-top:-2%;height:510px;" class="cont">
   <div class="form sign-in">
 
@@ -359,14 +359,11 @@
 
   </div>
 </div>
-
+<br><br><br><br>
 <script type="text/javascript">
   document.querySelector('.img__btn').addEventListener('click', function() {
   document.querySelector('.cont').classList.toggle('s--signup');
 });
 </script>
 
-{% endblock %}
-
-{% block footer %}
 {% endblock %}
