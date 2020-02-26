@@ -25,7 +25,9 @@ def timeline(request):
 def auth(request):
     return render(request, 'auth.html')
 
-
+def plan(request):
+    return render(request, 'plan.html')
+    
 def login(request):
     # if request.method == 'POST':
     email = request.POST.get('email')
@@ -54,7 +56,7 @@ def login(request):
                 request.session['username'] = response['Items'][0]['username']
                 request.session['email']=response['Items'][0]['email']
                 print(request.session['username'],request.session['email'])
-          
+
                 return redirect('landing')
             else:
                 messages.success(request, 'Failed to login as the password does not match.')
@@ -98,7 +100,7 @@ def signup(request):
                 )
                 request.session['username'] = username
                 request.session['email']=email
-            
+
                 return redirect('landing')
 
             else:
