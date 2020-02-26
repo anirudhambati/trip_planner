@@ -254,20 +254,10 @@
 {% block body %}
 <br><br><br><br>
 <p class="tip"></p>
-<div style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius:3px;margin-top:-2%;height:510px;" class="cont">
+<div style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius:3px;margin-top:-2%;height:540px;" class="cont">
   <div class="form sign-in">
 
-					{% if messages %}
-					<ul class="messages">
-					{% for message in messages %}
-					<div class="w3-panel w3-grey w3-display-container">
 
-						<h10 class="{{ message.tags }}" style="color: #de5246;"> {{ message }}</h10>
-
-					</div>
-					{% endfor %}
-					</ul>
-					{% endif %}
 							<!-- login -->
 
 	  <form method="POST" action="{% url 'home:login' %}">
@@ -282,9 +272,25 @@
       <input type="password"  name="password"/>
     </label>
     <p class="forgot-pass">Forgot password?</p>
+    <center>
+      <small>
+        {% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+        <div class="w3-panel w3-grey w3-display-container">
+
+          <h10 class="{{ message.tags }}" style="color: #de5246;"> {{ message }}</h10>
+
+        </div>
+        {% endfor %}
+        </ul>
+        {% endif %}
+      </small>
+    </center>
     <button style="background:#ffb400" type="submit" class="submit">Sign In</button>
     <a href="{% url 'social:begin' 'google-oauth2' %}"><button style="background:#de5246;color:white;margin-top:-1%;" type="button"><i class="fab fa-google-plus-g"></i> Connect with <span style="color:white">Google</span></button></a>
     <button style="background:#3b5998;color:white;margin-top:2%;" type="button"><i class="fab fa-facebook"></i> Connect with <span style="color:white">Facebook</span></button>
+    <br><br>
 </form>
 </div>
   <div class="sub-cont">
@@ -306,17 +312,6 @@
 							<!-- sign up -->
 
 	<div class="form sign-up" >
-							{% if messages %}
-							<ul class="messages">
-							{% for message in messages %}
-							<div class="w3-panel w3-grey w3-display-container">
-
-								<h10 class="{{ message.tags }}" style="color: #de5246;"> {{ message }}</h10>
-
-							</div>
-							{% endfor %}
-							</ul>
-							{% endif %}
 
 	<form method="POST" action="{% url 'home:signup' %}">
 			{% csrf_token %}
@@ -351,7 +346,23 @@
           </td>
         </tr>
       </table>
-      <button style="background:#ffb400;margin-top:10%;" type="submit" class="submit">Sign Up</button>
+      <br>
+      <center>
+        <small>
+          {% if messages %}
+          <ul class="messages">
+          {% for message in messages %}
+          <div class="w3-panel w3-grey w3-display-container">
+
+            <h10 class="{{ message.tags }}" style="color: #de5246;"> {{ message }}</h10>
+
+          </div>
+          {% endfor %}
+          </ul>
+          {% endif %}
+        </small>
+      </center>
+      <button style="background:#ffb400;margin-top:6%;" type="submit" class="submit">Sign Up</button>
       <button style="background:#de5246;color:white;margin-top:-1%;" type="button"><i class="fab fa-google-plus-g"></i> Join with <span style="color:white">Google</span></button>
       <button style="background:#3b5998;color:white;margin-top:2%;" type="button"><i class="fab fa-facebook"></i> Join with <span style="color:white">Facebook</span></button>
 	</form>
