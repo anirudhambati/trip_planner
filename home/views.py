@@ -17,6 +17,9 @@ from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+import json
+import urllib
+from django.conf import settings
 
 def reset_display(request):
     return render(request,'registration/reset_form.html',{})
@@ -90,6 +93,12 @@ def home(request):
 def landing(request):
     if request.method == 'POST':
         print(request.POST)
+    print("-------------------------------")
+    try:
+        print(user.username)
+    except NameError:
+        pass
+    print("-------------------------------")
     return render(request, 'index.html')
 
 def about(request):
@@ -111,6 +120,20 @@ def login(request):
     password=hashlib.sha256(password.encode())
     password=password.hexdigest()
 
+    recaptcha_response = request.POST.get('g-recaptcha-response')
+    url = 'https://www.google.com/recaptcha/api/siteverify'
+    values = {
+        'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
+        'response': recaptcha_response
+    }
+    data = urllib.parse.urlencode(values).encode()
+    req =  urllib.request.Request(url, data=data)
+    response = urllib.request.urlopen(req)
+    result = json.loads(response.read().decode())
+
+    if not result['success']:
+        messages.error(request, 'Invalid reCAPTCHA. Please try again.')
+        return redirect('auth')
 
     dynamodb = boto3.resource('dynamodb')
     if(email != '' and password!=''):

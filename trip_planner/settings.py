@@ -139,13 +139,13 @@ STATICFILES_DIRS=[
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '988131937687-92qtog0qfr49r1ft2c1bodk62c9knq02.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'M15WB_xgs1WeUmNicVF7bB1f'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'KEY'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'SECRET'
 
 #LOGIN_URL = '/auth/login/google-oauth2/'
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'landing'
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
@@ -155,3 +155,17 @@ EMAIL_HOST_USER='tripplanneread@gmail.com'
 EMAIL_HOST_PASSWORD = 'tripplanner123'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+    'social_core.pipeline.social_auth.associate_by_email',
+)
+
+GOOGLE_RECAPTCHA_SECRET_KEY = '6LeEjNwUAAAAAGgSAkdUGsXhOyauwEpvDbNopOvZ'
