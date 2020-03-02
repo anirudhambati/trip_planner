@@ -1,9 +1,27 @@
-# def plan(place, start_date, end_date, questions):
-#     days = end_date - start_date
+# def plan(place, days, questions):
 #
-#     if place == country or place == continent:
-#         tourist_spots = tourist_spots(place)
+#     if place == country:
+#         plan = plan_country(place, days, questions)
+#     elif place == continent:
+#         plan = plan_continent(place, days, questions)
 #     else:
-#         tourist_spots = tourist_spots(place)
+#         plan_city(place, days, questions)
 #
 #     return plan
+#
+#
+#
+# def plan_city(city, days, questions):
+#     places, time = get_places(city, days, questions)
+#
+#     return plan
+#
+# '''
+# functions to implement
+# -----------------------
+# get_countries
+# get_cities
+# get_places
+# -----------------------
+# plan_city
+# '''
