@@ -29,9 +29,9 @@ def landing(request):
         print(request.POST)
     print("-------------------------------")
     try:
-        print(user.username)
+        request.user.social_auth.filter(provider="google-oauth2")
     except NameError:
-        pass
+        print("error")
     print("-------------------------------")
     return render(request, 'index.html')
 
