@@ -21,6 +21,72 @@ import json
 import urllib
 from django.conf import settings
 
+def reset_display(request):
+    return render(request,'registration/reset_form.html',{})
+
+
+def reset_password(request):
+    email = request.POST.get('email')
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('user')
+    users = table.scan(FilterExpression=Attr('email').eq(email))
+    if(len(users['Items'])!=0):
+        user = users['Items'][0]
+        current_site = get_current_site(request)
+        mail_subject = 'Password Reset Link.'
+        message = render_to_string('registration/reset_confirm_email.html', {
+            'user': user['username'],
+            'domain': current_site.domain,
+            'uid': urlsafe_base64_encode(force_bytes(user['email'])),
+            'token': account_activation_token.make_token(user['email']),
+        })
+        send_mail(mail_subject, message, 'tripplanneread@gmail.com', [email])
+        return render(request, 'registration/email_confirmation.html',{})
+    else:
+        messages.success(request, 'The email ID is not registerd')
+        return redirect('reset_display')
+
+def verify_reset_password(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        print(uid)
+        dynamodb = boto3.resource('dynamodb')
+        table = dynamodb.Table('user')
+        users = table.scan(FilterExpression=Attr('email').eq(uid))
+        if(len(users['Items'])!=0):
+            user = users['Items'][0]
+    except(TypeError, ValueError, OverflowError):
+        user = None
+    if user is not None and account_activation_token.check_token(user['email'], token):
+        # login(request, user)
+        request.session['email'] = user['email']
+        return render(request,'registration/save_password.html',{})
+    else:
+        return HttpResponse('Activation link is invalid!')
+
+
+def save_password(request):
+    email = request.session['email']
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('user')
+    users = table.scan(FilterExpression=Attr('email').eq(email))
+    user = users['Items'][0]
+    new_password  = request.POST.get('password')
+    password = hashlib.sha256(new_password.encode())
+    password = password.hexdigest()
+    response = table.update_item(
+        Key={
+            'email': user['email'],
+        },
+        UpdateExpression="set password = :r",
+        ExpressionAttributeValues={
+            ':r': password
+        },
+        ReturnValues="UPDATED_NEW"
+    )
+
+    return redirect('landing')
+
 def home(request):
     return render(request, 'home.html')
 
