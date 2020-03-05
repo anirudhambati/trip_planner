@@ -90,15 +90,21 @@ def save_password(request):
 def home(request):
     return render(request, 'home.html')
 
+def questions(request):
+    if request.method == 'POST':
+        print(request.POST)
+        return redirect('')
+    return render(request, 'questions.html')
+
 def landing(request):
     if request.method == 'POST':
         print(request.POST)
     print("-------------------------------")
-    try:
-        request.user.social_auth.filter(provider="google-oauth2")
-    except NameError:
-        print("error")
-    print("-------------------------------")
+    # try:
+    #     request.user.social_auth.filter(provider="google-oauth2")
+    # except NameError:
+    #     print("error")
+    # print("-------------------------------")
     return render(request, 'index.html')
 
 def about(request):
