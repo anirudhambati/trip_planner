@@ -302,15 +302,12 @@ body {
     -moz-align-items: center;
     -webkit-align-items: center;
     align-items: center;
-    background: #ffb400 !important;
     font-family: 'Muli', sans-serif;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
 }
-.actions ul li:hover {
-	background: #4582bf;
-}
+
 .actions ul li a {
 	color: #fff;
 	text-decoration: none;
