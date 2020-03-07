@@ -279,7 +279,7 @@ body {
 }
 .actions ul li.disabled,
 .actions ul li:first-child {
-	display: none;
+	display: inline-block !important;
 }
 .actions ul li {
 	padding: 0;

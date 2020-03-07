@@ -19,15 +19,15 @@ $.fn.extend({
     _enableAria: function (enable)
     {
         return (enable == null || enable) ?
-            this.removeClass("disabled")._aria("disabled", "false") :
-            this.addClass("disabled")._aria("disabled", "true");
+            //this.removeClass("disabled")._aria("disabled", "false") :
+            //this.addClass("disabled")._aria("disabled", "true");
     },
 
     _showAria: function (show)
     {
         return (show == null || show) ?
-            this.show()._aria("hidden", "false") :
-            this.hide()._aria("hidden", "true");
+            //this.show()._aria("hidden", "false") :
+            //this.hide()._aria("hidden", "true");
     },
 
     _selectAria: function (select)
@@ -1058,7 +1058,7 @@ function renderPagination(wizard, options, state)
             buttonTemplate = "<li><a href=\"#{0}\" role=\"menuitem\">{1}</a></li>",
             buttons = "";
 
-        if (!options.forceMoveForward)
+        if (options.forceMoveForward)
         {
             buttons += buttonTemplate.format("previous", options.labels.previous);
         }
