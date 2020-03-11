@@ -24,7 +24,6 @@ from django.conf import settings
 def reset_display(request):
     return render(request,'registration/reset_form.html',{})
 
-
 def reset_password(request):
     email = request.POST.get('email')
     dynamodb = boto3.resource('dynamodb')
@@ -273,3 +272,6 @@ def activate(request, uidb64, token):
 
     else:
         return HttpResponse('Activation link is invalid!')
+
+def overview(request):
+    return render(request, 'trip_overview.html')

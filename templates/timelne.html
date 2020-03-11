@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load static %}
+
+{% block extrahead %}
+
+<style>
+
+  .history-tl-container{
+    font-family: "Roboto",sans-serif !important;
+    width:50% !important;
+    margin:auto !important;
+    display:block !important;
+    position:relative !important;
+  }
+  .history-tl-container ul.tl{
+      margin:20px 0 !important;
+      padding:0 !important;
+      display:inline-block !important;
+
+  }
+  .history-tl-container ul.tl li{
+      list-style: none !important;
+      margin:auto !important;
+      margin-left:200px !important;
+      min-height:50px !important;
+      /*background: rgba(255,255,0,0.1) !important;*/
+      border-left:1px dashed #86D6FF !important;
+      padding:0 0 50px 30px !important;
+      position:relative !important;
+  }
+  .history-tl-container ul.tl li:last-child{ border-left:0 !important;}
+  .history-tl-container ul.tl li::before{
+      position: absolute !important;
+      left: -15px !important;
+      top: -5px !important;
+      content: " " !important;
+      border: 7px solid rgba(255, 255, 255, 0.74) !important;
+      border-radius: 500% !important;
+      background: #258CC7 !important;
+      height: 30px !important;
+      width: 30px !important;
+      transition: all 500ms ease-in-out !important;
+
+  }
+  .history-tl-container ul.tl li:hover::before{
+      border-color:  #258CC7 !important;
+      transition: all 1000ms ease-in-out !important;
+  }
+  ul.tl li .item-title{
+    color:rgba(0,0,0,1);
+  }
+  ul.tl li .item-detail{
+      color:rgba(0,0,0,0.5) !important;
+      font-size:12px !important;
+  }
+  ul.tl li .timestamp{
+      color: #8D8D8D !important;
+      position: absolute !important;
+    width:100px !important;
+      left: -50%; !important
+      text-align: right !important;
+      font-size: 12px !important;
+  }
+
+</style>
+<link href='//fonts.googleapis.com/css?family=Roboto:200,400,600' rel='stylesheet' type='text/css'>
+
+{% endblock %}
+
+{% block body %}
+<div class="hero-wrap js-fullheight" style="background-image: url({% static '/landing/images/bg_1.jpg' %}); height:40%;" data-stellar-background-ratio="0.1">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-end" data-scrollax-parent="true">
+      <div class="col-md-7 ftco-animate mt-5" data-scrollax=" properties: { translateY: '70%' }">
+        <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Be a Traveler not a Tourist</h1>
+        <p class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Travel to the any corner of the world, without going around in circles</p>
+      </div>
+    </div>
+  </div>
+</div>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+<div class="history-tl-container" style='line-height:1.3em; min-width:920px;'>
+  <ul class="tl">
+    <li class="tl-item" ng-repeat="item in retailer_history">
+      <div class="timestamp">
+        3rd March 2015<br> 7:00 PM
+      </div>
+      <div class="item-title">Start from Shire</div>
+      <div class="item-detail">Don't forget the ring</div>
+    </li>
+    <li class="tl-item" ng-repeat="item in retailer_history">
+      <div class="timestamp">
+        19th March 2015<br> 3:00 PM
+      </div>
+      <div class="item-title">Kill some Orcs</div>
+      <div class="item-detail">Don't enter the caves!!</div>
+    </li>
+    <li class="tl-item" ng-repeat="item in retailer_history">
+      <div class="timestamp">
+        1st June 2015<br> 7:00 PM
+      </div>
+      <div class="item-title">Throw that goddamn ring in the lava</div>
+      <div class="item-detail">Also, throw that Gollum too</div>
+    </li>
+
+  </ul>
+  <br><br><br><br><br><br><br>
+
+</div>
+{% endblock %}

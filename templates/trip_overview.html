@@ -1,0 +1,256 @@
+{% extends 'base2.html' %}
+{% load staticfiles %}
+{% load static %}
+
+{% block extrahead %}
+
+<style>
+
+  .history-tl-container{
+    font-family: "Roboto",sans-serif !important;
+    width:50% !important;
+    margin:auto !important;
+    display:block !important;
+    position:relative !important;
+  }
+  .history-tl-container ul.tl{
+      margin:20px 0 !important;
+      padding:0 !important;
+      display:inline-block !important;
+
+  }
+  .history-tl-container ul.tl li{
+      list-style: none !important;
+      margin:auto !important;
+      margin-left:200px !important;
+      min-height:50px !important;
+      /*background: rgba(255,255,0,0.1) !important;*/
+      border-left:1px dashed #86D6FF !important;
+      padding:0 0 50px 30px !important;
+      position:relative !important;
+  }
+  .history-tl-container ul.tl li:last-child{ border-left:0 !important;}
+  .history-tl-container ul.tl li::before{
+      position: absolute !important;
+      left: -15px !important;
+      top: -5px !important;
+      content: " " !important;
+      border: 7px solid rgba(255, 255, 255, 0.74) !important;
+      border-radius: 500% !important;
+      background: #258CC7 !important;
+      height: 30px !important;
+      width: 30px !important;
+      transition: all 500ms ease-in-out !important;
+
+  }
+  .history-tl-container ul.tl li:hover::before{
+      border-color:  #258CC7 !important;
+      transition: all 1000ms ease-in-out !important;
+  }
+  ul.tl li .item-title{
+    color:rgba(0,0,0,1);
+  }
+  ul.tl li .item-detail{
+      color:rgba(0,0,0,0.5) !important;
+      font-size:12px !important;
+  }
+  ul.tl li .timestamp{
+      color: #8D8D8D !important;
+      position: absolute !important;
+      width:100px !important;
+      left: -50%; !important
+      text-align: right !important;
+      font-size: 12px !important;
+  }
+
+  .container2 {
+    position: relative;
+    margin: auto;
+    overflow: hidden;
+    width: 75%;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    height: 760px;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid rgb(220,220,220);
+  }
+
+  img {
+    width: 50%;
+    margin-top: 1%;
+    margin-left: 5%;
+    border-radius: 3px;
+  }
+
+  .product {
+    position: absolute;
+    width: 40%;
+    height: 100%;
+    top: 22%;
+    left: 60%;
+  }
+
+  .desc {
+    text-transform: none;
+    letter-spacing: 0;
+    margin-bottom: 17px;
+    color: $dark;
+    font-size: .7em;
+    line-height: 1.6em;
+    margin-right: 25px;
+    text-align: justify;
+  }
+
+button {
+  width:25%;
+  background: #FFB800;
+  padding: 10px;
+  border-radius: 30px;
+  letter-spacing: 1px;
+  color: white;
+  border:none;
+  cursor: pointer;
+  &:hover {
+    transition: all .4s ease-in-out;
+  }
+}
+
+
+.sizes {
+  display: grid;
+  color: $pink;
+  grid-template-columns: repeat(auto-fill, 30px);
+  width: 60%;
+  grid-gap: 4px;
+  margin-left: 20px;
+  margin-top: 5px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.pick {
+  margin-top: 11px;
+  margin-bottom:0;
+  margin-left: 20px;
+}
+
+.size {
+  padding: 9px;
+  border: 1px solid $light;
+  font-size: 0.7em;
+  text-align: center;
+  &:hover{
+    background: $rose;
+    color: $white;
+    transition: all .4s ease-in-out;
+  }
+}
+
+.focus{
+  background: $rose;
+  color: $white;
+}
+
+
+
+</style>
+<link href='//fonts.googleapis.com/css?family=Roboto:200,400,600' rel='stylesheet' type='text/css'>
+
+{% endblock %}
+
+{% block body %}
+<br>
+
+<div class="" style="font-weight:bold; margin-left:22%; font-size:200%;">
+  Tour Plan
+</div>
+
+<br>
+
+<div class="history-tl-container" style='line-height:1.3em; min-width:920px;'>
+  <ul class="tl">
+    <li class="tl-item" ng-repeat="item in retailer_history">
+      <div class="timestamp">
+        3rd March 2015<br> 7:00 PM
+      </div>
+      <div class="item-title">Delhi</div>
+      <div class="item-detail">Don't forget the ring</div>
+    </li>
+    <li class="tl-item" ng-repeat="item in retailer_history">
+      <div class="timestamp">
+        19th March 2015<br> 3:00 PM
+      </div>
+      <div class="item-title">Agra</div>
+      <div class="item-detail">Don't enter the caves!!</div>
+    </li>
+    <li class="tl-item" ng-repeat="item in retailer_history">
+      <div class="timestamp">
+        1st June 2015<br> 7:00 PM
+      </div>
+      <div class="item-title">Jaipur &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+      <div class="item-detail">Also, throw that Gollum too</div>
+    </li>
+
+  </ul>
+  <br><br><br><br>
+
+</div>
+
+<!-- cards of places -->
+<div class="" style="font-weight:bold; margin-left:22%; font-size:200%;">
+  Day 1: New Delhi
+</div>
+<br><br>
+<div class="container2">
+  <div class="" style="margin:2%;">
+    <span style="font-weight:bold;font-size:150%;">2D/1N: &nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <span style="font-weight:bold;font-size:180%;color:#FFB800;">New Delhi</span>
+    <button type="button" style="float:right;">See daily plan</button>
+  </div>
+  <hr>
+  <div class="images">
+    <img src="https://cdn.pixabay.com/photo/2014/08/20/09/07/president-house-422375_960_720.jpg" />
+  </div>
+  <div class="slideshow-buttons">
+    <div class="one"></div>
+    <div class="two"></div>
+    <div class="three"></div>
+    <div class="four"></div>
+  </div>
+
+  <div class="product">
+    <span style="font-size:120%;color:#6B9EE8;">A little about New Delhi</span><br><br>
+
+    <p class="desc" style="font-size:80%;">The Nike Epic React Flyknit foam cushioning is responsive yet light-weight, durable yet soft. This creates a sensation that not only enhances the feeling of moving forward, but makes running feel fun, too.</p>
+    <br>
+    <span style="font-size:75%; font-style:italic; color:#6B9EE8">You're visit to delhi is from <b>15-02-2020</b> to <b>16-02-2020</b></span>
+
+    <br><br>
+    <div class="buttons">
+      <button class="add" style="width:60%;">More details</button>
+    </div>
+  </div>
+  <hr>
+  <table>
+    <tr>
+      <span style="margin-left:3%;">Highlights from this trip</span>
+
+    </tr>
+    <tr>
+      <br><br>
+    </tr>
+    <tr>
+      <td style="width:10%;" margin-left:40%;><img src="https://cdn.pixabay.com/photo/2014/08/20/09/07/president-house-422375_960_720.jpg" style="width:90%;height:15%;border-radius:50%;"></td>
+      <td style="width:20%; margin-left:25%; font-size:80%;">Rashtrapathi Bhavan <br> 10:00 AM, 15-02-2020</td>
+      <td style="width:10%;"><img src="https://cdn.pixabay.com/photo/2014/08/20/09/07/president-house-422375_960_720.jpg" style="width:90%;height:15%;border-radius:50%;"></td>
+      <td style="width:20%; margin-left:25%; font-size:80%;">Rashtrapathi Bhavan <br> 10:00 AM, 15-02-2020</td>
+      <td style="width:10%;"><img src="https://cdn.pixabay.com/photo/2014/08/20/09/07/president-house-422375_960_720.jpg" style="width:90%;height:15%;border-radius:50%;"></td>
+      <td style="width:20%; margin-left:25%; font-size:80%;">Rashtrapathi Bhavan <br> 10:00 AM, 15-02-2020</td>
+    </tr>
+  </table>
+</div>
+
+<br><br><br><br>
+
+{% endblock %}

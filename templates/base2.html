@@ -32,15 +32,15 @@
 
         #navbar2 {
           overflow: hidden;
-          background-color: #333;
+          background-color: white;
+          z-index: 10;
         }
 
         #navbar2 a {
           float: left;
           display: block;
-          color: #f2f2f2;
           text-align: center;
-          padding: 14px 16px;
+          padding: 14px 80px;
           text-decoration: none;
           font-size: 17px;
         }
@@ -51,8 +51,9 @@
         }
 
         #navbar2 a.active {
-          background-color: #4CAF50;
+          background-color: #FFB800;
           color: white;
+          font-weight: bold;
         }
 
         .sticky {
@@ -103,10 +104,12 @@
 
 
   <div id="navbar2">
-    <a class="active" href="javascript:void(0)">Home</a>
-    <a href="javascript:void(0)">News</a>
-    <a href="javascript:void(0)">Contact</a>
-  </div>
+    <div style="margin-left: 11.4%;">
+      <a class="active" href="javascript:void(0)">Overview</a>
+      <a href="">Timeline</a>
+      <a href="javascript:void(0)">Maps</a>
+    </div>
+  </div><br><br>
 
     {% block body %}
 
@@ -186,7 +189,7 @@
     var sticky = navbar2.offsetTop;
 
     function myFunction() {
-      if (window.pageYOffset >= 525) {
+      if (window.pageYOffset >= 532) {
         navbar2.classList.add("sticky")
       } else {
         navbar2.classList.remove("sticky");
