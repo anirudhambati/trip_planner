@@ -92,7 +92,7 @@ def home(request):
 def questions(request):
     if request.method == 'POST':
         print(request.POST)
-        return redirect('')
+        return redirect('/')
     return render(request, 'questions.html')
 
 def landing(request):
