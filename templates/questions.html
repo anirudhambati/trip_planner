@@ -129,5 +129,22 @@
 	<script src={% static "/landing/js1/jquery.steps.js" %}></script>
 	<script src={% static "/landing/js1/jquery-ui.min.js" %}></script>
 	<script src={% static "/landing/js1/main.js" %}></script>
+	<script>
+
+		let stateCheck = setInterval(() => {
+			if (document.readyState === 'complete') {
+				clearInterval(stateCheck);
+				var items = document.getElementsByClassName("actions")[0].getElementsByTagName("li");
+				items[0].style.display = 'inline-block';
+
+				items[1].style.marginLeft = '6%';
+
+				items[1].style.display = 'inline-block';
+
+				items[2].style.marginLeft = '6%';
+			}
+		}, 100);
+
+	</script>
 </body>
 </html>
