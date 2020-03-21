@@ -236,19 +236,19 @@ def plan_city(city, days, questions):
 
 def plan_country(place, days, questions):
 	cities = get_cities(place, days, questions)
-	f_plan = []
+	f_plan = {}
 	for city in cities:
 		plan = plan_city(city, days, questions)
-		f_plan.append(plan)
+		f_plan[city] = plan
 
 	return f_plan
 
 def plan_continent(place, days, questions):
 	countries = get_countries(place, days, questions)
-	f_plan = []
+	f_plan = {}
 	for country in countries:
 		plan = plan_country(place, days, questions)
-		f_plan.append(plan)
+		f_plan[country] = plan
 
 	return f_plan
 
