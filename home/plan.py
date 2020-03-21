@@ -234,6 +234,13 @@ def plan_city(city, days, questions):
 
     return plan
 
+def plan_country(place, days, questions):
+	return 0
+
+def plan_continent(place, days, questions):
+	return 0
+
+
 '''
 functions to implement
 -----------------------
