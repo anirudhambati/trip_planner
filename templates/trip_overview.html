@@ -153,21 +153,567 @@ button {
   color: $white;
 }
 
+/* --------------------------------
+
+Primary style
+
+-------------------------------- */
+html * {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*, *:after, *:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+a {
+  color: #acb7c0;
+  text-decoration: none;
+  font-family: "Open Sans", sans-serif;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1, h2 {
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold;
+}
+
+/* --------------------------------
+
+Modules - reusable parts of our design
+
+-------------------------------- */
+.cd-container {
+  /* this class is used to give a max-width to the element it is applied to, and center it horizontally when it reaches that max-width */
+  width: 90%;
+  max-width: 1170px;
+  margin: 0 auto;
+}
+.cd-container::after {
+  /* clearfix */
+  content: '';
+  display: table;
+  clear: both;
+}
+
+/* --------------------------------
+
+Main components
+
+-------------------------------- */
+header {
+  height: 200px;
+  line-height: 200px;
+  text-align: center;
+  background: #303e49;
+}
+header h1 {
+  color: #ffffff;
+  font-size: 18px;
+  font-size: 1.125rem;
+}
+@media only screen and (min-width: 1170px) {
+  header {
+    height: 300px;
+    line-height: 300px;
+  }
+  header h1 {
+    font-size: 24px;
+    font-size: 1.5rem;
+  }
+}
+
+#cd-timeline {
+  position: relative;
+  padding: 2em 0;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+#cd-timeline::before {
+  /* this is the vertical line */
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 18px;
+  height: 100%;
+  width: 4px;
+  background: #d7e4ed;
+}
+@media only screen and (min-width: 1170px) {
+  #cd-timeline {
+    margin-top: 3em;
+    margin-bottom: 3em;
+  }
+  #cd-timeline::before {
+    left: 50%;
+    margin-left: -2px;
+  }
+}
+
+.cd-timeline-block {
+  position: relative;
+  margin: 2em 0;
+}
+.cd-timeline-block::after {
+  clear: both;
+  content: "";
+  display: table;
+}
+.cd-timeline-block:first-child {
+  margin-top: 0;
+}
+.cd-timeline-block:last-child {
+  margin-bottom: 0;
+}
+@media only screen and (min-width: 1170px) {
+  .cd-timeline-block {
+    margin: 4em 0;
+  }
+  .cd-timeline-block:first-child {
+    margin-top: 0;
+  }
+  .cd-timeline-block:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.cd-timeline-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px #ffffff, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05);
+}
+.cd-timeline-img img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  left: 50%;
+  top: 50%;
+  margin-left: -12px;
+  margin-top: -12px;
+}
+.cd-timeline-img.cd-picture {
+  background: #75ce66;
+}
+.cd-timeline-img.cd-picture {
+  background: #c03b44;
+}
+.cd-timeline-img.cd-picture {
+  background: #f0ca45;
+}
+@media only screen and (min-width: 1170px) {
+  .cd-timeline-img {
+    width: 60px;
+    height: 60px;
+    left: 50%;
+    margin-left: -30px;
+    /* Force Hardware Acceleration in WebKit */
+    -webkit-transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+  }
+  .cssanimations .cd-timeline-img.is-hidden {
+    visibility: hidden;
+  }
+  .cssanimations .cd-timeline-img.bounce-in {
+    visibility: visible;
+    -webkit-animation: cd-bounce-1 0.6s;
+    -moz-animation: cd-bounce-1 0.6s;
+    animation: cd-bounce-1 0.6s;
+  }
+}
+
+@-webkit-keyframes cd-bounce-1 {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(0.5);
+  }
+  60% {
+    opacity: 1;
+    -webkit-transform: scale(1.2);
+  }
+  100% {
+    -webkit-transform: scale(1);
+  }
+}
+@-moz-keyframes cd-bounce-1 {
+  0% {
+    opacity: 0;
+    -moz-transform: scale(0.5);
+  }
+  60% {
+    opacity: 1;
+    -moz-transform: scale(1.2);
+  }
+  100% {
+    -moz-transform: scale(1);
+  }
+}
+@keyframes cd-bounce-1 {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(0.5);
+    -moz-transform: scale(0.5);
+    -ms-transform: scale(0.5);
+    -o-transform: scale(0.5);
+    transform: scale(0.5);
+  }
+  60% {
+    opacity: 1;
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    transform: scale(1.2);
+  }
+  100% {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+  }
+}
+.cd-timeline-content {
+  position: relative;
+  margin-left: 60px;
+  background: #ffffff;
+  border-radius: 0.25em;
+  padding: 1em;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);;
+}
+.cd-timeline-content::after {
+  clear: both;
+  content: "";
+  display: table;
+}
+.cd-timeline-content h2 {
+  color: #303e49;
+}
+.cd-timeline-content p, .cd-timeline-content .cd-read-more, .cd-timeline-content .cd-date {
+  font-size: 13px;
+  font-size: 0.8125rem;
+}
+.cd-timeline-content .cd-read-more, .cd-timeline-content .cd-date {
+  display: inline-block;
+}
+.cd-timeline-content p {
+  margin: 1em 0;
+  line-height: 1.6;
+}
+.cd-timeline-content .cd-read-more {
+  float: right;
+  padding: .4em 1em;
+  background: #dc3545;
+  color: #ffffff;
+  border-radius: 0.25em;
+}
+.no-touch .cd-timeline-content .cd-read-more:hover {
+  background-color: #bac4cb;
+}
+.cd-timeline-content .cd-date {
+  float: left;
+  padding: .8em 0;
+  opacity: 1;
+}
+.cd-timeline-content::before {
+  content: '';
+  position: absolute;
+  top: 16px;
+  right: 100%;
+  height: 0;
+  width: 0;
+  border: 7px solid transparent;
+  border-right: 7px solid #ffffff;
+}
+@media only screen and (min-width: 768px) {
+  .cd-timeline-content h2 {
+    font-size: 20px;
+    font-size: 1.25rem;
+  }
+  .cd-timeline-content p {
+    font-size: 16px;
+    font-size: 1rem;
+  }
+  .cd-timeline-content .cd-read-more, .cd-timeline-content .cd-date {
+    font-size: 14px;
+    font-size: 0.875rem;
+  }
+}
+@media only screen and (min-width: 1170px) {
+  .cd-timeline-content {
+    margin-left: 0;
+    padding: 1.6em;
+    width: 45%;
+  }
+  .cd-timeline-content::before {
+    top: 24px;
+    left: 100%;
+    border-color: transparent;
+    border-left-color: #ffffff;
+  }
+  .cd-timeline-content .cd-read-more {
+    float: right;
+  }
+  .cd-timeline-content .cd-date {
+    position: absolute;
+    width: 100%;
+    left: 122%;
+    top: 6px;
+    font-size: 16px;
+    font-size: 1rem;
+  }
+  .cd-timeline-block:nth-child .cd-timeline-content {
+    float: left;
+  }
+  .cd-timeline-block:nth-child .cd-timeline-content::before {
+    top: 24px;
+    left: auto;
+    right: 100%;
+    border-color: transparent;
+    border-right-color: #ffffff;
+  }
+  .cd-timeline-block:nth-child .cd-timeline-content .cd-read-more {
+    float: right;
+  }
+  .cd-timeline-block:nth-child .cd-timeline-content .cd-date {
+    left: auto;
+    right: 122%;
+    text-align: right;
+  }
+  .cssanimations .cd-timeline-content.is-hidden {
+    visibility: hidden;
+  }
+  .cssanimations .cd-timeline-content.bounce-in {
+    visibility: visible;
+    -webkit-animation: cd-bounce-2 0.6s;
+    -moz-animation: cd-bounce-2 0.6s;
+    animation: cd-bounce-2 0.6s;
+  }
+}
+
+@media only screen and (min-width: 1170px) {
+  /* inverse bounce effect on even content blocks */
+  .cssanimations .cd-timeline-block:nth-child(even) .cd-timeline-content.bounce-in {
+    -webkit-animation: cd-bounce-2-inverse 0.6s;
+    -moz-animation: cd-bounce-2-inverse 0.6s;
+    animation: cd-bounce-2-inverse 0.6s;
+  }
+}
+@-webkit-keyframes cd-bounce-2 {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(-100px);
+  }
+  60% {
+    opacity: 1;
+    -webkit-transform: translateX(20px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+  }
+}
+@-moz-keyframes cd-bounce-2 {
+  0% {
+    opacity: 0;
+    -moz-transform: translateX(-100px);
+  }
+  60% {
+    opacity: 1;
+    -moz-transform: translateX(20px);
+  }
+  100% {
+    -moz-transform: translateX(0);
+  }
+}
+@keyframes cd-bounce-2 {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(-100px);
+    -moz-transform: translateX(-100px);
+    -ms-transform: translateX(-100px);
+    -o-transform: translateX(-100px);
+    transform: translateX(-100px);
+  }
+  60% {
+    opacity: 1;
+    -webkit-transform: translateX(20px);
+    -moz-transform: translateX(20px);
+    -ms-transform: translateX(20px);
+    -o-transform: translateX(20px);
+    transform: translateX(20px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
+    transform: translateX(0);
+  }
+}
+@-webkit-keyframes cd-bounce-2-inverse {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(100px);
+  }
+  60% {
+    opacity: 1;
+    -webkit-transform: translateX(-20px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+  }
+}
+@-moz-keyframes cd-bounce-2-inverse {
+  0% {
+    opacity: 0;
+    -moz-transform: translateX(100px);
+  }
+  60% {
+    opacity: 1;
+    -moz-transform: translateX(-20px);
+  }
+  100% {
+    -moz-transform: translateX(0);
+  }
+}
+@keyframes cd-bounce-2-inverse {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(100px);
+    -moz-transform: translateX(100px);
+    -ms-transform: translateX(100px);
+    -o-transform: translateX(100px);
+    transform: translateX(100px);
+  }
+  60% {
+    opacity: 1;
+    -webkit-transform: translateX(-20px);
+    -moz-transform: translateX(-20px);
+    -ms-transform: translateX(-20px);
+    -o-transform: translateX(-20px);
+    transform: translateX(-20px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
+    transform: translateX(0);
+  }
+}
+
+
+body {
+  background-color: #fafafa;
+}
+
+.accordion {
+  margin-top: -15%;
+  margin-bottom: -15%;
+  max-width: 30em;
+}
+
+.toggle {
+  display: none;
+}
+
+.option {
+  position: relative;
+  margin-bottom: 1em;
+}
+
+.title,
+.content {
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+.title {
+  background: #fff;
+  padding: 1em;
+  display: block;
+  color: #7A7572;
+  font-weight: bold;
+}
+
+.title:after, .title:before {
+  content: '';
+  position: absolute;
+  right: 1.25em;
+  top: 1.25em;
+  width: 2px;
+  height: 0.75em;
+  background-color: #7A7572;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+
+.title:after {
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+
+.content {
+  max-height: 0;
+  overflow: hidden;
+  background-color: #fff;
+}
+.content p {
+  font-size: 0.9em;
+  line-height: 1.5;
+}
+
+.toggle:checked + .title + .content {
+  max-height: 500px;
+  margin-top: -5%;
+  margin-bottom: 15%;
+}
+.toggle:checked + .title:before {
+  -webkit-transform: rotate(90deg) !important;
+          transform: rotate(90deg) !important;
+}
+
+.travel {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  margin-top:15%;
+  z-index:1;
+  background-color:rgba(255, 255, 255, 1);
+  border:1px solid #eee;
+  border-radius:3px;
+  width:50%;
+}
 
 
 </style>
-
+<script src="jquery-3.4.1.min.js"></script>
 <link href='//fonts.googleapis.com/css?family=Roboto:200,400,600' rel='stylesheet' type='text/css'>
+<script src="https://kit.fontawesome.com/ea0619ce99.js" crossorigin="anonymous"></script>
+
 
 {% endblock %}
 
 {% block body %}
 
-  <div id="navbar2">
-    <div style="margin-left: 11.4%;">
+  <div id="navbar2" style="box-shadow: 0 4px 2px -2px gray;width:100%">
+    <div style="margin-left: 26%;">
       <a class="active" href="">Overview</a>
       <a href="">Timeline</a>
       <a href="">Maps</a>
+      <a href="">Where to stay</a>
     </div>
   </div><br><br>
 <br>
@@ -178,7 +724,7 @@ button {
 
 <br>
 
-<div class="history-tl-container" style='line-height:1.3em; min-width:920px;'>
+<!-- <div class="history-tl-container" style='line-height:1.3em; min-width:920px;'>
   <ul class="tl">
     <li class="tl-item" ng-repeat="item in retailer_history">
       <div class="timestamp">
@@ -205,7 +751,354 @@ button {
   </ul>
   <br><br><br><br>
 
-</div>
+</div> -->
+
+<section style="width:60%;margin-left:7%;" id="cd-timeline" class="cd-container">
+		<div class="cd-timeline-block">
+			<div class="cd-timeline-img cd-picture">
+				<i style="color:white;margin-left:31%;margin-top:31%;font-size:24px;" class="fas fa-plane"></i>
+			</div> <!-- cd-timeline-img -->
+
+			<div class="cd-timeline-content">
+        <div class="accordion">
+          <div class="option">
+            <input type="checkbox" id="toggle1" class="toggle" />
+            <label class="title" for="toggle1">Hyderabad, India
+            </label>
+            <div class="content">
+              <table style="width:100%;">
+                <tr>
+                  <td style="width:48%;">
+                    <div class="form-group">
+                      <div class="form-field">
+                        <div class="icon"><span class="ion-ios-calendar"> Start Date</span></div>
+                        <input style="height:40px !important;" type="text" name="checkin" class="form-control checkin_date" placeholder="20/3/2020" autocomplete="off">
+                      </div>
+                    </div>
+                  </td>
+                  <td style="width:48%;padding-left:4%;">
+                    <div class="form-group">
+                      <div class="form-field">
+                        <div class="icon"><span class="ion-ios-calendar"> End Date</span></div>
+                        <input style="height:40px !important;" type="text" name="checkin" class="form-control checkin_date" placeholder="22/3/2020" autocomplete="off">
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+              <a style="float:left;background:none;color:#6b9ee8" href="#0" class="cd-read-more"> Find places to stay</a>
+              <a style="margin-left:5%;" href="#0" class="cd-read-more"><i class="far fa-trash-alt"> Remove from plan</i></a>    </div>
+          </div>
+        </div>
+				<span class="cd-date"><span id="btn1" style="cursor:pointer;color:#6b9ee8" onclick="show(1)">Fly: 2h +</span>, Fri 20</span>
+        <div style="display:none;" id='id1' class="cd-date travel">
+          <span style="padding:5%;color:#7a7572;font-weight:bold;">More options</span>
+          <table style="margin-left:5%;margin-top: 2%;width:90%;">
+            <tr style="border-bottom:1px solid #ccc;border-top:1px solid #ccc;">
+              <td style="width:45%;padding-top:4%;padding-bottom:2%;">
+                <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-plane"></i>
+              </td>
+              <td style="width:45%;padding-top:3%;padding-bottom:2%;">
+                 900km / 2h
+              </td>
+            </tr>
+            <tr style="border-bottom:1px solid #ccc;border-top:1px solid #ccc;">
+              <td style="width:45%;padding-top:4%;padding-bottom:2%;">
+                <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-subway"></i>
+              </td>
+              <td style="width:45%;padding-top:3%;padding-bottom:2%;">
+                 1900km / 2d
+              </td>
+            </tr>
+            <tr style="border-bottom:1px solid #ccc;border-top:1px solid #ccc;">
+              <td style="width:45%;padding-top:4%;padding-bottom:2%;">
+                <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-car"></i>
+              </td>
+              <td style="width:45%;padding-top:3%;padding-bottom:2%;">
+                 1050km / 1d
+              </td>
+            </tr>
+          </table>
+        </div>
+			</div> <!-- cd-timeline-content -->
+		</div> <!-- cd-timeline-block -->
+
+		<div class="cd-timeline-block">
+			<div class="cd-timeline-img cd-picture">
+				<i style="color:white;margin-left:31%;margin-top:31%;font-size:24px;" class="fas fa-subway"></i>
+			</div> <!-- cd-timeline-img -->
+
+			<div class="cd-timeline-content">
+        <div class="accordion">
+          <div class="option">
+            <input type="checkbox" id="toggle2" class="toggle" />
+            <label class="title" for="toggle2">Chennai, India
+            </label>
+            <div class="content">
+              <table style="width:100%;">
+                <tr>
+                  <td style="width:48%;">
+                    <div class="form-group">
+                      <div class="form-field">
+                        <div class="icon"><span class="ion-ios-calendar"> Start Date</span></div>
+                        <input style="height:40px !important;" type="text" name="checkin" class="form-control checkin_date" placeholder="23/3/2020" autocomplete="off">
+                      </div>
+                    </div>
+                  </td>
+                  <td style="width:48%;padding-left:4%;">
+                    <div class="form-group">
+                      <div class="form-field">
+                        <div class="icon"><span class="ion-ios-calendar"> End Date</span></div>
+                        <input style="height:40px !important;" type="text" name="checkin" class="form-control checkin_date" placeholder="24/3/2020" autocomplete="off">
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+              <a style="float:left;background:none;color:#6b9ee8" href="#0" class="cd-read-more"> Find places to stay</a>
+              <a style="margin-left:5%;" href="#0" class="cd-read-more"><i class="far fa-trash-alt"> Remove from plan</i></a>    </div>
+          </div>
+        </div>
+				<span class="cd-date"><span id="btn2" style="cursor:pointer;color:#6b9ee8" onclick="show(2)">Train: 12h +</span>, Mon 23</span>
+        <div style="display:none;" id='id2' class="cd-date travel">
+          <span style="padding:5%;color:#7a7572;font-weight:bold;">More options</span>
+          <table style="margin-left:5%;margin-top: 2%;width:90%;">
+            <tr style="border-bottom:1px solid #ccc;border-top:1px solid #ccc;">
+              <td style="width:45%;padding-top:4%;padding-bottom:2%;">
+                <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-plane"></i>
+              </td>
+              <td style="width:45%;padding-top:3%;padding-bottom:2%;">
+                 900km / 2h
+              </td>
+            </tr>
+            <tr style="border-bottom:1px solid #ccc;border-top:1px solid #ccc;">
+              <td style="width:45%;padding-top:4%;padding-bottom:2%;">
+                <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-subway"></i>
+              </td>
+              <td style="width:45%;padding-top:3%;padding-bottom:2%;">
+                 1900km / 2d
+              </td>
+            </tr>
+            <tr style="border-bottom:1px solid #ccc;border-top:1px solid #ccc;">
+              <td style="width:45%;padding-top:4%;padding-bottom:2%;">
+                <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-car"></i>
+              </td>
+              <td style="width:45%;padding-top:3%;padding-bottom:2%;">
+                 1050km / 1d
+              </td>
+            </tr>
+          </table>
+        </div>
+			</div> <!-- cd-timeline-content -->
+		</div> <!-- cd-timeline-block -->
+
+		<div class="cd-timeline-block">
+			<div class="cd-timeline-img cd-picture">
+				<i style="color:white;margin-left:30%;margin-top:30%;font-size:24px;" class="fas fa-bus-alt"></i>
+			</div> <!-- cd-timeline-img -->
+
+			<div class="cd-timeline-content">
+        <div class="accordion">
+          <div class="option">
+            <input type="checkbox" id="toggle3" class="toggle" />
+            <label class="title" for="toggle3">Ooty, India
+            </label>
+            <div class="content">
+              <table style="width:100%;">
+                <tr>
+                  <td style="width:48%;">
+                    <div class="form-group">
+                      <div class="form-field">
+                        <div class="icon"><span class="ion-ios-calendar"> Start Date</span></div>
+                        <input style="height:40px !important;" type="text" name="checkin" class="form-control checkin_date" placeholder="26/3/2020" autocomplete="off">
+                      </div>
+                    </div>
+                  </td>
+                  <td style="width:48%;padding-left:4%;">
+                    <div class="form-group">
+                      <div class="form-field">
+                        <div class="icon"><span class="ion-ios-calendar"> End Date</span></div>
+                        <input style="height:40px !important;" type="text" name="checkin" class="form-control checkin_date" placeholder="28/3/2020" autocomplete="off">
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+              <a style="float:left;background:none;color:#6b9ee8" href="#0" class="cd-read-more"> Find places to stay</a>
+              <a style="margin-left:5%;" href="#0" class="cd-read-more"><i class="far fa-trash-alt"> Remove from plan</i></a>    </div>
+          </div>
+        </div>
+        <span class="cd-date"><span id="btn3" style="cursor:pointer;color:#6b9ee8" onclick="show(3)">Bus: 12h +</span>, Thurs 26</span>
+        <div style="display:none;" id='id3' class="cd-date travel">
+          <span style="padding:5%;color:#7a7572;font-weight:bold;">More options</span>
+          <table style="margin-left:5%;margin-top: 2%;width:90%;">
+            <tr style="border-bottom:1px solid #ccc;border-top:1px solid #ccc;">
+              <td style="width:45%;padding-top:4%;padding-bottom:2%;">
+                <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-plane"></i>
+              </td>
+              <td style="width:45%;padding-top:3%;padding-bottom:2%;">
+                 900km / 2h
+              </td>
+            </tr>
+            <tr style="border-bottom:1px solid #ccc;border-top:1px solid #ccc;">
+              <td style="width:45%;padding-top:4%;padding-bottom:2%;">
+                <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-subway"></i>
+              </td>
+              <td style="width:45%;padding-top:3%;padding-bottom:2%;">
+                 1900km / 2d
+              </td>
+            </tr>
+            <tr style="border-bottom:1px solid #ccc;border-top:1px solid #ccc;">
+              <td style="width:45%;padding-top:4%;padding-bottom:2%;">
+                <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-car"></i>
+              </td>
+              <td style="width:45%;padding-top:3%;padding-bottom:2%;">
+                 1050km / 1d
+              </td>
+            </tr>
+          </table>
+        </div>
+			</div> <!-- cd-timeline-content -->
+		</div> <!-- cd-timeline-block -->
+
+		<div class="cd-timeline-block">
+			<div class="cd-timeline-img cd-picture">
+				<i style="color:white;margin-left:30%;margin-top:30%;font-size:24px;" class="fas fa-bus-alt"></i>
+			</div> <!-- cd-timeline-img -->
+
+			<div class="cd-timeline-content">
+        <div class="accordion">
+          <div class="option">
+            <input type="checkbox" id="toggle4" class="toggle" />
+            <label class="title" for="toggle4">Mysore, India
+            </label>
+            <div class="content">
+              <table style="width:100%;">
+                <tr>
+                  <td style="width:48%;">
+                    <div class="form-group">
+                      <div class="form-field">
+                        <div class="icon"><span class="ion-ios-calendar"> Start Date</span></div>
+                        <input style="height:40px !important;" type="text" name="checkin" class="form-control checkin_date" placeholder="30/3/2020" autocomplete="off">
+                      </div>
+                    </div>
+                  </td>
+                  <td style="width:48%;padding-left:4%;">
+                    <div class="form-group">
+                      <div class="form-field">
+                        <div class="icon"><span class="ion-ios-calendar"> End Date</span></div>
+                        <input style="height:40px !important;" type="text" name="checkin" class="form-control checkin_date" placeholder="31/3/2020" autocomplete="off">
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+              <a style="float:left;background:none;color:#6b9ee8" href="#0" class="cd-read-more"> Find places to stay</a>
+              <a style="margin-left:5%;" href="#0" class="cd-read-more"><i class="far fa-trash-alt"> Remove from plan</i></a>    </div>
+          </div>
+        </div>
+        <span class="cd-date"><span id="btn4" style="cursor:pointer;color:#6b9ee8" onclick="show(4)">Bus: 10h +</span>, Mon 30</span>
+        <div style="display:none;" id='id4' class="cd-date travel">
+          <span style="padding:5%;color:#7a7572;font-weight:bold;">More options</span>
+          <table style="margin-left:5%;margin-top: 2%;width:90%;">
+            <tr style="border-bottom:1px solid #ccc;border-top:1px solid #ccc;">
+              <td style="width:45%;padding-top:4%;padding-bottom:2%;">
+                <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-plane"></i>
+              </td>
+              <td style="width:45%;padding-top:3%;padding-bottom:2%;">
+                 900km / 2h
+              </td>
+            </tr>
+            <tr style="border-bottom:1px solid #ccc;border-top:1px solid #ccc;">
+              <td style="width:45%;padding-top:4%;padding-bottom:2%;">
+                <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-subway"></i>
+              </td>
+              <td style="width:45%;padding-top:3%;padding-bottom:2%;">
+                 1900km / 2d
+              </td>
+            </tr>
+            <tr style="border-bottom:1px solid #ccc;border-top:1px solid #ccc;">
+              <td style="width:45%;padding-top:4%;padding-bottom:2%;">
+                <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-car"></i>
+              </td>
+              <td style="width:45%;padding-top:3%;padding-bottom:2%;">
+                 1050km / 1d
+              </td>
+            </tr>
+          </table>
+        </div>
+			</div> <!-- cd-timeline-content -->
+		</div> <!-- cd-timeline-block -->
+
+		<div class="cd-timeline-block">
+			<div class="cd-timeline-img cd-picture">
+				<i style="color:white;margin-left:30%;margin-top:30%;font-size:24px;" class="fas fa-car"></i>
+			</div> <!-- cd-timeline-img -->
+
+			<div class="cd-timeline-content">
+        <div class="accordion">
+          <div class="option">
+            <input type="checkbox" id="toggle5" class="toggle" />
+            <label class="title" for="toggle5">Banglore, India
+            </label>
+            <div class="content">
+              <table style="width:100%;">
+                <tr>
+                  <td style="width:48%;">
+                    <div class="form-group">
+                      <div class="form-field">
+                        <div class="icon"><span class="ion-ios-calendar"> Start Date</span></div>
+                        <input style="height:40px !important;" type="text" name="checkin" class="form-control checkin_date" placeholder="2/4/2020" autocomplete="off">
+                      </div>
+                    </div>
+                  </td>
+                  <td style="width:48%;padding-left:4%;">
+                    <div class="form-group">
+                      <div class="form-field">
+                        <div class="icon"><span class="ion-ios-calendar"> End Date</span></div>
+                        <input style="height:40px !important;" type="text" name="checkin" class="form-control checkin_date" placeholder="4/4/2020" autocomplete="off">
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+              <a style="float:left;background:none;color:#6b9ee8" href="#0" class="cd-read-more"> Find places to stay</a>
+              <a style="margin-left:5%;" href="#0" class="cd-read-more"><i class="far fa-trash-alt"> Remove from plan</i></a>    </div>
+          </div>
+        </div>
+				<span class="cd-date"><span id="btn5" style="cursor:pointer;color:#6b9ee8" onclick="show(5)">Car: 2h +</span>, Thurs 2</span>
+        <div style="display:none;" id='id5' class="cd-date travel">
+          <span style="padding:5%;color:#7a7572;font-weight:bold;">More options</span>
+          <table style="margin-left:5%;margin-top: 2%;width:90%;">
+            <tr style="border-bottom:1px solid #ccc;border-top:1px solid #ccc;">
+              <td style="width:45%;padding-top:4%;padding-bottom:2%;">
+                <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-plane"></i>
+              </td>
+              <td style="width:45%;padding-top:3%;padding-bottom:2%;">
+                 900km / 2h
+              </td>
+            </tr>
+            <tr style="border-bottom:1px solid #ccc;border-top:1px solid #ccc;">
+              <td style="width:45%;padding-top:4%;padding-bottom:2%;">
+                <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-subway"></i>
+              </td>
+              <td style="width:45%;padding-top:3%;padding-bottom:2%;">
+                 1900km / 2d
+              </td>
+            </tr>
+            <tr style="border-bottom:1px solid #ccc;border-top:1px solid #ccc;">
+              <td style="width:45%;padding-top:4%;padding-bottom:2%;">
+                <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-car"></i>
+              </td>
+              <td style="width:45%;padding-top:3%;padding-bottom:2%;">
+                 1050km / 1d
+              </td>
+            </tr>
+          </table>
+        </div>
+			</div> <!-- cd-timeline-content -->
+		</div> <!-- cd-timeline-block -->
+	</section>
 
 <!-- cards of places -->
 <div class="" style="font-weight:bold; margin-left:22%; font-size:200%;">
@@ -261,5 +1154,25 @@ button {
 </div>
 
 <br><br><br><br><br><br><br>
+
+<script>
+
+  function show(num){
+    var div = document.getElementById('id'+num.toString());
+    var text = document.getElementById('btn'+num.toString()).innerHTML;
+    console.log(num);
+    if (text[text.length-1] == '+'){
+      text = text.slice(0, text.length-1) + '-';
+      div.style.display = 'block';
+      document.getElementById('btn'+num.toString()).innerHTML = text;
+    } else {
+      text = text.slice(0, text.length-1) + '+';
+      div.style.display = 'none';
+      document.getElementById('btn'+num.toString()).innerHTML = text;
+    }
+  }
+
+</script>
+
 
 {% endblock %}
