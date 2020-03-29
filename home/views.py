@@ -20,6 +20,7 @@ from django.contrib.auth import logout
 import json
 import urllib
 from django.conf import settings
+from django.utils.dateparse import parse_date
 
 countries = [
     "Afghanistan",
@@ -535,4 +536,128 @@ def activate(request, uidb64, token):
         return HttpResponse('Activation link is invalid!')
 
 def overview(request):
-    return render(request, 'trip_overview.html')
+    plan = {"start": 'New Delhi, India',
+            'finalplan':[
+                        {
+                            "place":"Hyderabad, India",
+                            'journey':[
+                                        {
+                                            "mode": 'Fly',
+                                            "distance": 900,
+                                            "time": 2
+                                        },
+                                        {
+                                            "mode": 'Subway',
+                                            "distance": 1900,
+                                            "time": 48
+                                        },
+                                        {
+                                            "mode": 'Car',
+                                            "distance": 1100,
+                                            "time": 24
+                                        }
+                                      ],
+                            "start": parse_date('2020-03-20'),
+                            "end": parse_date('2020-03-22'),
+                        },
+                        {
+                            "place":"Chennai, India",
+                            'journey':[
+                                        {
+                                            "mode": 'Subway',
+                                            "distance": 900,
+                                            "time": 12
+                                        },
+                                        {
+                                            "mode": 'Fly',
+                                            "distance": 900,
+                                            "time": 2
+                                        },
+                                        {
+                                            "mode": 'Car',
+                                            "distance": 1100,
+                                            "time": 14
+                                        }
+                                      ],
+                            "start": parse_date('2020-03-24'),
+                            "end": parse_date('2020-03-26'),
+                        },
+                        {
+                            "place":"Ooty, India",
+                            'journey':[
+                                        {
+                                            "mode": 'Bus',
+                                            "distance": 500,
+                                            "time": 6
+                                        },
+                                        {
+                                            "mode": 'Car',
+                                            "distance": 500,
+                                            "time": 5
+                                        }
+                                      ],
+                            "start": parse_date('2020-03-27'),
+                            "end": parse_date('2020-03-29'),
+                        },
+                        {
+                            "place":"Mysore, India",
+                            'journey':[
+                                        {
+                                            "mode": 'Bus',
+                                            "distance": 900,
+                                            "time": 6
+                                        },
+                                        {
+                                            "mode": 'Car',
+                                            "distance": 900,
+                                            "time": 7
+                                        }
+                                      ],
+                            "start": parse_date('2020-03-31'),
+                            "end": parse_date('2020-04-2'),
+                        },
+                        {
+                            "place":"Banglore, India",
+                            'journey':[
+                                        {
+                                            "mode": 'Car',
+                                            "distance": 100,
+                                            "time": 2
+                                        },
+                                        {
+                                            "mode": 'Bus',
+                                            "distance": 100,
+                                            "time": 3
+                                        },
+                                        {
+                                            "mode": 'Subway',
+                                            "distance": 150,
+                                            "time": 5
+                                        }
+                                      ],
+                            "start": parse_date('2020-04-3'),
+                            "end": parse_date('2020-04-5'),
+                        }
+                    ],
+             "end":{
+                        "place": "New Delhi, India",
+                        "journey":[
+                            {
+                                "mode": 'Fly',
+                                "distance": 1000,
+                                "time": 2
+                            },
+                            {
+                                "mode": 'Subway',
+                                "distance": 1900,
+                                "time": 24
+                            },
+                            {
+                                "mode": 'Car',
+                                "distance": 2000,
+                                "time": 27
+                            }
+                        ]
+                   }
+            }
+    return render(request, 'trip_overview.html', plan)

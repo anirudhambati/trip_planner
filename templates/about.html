@@ -315,6 +315,8 @@ body a,body a:hover,body a:focus,body a:active{text-decoration:none;}
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCe2otGPKiUf4Qq35MmOfDWHaQm-Cjtopw&libraries=places&callback=initMap" async defer></script>
     <script>
+
+
     function initMap() {
       var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 12,
@@ -326,7 +328,6 @@ body a,body a:hover,body a:focus,body a:active{text-decoration:none;}
         geocodeAddress(geocoder, map);
       }
     }
-
     function geocodeAddress(geocoder, resultsMap) {
       var address = document.getElementById('address').innerHTML;
       geocoder.geocode({'address': address}, function(results, status) {
@@ -341,7 +342,6 @@ body a,body a:hover,body a:focus,body a:active{text-decoration:none;}
         } else {
           alert('Geocode was not successful for the following reason: ' + status);
         }
-        weather(lat , lng);
       });
     }
     </script>
