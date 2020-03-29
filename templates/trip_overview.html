@@ -949,41 +949,44 @@ body {
     var geocoder = new google.maps.Geocoder();
 
     document.getElementsByTagName('BODY')[0].onload = function(){
-      geocodeAddress(geocoder, map);
+      var address = document.getElementsByClassName('title');
+      geocodeAddress(geocoder, map, address);
     }
   }
 
-  function path(map){
-      var num = document.getElementsByClassName('title').length;
-
-      if (locations.length === num.length){
-        var places = document.getElementsByClassName('title');
-          var flightPath = new google.maps.Polyline({
-            path: locations,
-            geodesic: true,
-            strokeColor: '#FF0000',
-            strokeOpacity: 1.0,
-            strokeWeight: 2
-          });
-          flightPath.setMap(map);
-      } else {
-        setTimeout(path(map), 1000);
+  function path(add, map){
+      console.log(locations);
+      console.log(locations.length);
+      var temp = [];
+      for(var i=0;i<add.length;i++){
+          for(var j=0;j<locations.length;j++){
+              if (add[i].innerHTML.split(',')[0] === locations[j].name){
+                  temp.push({lat:locations[j].lat, lng:locations[j].lng})
+                  break;
+              }
+          }
       }
+      console.log(temp);
+      var flightPath = new google.maps.Polyline({
+        path: temp,
+        geodesic: true,
+        strokeColor: '#FF0000',
+        strokeOpacity: 1.0,
+        strokeWeight: 2
+      });
+      flightPath.setMap(map);
   }
 
-  function geocodeAddress(geocoder, resultsMap) {
-    var address = document.getElementsByClassName('title');
+  function geocodeAddress(geocoder, resultsMap, address) {
     var bounds = new google.maps.LatLngBounds();
-    var lat;
-    var lng;
     for(var i=0;i<address.length;i++){
       geocoder.geocode({'address': address[i].innerHTML}, function(results, status) {
         if (status === 'OK') {
           resultsMap.setCenter(results[0].geometry.location);
-          lat = results[0].geometry.location.lat();
-          lng = results[0].geometry.location.lng();
+          var lat = results[0].geometry.location.lat();
+          var lng = results[0].geometry.location.lng();
           var position = new google.maps.LatLng(lat, lng);
-          locations.push({lat:lat, lng:lng});
+          locations.push({lat:lat, lng:lng, name:results[0].address_components[0].long_name})
           bounds.extend(position);
           var marker = new google.maps.Marker({
             map: resultsMap,
@@ -991,19 +994,19 @@ body {
             title: results[0].address_components[0].long_name
           });
           resultsMap.fitBounds(bounds);
+          if (locations.length == address.length){
+              path(address, resultsMap);
+          }
         } else {
           alert('Geocode was not successful for the following reason: ' + status);
         }
       });
-      console.log(lat);
-      console.log(lng);
     }
     var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
         this.setZoom(14);
         google.maps.event.removeListener(boundsListener);
     });
     //path(resultsMap);
-    console.log(JSON.stringify(locations));
     //console.log($_);
   //   var locations = [
   //   {lat: 37.772, lng: -122.214},

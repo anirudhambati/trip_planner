@@ -600,7 +600,7 @@ def overview(request):
                             "end": parse_date('2020-03-29'),
                         },
                         {
-                            "place":"Mysore, India",
+                            "place":"Mysuru, India",
                             'journey':[
                                         {
                                             "mode": 'Bus',
@@ -617,7 +617,7 @@ def overview(request):
                             "end": parse_date('2020-04-2'),
                         },
                         {
-                            "place":"Banglore, India",
+                            "place":"Bengaluru, India",
                             'journey':[
                                         {
                                             "mode": 'Car',
