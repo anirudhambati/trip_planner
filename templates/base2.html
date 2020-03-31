@@ -6,9 +6,6 @@
     <title>Traveland</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <script src="https://kit.fontawesome.com/ea0619ce99.js" crossorigin="anonymous"></script>
-
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
 
     <link rel="stylesheet" href={% static "/landing/css/open-iconic-bootstrap.min.css" %}>
@@ -32,28 +29,30 @@
 
         #navbar2 {
           overflow: hidden;
-          background-color: #333;
+          background-color: white;
+          z-index: 10;
         }
 
         #navbar2 a {
           float: left;
           display: block;
-          color: #f2f2f2;
           text-align: center;
-          padding: 14px 16px;
+          padding: 10px 40px;
           text-decoration: none;
           font-size: 17px;
+          color: #ffb800;
         }
 
-        #navbar2 a:hover {
+        /* #navbar2 a:hover {
           background-color: #ddd;
           color: black;
         }
 
         #navbar2 a.active {
-          background-color: #4CAF50;
+          background-color: #FFB800;
           color: white;
-        }
+          font-weight: bold;
+        } */
 
         .sticky {
           position: fixed;
@@ -88,14 +87,18 @@
 	    </div>
 	  </nav>
     <!-- END nav -->
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <div class="hero-wrap" style="height:600px; background-image: url({% static '/landing/images/bg_1.jpg' %});" data-stellar-background-ratio="0.5">
+      <div class="overlay" style="height:600px;"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-end" data-scrollax-parent="true">
+          <div class="col-md-7 ftco-animate mt-5" data-scrollax=" properties: { translateY: '70%' }">
+            <h1 style="margin-top:-35%;" class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Be a Traveler not a Tourist</h1>
+            <p style="margin-top:0%;" class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Travel to the any corner of the world, without going around in circles</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-
-  <div id="navbar2">
-    <a class="active" href="javascript:void(0)">Home</a>
-    <a href="javascript:void(0)">News</a>
-    <a href="javascript:void(0)">Contact</a>
-  </div>
 
     {% block body %}
 
@@ -175,7 +178,7 @@
     var sticky = navbar2.offsetTop;
 
     function myFunction() {
-      if (window.pageYOffset >= sticky) {
+      if (window.pageYOffset >= 532) {
         navbar2.classList.add("sticky")
       } else {
         navbar2.classList.remove("sticky");
@@ -199,9 +202,12 @@
   <script src={% static "/landing/js/jquery.animateNumber.min.js" %}></script>
   <script src={% static "/landing/js/bootstrap-datepicker.js" %}></script>
   <script src={% static "/landing/js/scrollax.min.js" %}></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src={% static "/landing/js/google-map.js" %}></script>
   <script src={% static "/landing/js/main.js" %}></script>
+
+  {% block extrajs %}
+
+  {% endblock %}
 
   </body>
 </html>

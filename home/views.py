@@ -20,12 +20,265 @@ from django.contrib.auth import logout
 import json
 import urllib
 from django.conf import settings
+from django.utils.dateparse import parse_date
+
+countries = [
+    "Afghanistan",
+    "Åland Islands",
+    "Albania",
+    "Algeria",
+    "American Samoa",
+    "Andorra",
+    "Angola",
+    "Anguilla",
+    "Antarctica",
+    "Antigua and Barbuda",
+    "Argentina",
+    "Armenia",
+    "Aruba",
+    "Australia",
+    "Austria",
+    "Azerbaijan",
+    "Bahamas",
+    "Bahrain",
+    "Bangladesh",
+    "Barbados",
+    "Belarus",
+    "Belgium",
+    "Belize",
+    "Benin",
+    "Bermuda",
+    "Bhutan",
+    "Bolivia",
+    "Bonaire, Sint Eustatius and Saba",
+    "Bosnia and Herzegovina",
+    "Botswana",
+    "Bouvet Island",
+    "Brazil",
+    "British Indian Ocean Territory",
+    "United States Minor Outlying Islands",
+    "Virgin Islands",
+    "Brunei Darussalam",
+    "Bulgaria",
+    "Burkina Faso",
+    "Burundi",
+    "Cambodia",
+    "Cameroon",
+    "Canada",
+    "Cabo Verde",
+    "Cayman Islands",
+    "Central African Republic",
+    "Chad",
+    "Chile",
+    "China",
+    "Christmas Island",
+    "Cocos Islands",
+    "Colombia",
+    "Comoros",
+    "Congo",
+    "Congo",
+    "Cook Islands",
+    "Costa Rica",
+    "Croatia",
+    "Cuba",
+    "Curaçao",
+    "Cyprus",
+    "Czech Republic",
+    "Denmark",
+    "Djibouti",
+    "Dominica",
+    "Dominican Republic",
+    "Ecuador",
+    "Egypt",
+    "El Salvador",
+    "Equatorial Guinea",
+    "Eritrea",
+    "Estonia",
+    "Ethiopia",
+    "Falkland Islands",
+    "Faroe Islands",
+    "Fiji",
+    "Finland",
+    "France",
+    "French Guiana",
+    "French Polynesia",
+    "French Southern Territories",
+    "Gabon",
+    "Gambia",
+    "Georgia",
+    "Germany",
+    "Ghana",
+    "Gibraltar",
+    "Greece",
+    "Greenland",
+    "Grenada",
+    "Guadeloupe",
+    "Guam",
+    "Guatemala",
+    "Guernsey",
+    "Guinea",
+    "Guinea-Bissau",
+    "Guyana",
+    "Haiti",
+    "Heard Island and McDonald Islands",
+    "Holy See",
+    "Honduras",
+    "Hong Kong",
+    "Hungary",
+    "Iceland",
+    "India",
+    "Indonesia",
+    "Côte d'Ivoire",
+    "Iran",
+    "Iraq",
+    "Ireland",
+    "Isle of Man",
+    "Israel",
+    "Italy",
+    "Jamaica",
+    "Japan",
+    "Jersey",
+    "Jordan",
+    "Kazakhstan",
+    "Kenya",
+    "Kiribati",
+    "Kuwait",
+    "Kyrgyzstan",
+    "Laos",
+    "Latvia",
+    "Lebanon",
+    "Lesotho",
+    "Liberia",
+    "Libya",
+    "Liechtenstein",
+    "Lithuania",
+    "Luxembourg",
+    "Macao",
+    "Macedonia",
+    "Madagascar",
+    "Malawi",
+    "Malaysia",
+    "Maldives",
+    "Mali",
+    "Malta",
+    "Marshall Islands",
+    "Martinique",
+    "Mauritania",
+    "Mauritius",
+    "Mayotte",
+    "Mexico",
+    "Micronesia",
+    "Moldova",
+    "Monaco",
+    "Mongolia",
+    "Montenegro",
+    "Montserrat",
+    "Morocco",
+    "Mozambique",
+    "Myanmar",
+    "Namibia",
+    "Nauru",
+    "Nepal",
+    "Netherlands",
+    "New Caledonia",
+    "New Zealand",
+    "Nicaragua",
+    "Niger",
+    "Nigeria",
+    "Niue",
+    "Norfolk Island",
+    "North Korea",
+    "Northern Mariana Islands",
+    "Norway",
+    "Oman",
+    "Pakistan",
+    "Palau",
+    "Palestine, State of",
+    "Panama",
+    "Papua New Guinea",
+    "Paraguay",
+    "Peru",
+    "Philippines",
+    "Pitcairn",
+    "Poland",
+    "Portugal",
+    "Puerto Rico",
+    "Qatar",
+    "Republic of Kosovo",
+    "Réunion",
+    "Romania",
+    "Russian Federation",
+    "Rwanda",
+    "Saint Barthélemy",
+    "Saint Helena, Ascension and Tristan da Cunha",
+    "Saint Kitts and Nevis",
+    "Saint Lucia",
+    "Saint Martin",
+    "Saint Pierre and Miquelon",
+    "Saint Vincent and the Grenadines",
+    "Samoa",
+    "San Marino",
+    "Sao Tome and Principe",
+    "Saudi Arabia",
+    "Senegal",
+    "Serbia",
+    "Seychelles",
+    "Sierra Leone",
+    "Singapore",
+    "Sint Maarten (Dutch part)",
+    "Slovakia",
+    "Slovenia",
+    "Solomon Islands",
+    "Somalia",
+    "South Africa",
+    "South Georgia and the South Sandwich Islands",
+    "South Korea",
+    "South Sudan",
+    "Spain",
+    "Sri Lanka",
+    "Sudan",
+    "Suriname",
+    "Svalbard and Jan Mayen",
+    "Swaziland",
+    "Sweden",
+    "Switzerland",
+    "Syrian Arab Republic",
+    "Taiwan",
+    "Tajikistan",
+    "Tanzania, United Republic of",
+    "Thailand",
+    "Timor-Leste",
+    "Togo",
+    "Tokelau",
+    "Tonga",
+    "Trinidad and Tobago",
+    "Tunisia",
+    "Turkey",
+    "Turkmenistan",
+    "Turks and Caicos Islands",
+    "Tuvalu",
+    "Uganda",
+    "Ukraine",
+    "United Arab Emirates",
+    "United Kingdom",
+    "United States of America",
+    "Uruguay",
+    "Uzbekistan",
+    "Vanuatu",
+    "Venezuela",
+    "Viet Nam",
+    "Wallis and Futuna",
+    "Western Sahara",
+    "Yemen",
+    "Zambia",
+    "Zimbabwe"
+]
+continents = ["Asia", "Europe", "Africa","North America", "South America"]
 
 
 
 def reset_display(request):
     return render(request,'registration/reset_form.html',{})
-
 
 def reset_password(request):
     email = request.POST.get('email')
@@ -92,15 +345,29 @@ def save_password(request):
 def home(request):
     return render(request, 'home.html')
 
-def landing(request):
+def questions(request):
     if request.method == 'POST':
         print(request.POST)
-    print("-------------------------------")
-    try:
-        print(user.username)
-    except NameError:
-        pass
-    print("-------------------------------")
+        return redirect('/')
+    return render(request, 'questions.html')
+
+def landing(request):
+    if request.method == 'POST':
+        if (request.POST['place'].lower() in continents) or (request.POST['place'].lower() in countries):
+            details = {}
+            details['place'] = request.POST['place']
+            details['checkin'] = request.POST['checkin']
+            details['checkout'] = request.POST['checkout']
+            details['price'] = request.POST['price']
+            details['type'] = 'continent' if (request.POST['place'].lower() in continent) else 'country'
+            return render(request, 'questions.html', details)
+        else:
+            pass
+    # try:
+    #     request.user.social_auth.filter(provider="google-oauth2")
+    # except NameError:
+    #     print("error")
+    # print("-------------------------------")
     return render(request, 'index.html')
 
 def about(request):
@@ -269,3 +536,130 @@ def activate(request, uidb64, token):
 
     else:
         return HttpResponse('Activation link is invalid!')
+
+def overview(request):
+    plan = {"start": 'New Delhi, India',
+            'finalplan':[
+                        {
+                            "place":"Hyderabad, India",
+                            'journey':[
+                                        {
+                                            "mode": 'Fly',
+                                            "distance": 900,
+                                            "time": 2
+                                        },
+                                        {
+                                            "mode": 'Subway',
+                                            "distance": 1900,
+                                            "time": 48
+                                        },
+                                        {
+                                            "mode": 'Car',
+                                            "distance": 1100,
+                                            "time": 24
+                                        }
+                                      ],
+                            "start": parse_date('2020-03-20'),
+                            "end": parse_date('2020-03-22'),
+                        },
+                        {
+                            "place":"Chennai, India",
+                            'journey':[
+                                        {
+                                            "mode": 'Subway',
+                                            "distance": 900,
+                                            "time": 12
+                                        },
+                                        {
+                                            "mode": 'Fly',
+                                            "distance": 900,
+                                            "time": 2
+                                        },
+                                        {
+                                            "mode": 'Car',
+                                            "distance": 1100,
+                                            "time": 14
+                                        }
+                                      ],
+                            "start": parse_date('2020-03-24'),
+                            "end": parse_date('2020-03-26'),
+                        },
+                        {
+                            "place":"Ooty, India",
+                            'journey':[
+                                        {
+                                            "mode": 'Bus',
+                                            "distance": 500,
+                                            "time": 6
+                                        },
+                                        {
+                                            "mode": 'Car',
+                                            "distance": 500,
+                                            "time": 5
+                                        }
+                                      ],
+                            "start": parse_date('2020-03-27'),
+                            "end": parse_date('2020-03-29'),
+                        },
+                        {
+                            "place":"Mysuru, India",
+                            'journey':[
+                                        {
+                                            "mode": 'Bus',
+                                            "distance": 900,
+                                            "time": 6
+                                        },
+                                        {
+                                            "mode": 'Car',
+                                            "distance": 900,
+                                            "time": 7
+                                        }
+                                      ],
+                            "start": parse_date('2020-03-31'),
+                            "end": parse_date('2020-04-2'),
+                        },
+                        {
+                            "place":"Bengaluru, India",
+                            'journey':[
+                                        {
+                                            "mode": 'Car',
+                                            "distance": 100,
+                                            "time": 2
+                                        },
+                                        {
+                                            "mode": 'Bus',
+                                            "distance": 100,
+                                            "time": 3
+                                        },
+                                        {
+                                            "mode": 'Subway',
+                                            "distance": 150,
+                                            "time": 5
+                                        }
+                                      ],
+                            "start": parse_date('2020-04-3'),
+                            "end": parse_date('2020-04-5'),
+                        }
+                    ],
+             "end":{
+                        "place": "New Delhi, India",
+                        "journey":[
+                            {
+                                "mode": 'Fly',
+                                "distance": 1000,
+                                "time": 2
+                            },
+                            {
+                                "mode": 'Subway',
+                                "distance": 1900,
+                                "time": 24
+                            },
+                            {
+                                "mode": 'Car',
+                                "distance": 2000,
+                                "time": 27
+                            }
+                        ]
+                   }
+            }
+    return render(request, 'trip_overview.html', plan)
