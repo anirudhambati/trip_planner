@@ -21,6 +21,8 @@ import json
 import urllib
 from django.conf import settings
 
+
+
 def reset_display(request):
     return render(request,'registration/reset_form.html',{})
 
