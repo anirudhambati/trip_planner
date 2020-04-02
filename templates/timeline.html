@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base2.html' %}
 {% load staticfiles %}
 {% load static %}
 
@@ -57,30 +57,130 @@
   ul.tl li .timestamp{
       color: #8D8D8D !important;
       position: absolute !important;
-    width:100px !important;
+      width:100px !important;
       left: -50%; !important
       text-align: right !important;
       font-size: 12px !important;
   }
 
+  .container2 {
+    position: relative;
+    margin: auto;
+    overflow: hidden;
+    width: 75%;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    height: 740px;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid rgb(220,220,220);
+  }
+
+  img {
+    width: 58vh;
+    height: 44vh;
+    margin-top: 1%;
+    margin-left: 5%;
+    border-radius: 3px;
+  }
+
+  .product {
+    position: absolute;
+    width: 40%;
+    height: 100%;
+    top: 22%;
+    left: 60%;
+  }
+
+  .desc {
+    text-transform: none;
+    letter-spacing: 0;
+    margin-bottom: 17px;
+    color: $dark;
+    font-size: .7em;
+    line-height: 1.6em;
+    margin-right: 25px;
+    text-align: justify;
+  }
+
+button {
+  width:25%;
+  background: #FFB800;
+  padding: 10px;
+  border-radius: 30px;
+  letter-spacing: 1px;
+  color: white;
+  border:none;
+  cursor: pointer;
+  &:hover {
+    transition: all .4s ease-in-out;
+  }
+}
+
+
+.sizes {
+  display: grid;
+  color: $pink;
+  grid-template-columns: repeat(auto-fill, 30px);
+  width: 60%;
+  grid-gap: 4px;
+  margin-left: 20px;
+  margin-top: 5px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.pick {
+  margin-top: 11px;
+  margin-bottom:0;
+  margin-left: 20px;
+}
+
+.size {
+  padding: 9px;
+  border: 1px solid $light;
+  font-size: 0.7em;
+  text-align: center;
+  &:hover{
+    background: $rose;
+    color: $white;
+    transition: all .4s ease-in-out;
+  }
+}
+
+.focus{
+  background: $rose;
+  color: $white;
+}
+
+
+
 </style>
-<link href='//fonts.googleapis.com/css?family=Roboto:200,400,600' rel='stylesheet' type='text/css'>
 
 {% endblock %}
 
+
 {% block body %}
-<div class="hero-wrap js-fullheight" style="background-image: url({% static '/landing/images/bg_1.jpg' %}); height:40%;" data-stellar-background-ratio="0.1">
-  <div class="overlay"></div>
-  <div class="container">
-    <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-end" data-scrollax-parent="true">
-      <div class="col-md-7 ftco-animate mt-5" data-scrollax=" properties: { translateY: '70%' }">
-        <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Be a Traveler not a Tourist</h1>
-        <p class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Travel to the any corner of the world, without going around in circles</p>
-      </div>
-    </div>
+
+<div id="navbar2">
+  <div style="margin-left: 11.4%;">
+    <a href="">Overview</a>
+    <a class="active" href="">Timeline</a>
+    <a href="">Maps</a>
   </div>
+</div><br><br>
+<br>
+
+<div class="" style="font-weight:bold; margin-left:22%; font-size:200%;">
+  Tour Plan
 </div>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+<div class="" style="font-weight:bold; margin-left:22%; font-size:200%;">
+  Day 1 : 3rd March, 2015
+</div>
+
+<br>
 
 <div class="history-tl-container" style='line-height:1.3em; min-width:920px;'>
   <ul class="tl">
@@ -88,26 +188,63 @@
       <div class="timestamp">
         3rd March 2015<br> 7:00 PM
       </div>
-      <div class="item-title">Start from Shire</div>
+      <div class="item-title">Delhi</div>
       <div class="item-detail">Don't forget the ring</div>
     </li>
     <li class="tl-item" ng-repeat="item in retailer_history">
       <div class="timestamp">
         19th March 2015<br> 3:00 PM
       </div>
-      <div class="item-title">Kill some Orcs</div>
+      <div class="item-title">Agra</div>
       <div class="item-detail">Don't enter the caves!!</div>
     </li>
     <li class="tl-item" ng-repeat="item in retailer_history">
       <div class="timestamp">
         1st June 2015<br> 7:00 PM
       </div>
-      <div class="item-title">Throw that goddamn ring in the lava</div>
+      <div class="item-title">Jaipur &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
       <div class="item-detail">Also, throw that Gollum too</div>
     </li>
 
   </ul>
-  <br><br><br><br><br><br><br>
+  <br><br><br><br>
 
 </div>
+
+
+  <div class="" style="font-weight:bold; margin-left:22%; font-size:200%;">
+    Day 2 : 4th March, 2015
+  </div>
+
+  <br>
+
+  <div class="history-tl-container" style='line-height:1.3em; min-width:920px;'>
+    <ul class="tl">
+      <li class="tl-item" ng-repeat="item in retailer_history">
+        <div class="timestamp">
+          3rd March 2015<br> 7:00 PM
+        </div>
+        <div class="item-title">Delhi</div>
+        <div class="item-detail">Don't forget the ring</div>
+      </li>
+      <li class="tl-item" ng-repeat="item in retailer_history">
+        <div class="timestamp">
+          19th March 2015<br> 3:00 PM
+        </div>
+        <div class="item-title">Agra</div>
+        <div class="item-detail">Don't enter the caves!!</div>
+      </li>
+      <li class="tl-item" ng-repeat="item in retailer_history">
+        <div class="timestamp">
+          1st June 2015<br> 7:00 PM
+        </div>
+        <div class="item-title">Jaipur &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+        <div class="item-detail">Also, throw that Gollum too</div>
+      </li>
+
+    </ul>
+    <br><br><br><br>
+  </div>
+
+<br><br><br>
 {% endblock %}
