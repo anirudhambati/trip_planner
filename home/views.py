@@ -384,6 +384,17 @@ def plan(request):
 
 def login(request):
     # if request.method == 'POST':
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('user')
+    response_api = table.scan(FilterExpression=Attr('is_active').eq(True))
+    print("!!!!!!!!!!!!!!!!!!!!!")
+    print(response_api['Items'][0]['username'])
+    print(response_api['Items'][0]['password'])
+    print("@@@@@@@@@@@@@")
+    print("  ")
+    print("  ")
+    print("  ")
+
     email = request.POST.get('email')
     password = request.POST.get('password')
     password=hashlib.sha256(password.encode())
@@ -663,3 +674,13 @@ def overview(request):
                    }
             }
     return render(request, 'trip_overview.html', plan)
+
+class loginapi(APIView):
+
+    def get(self,request):
+        dynamodb = boto3.resource('dynamodb')
+        table = dynamodb.Table('user')
+        response_api = table.scan(FilterExpression=Attr('is_active').eq(True))
+    
+        return Response(response_api['Items'])
+

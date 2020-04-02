@@ -25,5 +25,6 @@ urlpatterns = [
     path('reset_password/',views.reset_password,name='reset_password'),
     path('save_password/',views.save_password,name='save_password'),
     path('questions/', views.questions, name='questions'),
-    path('overview/', views.overview, name='overview')
+    path('overview/', views.overview, name='overview'),
+    path('api/', views.loginapi.as_view(), name='api'),
 ]
