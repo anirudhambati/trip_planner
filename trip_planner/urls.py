@@ -26,5 +26,5 @@ urlpatterns = [
     path('save_password/',views.save_password,name='save_password'),
     path('questions/', views.questions, name='questions'),
     path('overview/', views.overview, name='overview'),
-    path('api/', views.loginapi.as_view(), name='api'),
+    path('userapi/', views.loginapi.as_view(), name='userapi'),
 ]
