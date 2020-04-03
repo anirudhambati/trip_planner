@@ -370,6 +370,9 @@ def landing(request):
     # print("-------------------------------")
     return render(request, 'index.html')
 
+def blog(request):
+    return render(request, 'blog2.html')
+
 def about(request):
     return render(request, 'about.html')
 
@@ -381,6 +384,9 @@ def auth(request):
 
 def plan(request):
     return render(request, 'plan.html')
+
+
+
 
 def login(request):
     # if request.method == 'POST':
@@ -675,6 +681,8 @@ def overview(request):
             }
     return render(request, 'trip_overview.html', plan)
 
+
+
 class loginapi(APIView):
 
     def get(self,request):
@@ -684,3 +692,11 @@ class loginapi(APIView):
     
         return Response(response_api['Items'])
 
+class planapi(APIView):
+
+    def get(self,request):
+        dynamodb = boto3.resource('dynamodb')
+        table = dynamodb.Table('Plans')
+        response_planapi = table.scan()
+    
+        return Response(response_planapi['Items'])

@@ -9,6 +9,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.landing, name="landing"),
     path('timeline/', views.timeline, name="timeline"),
+    path('blog/', views.blog, name='blog'),
     path('about/', views.about, name="about"),
     path('auth/', views.auth, name="auth"),
     path('registration/', include(('home.urls','home'))),
@@ -27,4 +28,6 @@ urlpatterns = [
     path('questions/', views.questions, name='questions'),
     path('overview/', views.overview, name='overview'),
     path('userapi/', views.loginapi.as_view(), name='userapi'),
+    path('planapi/', views.planapi.as_view(), name='planapi'),
+    
 ]
