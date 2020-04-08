@@ -275,6 +275,8 @@ countries = [
 ]
 continents = ["Asia", "Europe", "Africa","North America", "South America"]
 
+
+
 def reset_display(request):
     return render(request,'registration/reset_form.html',{})
 
@@ -368,6 +370,17 @@ def landing(request):
     # print("-------------------------------")
     return render(request, 'index.html')
 
+def blog(request):
+    return render(request, 'blog2.html')
+
+
+def blogabout(request):
+    return render(request, 'blogabout.html')
+
+def addpost(request):
+    return render(request, 'addpost.html')
+
+
 def about(request):
     return render(request, 'about.html')
 
@@ -380,8 +393,22 @@ def auth(request):
 def plan(request):
     return render(request, 'plan.html')
 
+
+
+
 def login(request):
     # if request.method == 'POST':
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('user')
+    response_api = table.scan(FilterExpression=Attr('is_active').eq(True))
+    print("!!!!!!!!!!!!!!!!!!!!!")
+    print(response_api['Items'][0]['username'])
+    print(response_api['Items'][0]['password'])
+    print("@@@@@@@@@@@@@")
+    print("  ")
+    print("  ")
+    print("  ")
+
     email = request.POST.get('email')
     password = request.POST.get('password')
     password=hashlib.sha256(password.encode())
@@ -661,3 +688,23 @@ def overview(request):
                    }
             }
     return render(request, 'trip_overview.html', plan)
+
+
+
+class loginapi(APIView):
+
+    def get(self,request):
+        dynamodb = boto3.resource('dynamodb')
+        table = dynamodb.Table('user')
+        response_api = table.scan(FilterExpression=Attr('is_active').eq(True))
+    
+        return Response(response_api['Items'])
+
+class planapi(APIView):
+
+    def get(self,request):
+        dynamodb = boto3.resource('dynamodb')
+        table = dynamodb.Table('Plans')
+        response_planapi = table.scan()
+    
+        return Response(response_planapi['Items'])
