@@ -10,6 +10,7 @@ urlpatterns = [
     path('', views.landing, name="landing"),
     path('timeline/', views.timeline, name="timeline"),
     path('blog/', views.blog, name='blog'),
+    path('blogabout/', views.blogabout, name='blogabout'),
     path('about/', views.about, name="about"),
     path('auth/', views.auth, name="auth"),
     path('registration/', include(('home.urls','home'))),

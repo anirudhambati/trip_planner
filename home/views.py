@@ -373,6 +373,10 @@ def landing(request):
 def blog(request):
     return render(request, 'blog2.html')
 
+
+def blogabout(request):
+    return render(request, 'blogabout.html')
+
 def about(request):
     return render(request, 'about.html')
 
