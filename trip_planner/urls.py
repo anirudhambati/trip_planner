@@ -11,6 +11,7 @@ urlpatterns = [
     path('timeline/', views.timeline, name="timeline"),
     path('blog/', views.blog, name='blog'),
     path('blogabout/', views.blogabout, name='blogabout'),
+    path('addpost/', views.addpost, name='addpost'),
     path('about/', views.about, name="about"),
     path('auth/', views.auth, name="auth"),
     path('registration/', include(('home.urls','home'))),
