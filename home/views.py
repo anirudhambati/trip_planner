@@ -583,7 +583,7 @@ def overview(request):
                             "end": parse_date('2020-03-26'),
                         },
                         {
-                            "place":"Ooty, India",
+                            "place":"Kodaikanal, India",
                             'journey':[
                                         {
                                             "mode": 'Bus',
