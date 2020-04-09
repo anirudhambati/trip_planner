@@ -615,6 +615,12 @@ header h1 {
 
 body {
   background-color: #fafafa;
+  width:101%;
+  overflow-x:hidden;
+}
+
+.overlay{
+  width:101%;
 }
 
 .accordion {
@@ -699,6 +705,14 @@ body {
   margin-top: 10%;
 }
 
+#scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE and Edge */
+#scrollbar {
+  -ms-overflow-style: none;
+}
 
 </style>
 <script src="jquery-3.4.1.min.js"></script>
@@ -720,134 +734,141 @@ body {
   </div><br><br>
 <br>
 
-<table style="width:100%;">
-  <tr>
-    <td style="width60%;">
-      <div style="margin-top:-3%; margin-bottom: -8%; margin-left:55%; font-weight: 500;font-size:17px;">
-        <span style="color: #6b9ee8">Start: </span>{{ start }}
-      </div>
+<div class="row">
+  <div id="scrollbar" style="height:500px;overflow-y:scroll;overflow-x:hidden;" class="col-md-7">
+    <div style="margin-bottom: -8%; margin-left:55%; font-weight: 500;font-size:17px;">
+      <span style="color: #6b9ee8">Start: </span>{{ start }}
+    </div>
+    <br>
+    <section style="width:100%;margin-left:7%;" id="cd-timeline" class="cd-container">
+      {% for plan in finalplan %}
+        <div class="cd-timeline-block">
+          <div class="cd-timeline-img cd-picture">
+            {% if plan.journey.0.mode == 'Fly' %}
+                <i style="color:white;margin-left:31%;margin-top:31%;font-size:24px;" class="fas fa-plane"></i>
+            {% elif plan.journey.0.mode == 'Subway' %}
+                <i style="color:white;margin-left:31%;margin-top:31%;font-size:24px;" class="fas fa-subway"></i>
+            {% elif plan.journey.0.mode == 'Bus' %}
+                <i style="color:white;margin-left:31%;margin-top:31%;font-size:24px;" class="fas fa-bus"></i>
+            {% else %}
+                <i style="color:white;margin-left:31%;margin-top:31%;font-size:24px;" class="fas fa-car"></i>
+            {% endif %}
+          </div>
 
-      <br>
-
-      <section style="width:100%;margin-left:7%;" id="cd-timeline" class="cd-container">
-        {% for plan in finalplan %}
-      		<div class="cd-timeline-block">
-      			<div class="cd-timeline-img cd-picture">
-              {% if plan.journey.0.mode == 'Fly' %}
-      				    <i style="color:white;margin-left:31%;margin-top:31%;font-size:24px;" class="fas fa-plane"></i>
-              {% elif plan.journey.0.mode == 'Subway' %}
-                  <i style="color:white;margin-left:31%;margin-top:31%;font-size:24px;" class="fas fa-subway"></i>
-              {% elif plan.journey.0.mode == 'Bus' %}
-                  <i style="color:white;margin-left:31%;margin-top:31%;font-size:24px;" class="fas fa-bus"></i>
-              {% else %}
-                  <i style="color:white;margin-left:31%;margin-top:31%;font-size:24px;" class="fas fa-car"></i>
-              {% endif %}
-      			</div>
-
-      			<div class="cd-timeline-content">
-              <div class="accordion">
-                <div class="option">
-                  <input type="checkbox" id="toggle{{ forloop.counter }}" class="toggle" />
-                  <label class="title" for="toggle{{ forloop.counter }}">{{ plan.place }}
-                  </label>
-                  <div class="content">
-                    <table style="width:100%;">
-                      <tr>
-                        <td style="width:48%;">
-                          <div class="form-group">
-                            <div class="form-field">
-                              <div class="icon"><span class="ion-ios-calendar"> Start Date</span></div>
-                              <input style="height:40px !important;" type="text" name="checkin" class="form-control checkin_date" placeholder="{{ plan.start|date:"j/n/Y" }}" autocomplete="off">
-                            </div>
+          <div class="cd-timeline-content">
+            <div class="accordion">
+              <div class="option">
+                <input type="checkbox" id="toggle{{ forloop.counter }}" class="toggle" />
+                <label class="title" for="toggle{{ forloop.counter }}">{{ plan.place }}
+                </label>
+                <div class="content">
+                  <table style="width:100%;">
+                    <tr>
+                      <td style="width:48%;">
+                        <div class="form-group">
+                          <div class="form-field">
+                            <div class="icon"><span class="ion-ios-calendar"> Start Date</span></div>
+                            <input style="height:40px !important;" type="text" name="checkin" class="form-control checkin_date" placeholder="{{ plan.start|date:"j/n/Y" }}" autocomplete="off">
                           </div>
-                        </td>
-                        <td style="width:48%;padding-left:4%;">
-                          <div class="form-group">
-                            <div class="form-field">
-                              <div class="icon"><span class="ion-ios-calendar"> End Date</span></div>
-                              <input style="height:40px !important;" type="text" name="checkin" class="form-control checkin_date" placeholder="{{ plan.end|date:"j/n/Y" }}" autocomplete="off">
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    </table>
-                    <a style="float:left;background:none;color:#6b9ee8" href="#0" class="cd-read-more"> Find places to stay</a>
-                    <a style="margin-left:5%;" href="#0" class="cd-read-more"><i class="far fa-trash-alt"> Remove from plan</i></a>    </div>
-                </div>
-              </div>
-      				<span style="margin-top:-3.9%;margin-left:2%;" class="cd-date"><span id="btn{{ forloop.counter }}" style="cursor:pointer;color:#6b9ee8" onclick="show({{ forloop.counter }})">{{ plan.journey.0.mode }}: {{ plan.journey.0.time }}h +</span><br>{{ plan.start|date:"D, d M" }}</span>
-              <div style="display:none;" id='id{{ forloop.counter }}' class="cd-date travel">
-                <span style="padding:5%;color:#7a7572;font-weight:bold;">More options</span>
-                <table style="margin-left:5%;margin-top: 2%;width:90%;">
-                  {% for opt in plan.journey %}
-                    <tr style="border-bottom:1px solid #ccc;border-top:1px solid #ccc;">
-                      <td style="width:45%;padding-top:4%;padding-bottom:2%;">
-                        {% if opt.mode == 'Fly' %}
-                				    <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-plane"></i>
-                        {% elif opt.mode == 'Subway' %}
-                            <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-subway"></i>
-                        {% elif opt.mode == 'Bus' %}
-                            <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-bus"></i>
-                        {% else %}
-                            <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-car"></i>
-                        {% endif %}
+                        </div>
                       </td>
-                      <td style="width:45%;padding-top:3%;padding-bottom:2%;">
-                         {{ opt.distance }}km / {{ opt.time }}h
+                      <td style="width:48%;padding-left:4%;">
+                        <div class="form-group">
+                          <div class="form-field">
+                            <div class="icon"><span class="ion-ios-calendar"> End Date</span></div>
+                            <input style="height:40px !important;" type="text" name="checkin" class="form-control checkin_date" placeholder="{{ plan.end|date:"j/n/Y" }}" autocomplete="off">
+                          </div>
+                        </div>
                       </td>
                     </tr>
-                  {% endfor %}
-                </table>
+                  </table>
+                  <a style="float:left;background:none;color:#6b9ee8" href="#0" class="cd-read-more"> Find places to stay</a>
+                  <a style="margin-left:5%;margin-top:-11%;" href="#0" class="cd-read-more"><i class="far fa-trash-alt"> Remove from plan</i></a>    </div>
               </div>
-      			</div>
-      		</div>
+            </div>
+            <span style="margin-top:-3.9%;margin-left:2%;" class="cd-date"><span id="btn{{ forloop.counter }}" style="cursor:pointer;color:#6b9ee8" onclick="show({{ forloop.counter }})">{{ plan.journey.0.mode }}: {{ plan.journey.0.time }}h +</span><br>{{ plan.start|date:"D, d M" }}</span>
+            <div style="display:none;" id='id{{ forloop.counter }}' class="cd-date travel">
+              <span style="padding:5%;color:#7a7572;font-weight:bold;">More options</span>
+              <table style="margin-left:5%;margin-top: 2%;width:90%;">
+                {% for opt in plan.journey %}
+                  <tr style="border-bottom:1px solid #ccc;border-top:1px solid #ccc;">
+                    <td style="width:45%;padding-top:4%;padding-bottom:2%;">
+                      {% if opt.mode == 'Fly' %}
+                          <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-plane"></i>
+                      {% elif opt.mode == 'Subway' %}
+                          <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-subway"></i>
+                      {% elif opt.mode == 'Bus' %}
+                          <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-bus"></i>
+                      {% else %}
+                          <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-car"></i>
+                      {% endif %}
+                    </td>
+                    <td style="width:45%;padding-top:3%;padding-bottom:2%;">
+                       {{ opt.distance }}km / {{ opt.time }}h
+                    </td>
+                  </tr>
+                {% endfor %}
+              </table>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </section>
+      <div id="up" style=";margin-top:-3%;margin-bottom:3%;margin-left:55%; font-weight: 500;font-size:17px;">
+        <span style="cursor: pointer;color:#6b9ee8">End: </span>{{ end.place }}
+        {% if end.journey.0.mode == 'Fly' %}
+            <i style="color:#6b9ee8; cursor:pointer" onclick="opt()" id="endsym" class="fas fa-plane"> +</i>
+        {% elif end.journey.0.mode == 'Subway' %}
+            <i style="color:#6b9ee8; cursor:pointer" onclick="opt()" id="endsym" class="fas fa-subway"> +</i>
+        {% elif end.journey.0.mode == 'Bus' %}
+            <i style="color:#6b9ee8; cursor:pointer" onclick="opt()" id="endsym" class="fas fa-bus"> +</i>
+        {% else %}
+            <i style="color:#6b9ee8; cursor:pointer" onclick="opt()" id="endsym" class="fas fa-car"> +</i>
+        {% endif %}
+      </div>
+      <div style="margin-left: 25%;margin-top: -2%;display:none;" id='opts' class="travel">
+        <span style="padding:5%;color:#7a7572;font-weight:bold;">More options</span>
+        <table style="margin-left:5%;margin-top: 2%;width:90%;">
+          {% for opt in end.journey %}
+            <tr style="border-bottom:1px solid #ccc;border-top:1px solid #ccc;">
+              <td style="width:45%;padding-top:4%;padding-bottom:2%;">
+                {% if opt.mode == 'Fly' %}
+                    <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-plane"></i>
+                {% elif opt.mode == 'Subway' %}
+                    <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-subway"></i>
+                {% elif opt.mode == 'Bus' %}
+                    <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-bus"></i>
+                {% else %}
+                    <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-car"></i>
+                {% endif %}
+              </td>
+              <td style="width:45%;padding-top:3%;padding-bottom:2%;">
+                 {{ opt.distance }}km / {{ opt.time }}h
+              </td>
+            </tr>
           {% endfor %}
-        </section>
-        <div style=";margin-top:-3%;margin-bottom:3%;margin-left:55%; font-weight: 500;font-size:17px;">
-          <span style="cursor: pointer;color:#6b9ee8">End: </span>{{ end.place }}
-          {% if end.journey.0.mode == 'Fly' %}
-              <i style="color:#6b9ee8; cursor:pointer" onclick="opt()" id="endsym" class="fas fa-plane"> +</i>
-          {% elif end.journey.0.mode == 'Subway' %}
-              <i style="color:#6b9ee8; cursor:pointer" onclick="opt()" id="endsym" class="fas fa-subway"> +</i>
-          {% elif end.journey.0.mode == 'Bus' %}
-              <i style="color:#6b9ee8; cursor:pointer" onclick="opt()" id="endsym" class="fas fa-bus"> +</i>
-          {% else %}
-              <i style="color:#6b9ee8; cursor:pointer" onclick="opt()" id="endsym" class="fas fa-car"> +</i>
-          {% endif %}
-        </div>
-        <div style="margin-left: 25%;margin-top: -2%;display:none;" id='opts' class="travel">
-          <span style="padding:5%;color:#7a7572;font-weight:bold;">More options</span>
-          <table style="margin-left:5%;margin-top: 2%;width:90%;">
-            {% for opt in end.journey %}
-              <tr style="border-bottom:1px solid #ccc;border-top:1px solid #ccc;">
-                <td style="width:45%;padding-top:4%;padding-bottom:2%;">
-                  {% if opt.mode == 'Fly' %}
-                      <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-plane"></i>
-                  {% elif opt.mode == 'Subway' %}
-                      <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-subway"></i>
-                  {% elif opt.mode == 'Bus' %}
-                      <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-bus"></i>
-                  {% else %}
-                      <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-car"></i>
-                  {% endif %}
-                </td>
-                <td style="width:45%;padding-top:3%;padding-bottom:2%;">
-                   {{ opt.distance }}km / {{ opt.time }}h
-                </td>
-              </tr>
-            {% endfor %}
-          </table>
-        </div>
-    </td>
-    <td style="width:40%;">
-      <div id="map" style=" margin-left: -10%; margin-top: -50%;width:100%; height:400px;">
+        </table>
+      </div>
+  </div>
+  <div id="mapdiv" class="col-md-5" style="position:relative;top:27%;width:100%;">
+    <div id="map" style="margin-left:-10%;width:100%;border-radius:5px;border-style:double;border-color: #999;border-width:5px;box-sizing:border-box;height:400px;"></div>
+  </div>
+</div>
+
+<!-- <div style="width:100%;">
+<table style="width:60%;margin-right:-5%;">
+  <tr>
+    <td style="width100%;">
+
     </td>
   </tr>
 </table>
-
+<div style="position:sticky;top:0;left:0;width:40%;">
+</div>
+</div> -->
 
 <!-- cards of places -->
-<div class="" style="font-weight:bold; margin-left:22%; font-size:200%;">
+<div style="display:block;clear:both;font-weight:bold;margin-left:22%; font-size:200%;">
   Day 1: New Delhi
 </div>
 <br><br>
@@ -898,7 +919,6 @@ body {
     </tr>
   </table>
 </div>
-<p style="hidden" id="address">Hyderabad, India</p>
 <br><br><br><br><br><br><br>
 
 <script>
@@ -930,6 +950,19 @@ body {
     }
   }
 
+  window.onscroll = function() {myFunction()};
+
+  var navbar2 = document.getElementById("navbar2");
+  var sticky = navbar2.offsetTop;
+
+  function myFunction() {
+    console.log(map.getBoundingClientRect().y);
+    if (window.pageYOffset >= 480) {
+      navbar2.classList.add("sticky");
+    } else {
+      navbar2.classList.remove("sticky");
+    }
+  }
 </script>
 
 
@@ -947,6 +980,7 @@ body {
       center: {lat: -34.397, lng: 150.644}
     });
     var geocoder = new google.maps.Geocoder();
+
 
     document.getElementsByTagName('BODY')[0].onload = function(){
       var address = document.getElementsByClassName('title');
