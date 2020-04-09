@@ -241,6 +241,77 @@
 			#myUL li a:hover:not(.header) {
 				background-color: #eee;
 			}
+
+
+    /* checkboxes */
+
+    .container2 {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container2 input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container2:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container2 input:checked ~ .checkmark {
+  background-color: #ffb400;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container2 input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container2 .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
   </style>
 {% endblock %}
 {% block body %}
@@ -259,27 +330,74 @@
            
 
         </div>
-		<form method="post" enctype="multipart/form-data" action="/uploadform/insert/"  style="padding-bottom: 20%;">
+		<form method="post"  action="{% url '/home/upload' %}"  style="padding-bottom: 20%;padding-top: 5%;">
 		{% csrf_token %}
         <div class="tab-content container">
             
-                <div class="container">
+                <div class="">
 					
 					<div class="row" height="500px;">
 						<div class="col-lg-7">
 							<div class="row my-4">
-								<input type="text" placeholder="Title" name="Rname" class="input-title"  required>
+								<input type="text" placeholder="Title" name="Title" class="input-title"  required>
 							</div>
 							<div class="row my-4">
 								
 								<textarea placeholder="Describe your experience" class="desc-recipe" cols="30" rows="5" name="Description"  required></textarea>
 								<div class="row">
 									<div class="col mx-4">
-										<h4 class="txt-title">Category</h4>
-										<input type="text" class="txt-block" name="Maketime">
+                                        <h4 class="txt-title">Category</h4>
+                                        <table>
+                                        <!-- <input type="text" class="txt-block" name="Maketime"> -->
+                                       <tr> 
+                                          <td> <label class="container2">Religious
+                                            <input type="checkbox"  name="Religious">
+                                            <span class="checkmark"></span>
+                                          </label></td>
+                                          <td><label class="container2">Adventure
+                                            <input type="checkbox" name="Adventure">
+                                            <span class="checkmark"></span>
+                                          </label></td>
+                                        <td>
+                                          <label class="container2">Monument
+                                            <input type="checkbox"  name="Monument">
+                                            <span class="checkmark"></span>
+                                          </label></td>
+                                        </tr>
+                                        <tr>
+                                          <td><label class="container2">Beach
+                                            <input type="checkbox"  name="Beach">
+                                            <span class="checkmark"></span>
+                                          </label></td>
+                                         <td> <label class="container2">Hill Station
+                                            <input type="checkbox"  name="Hill Station">
+                                            <span class="checkmark"></span>
+                                          </label></td>
+                                         <td> 
+                                          <label class="container2">Shopping
+                                            <input type="checkbox"  name="Shopping">
+                                            <span class="checkmark"></span>
+                                          </label></td>
+                                        </tr>
+                                        <tr>
+                                        <td><label class="container2">Historical
+                                            <input type="checkbox"  name="Historical">
+                                            <span class="checkmark"></span>
+                                          </label></td>
+                                          <td><label class="container2">Recreational
+                                            <input type="checkbox"  name="Recreational">
+                                            <span class="checkmark"></span>
+                                          </label></td>
+                                          <td><label class="container2">Environmental
+                                            <input type="checkbox"  name="Environmental">
+                                            <span class="checkmark"></span>
+                                          </label></td>
+                                        </tr>
+                                          </table>
 									</div>
 									
-								</div>
+                                </div>
+                                
 
 							</div>
 						</div>
@@ -289,7 +407,7 @@
 						</div>
 					</div>
 				</div>
-            
+                <input type="submit" class="btn btn-outline-primary small" name="submit" value="Upload" />
            
 	</form>
     </div>

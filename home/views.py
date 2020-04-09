@@ -4,6 +4,8 @@ from boto3.dynamodb.conditions import Key, Attr
 from django.http import HttpResponse
 from django.core.mail import send_mail
 import hashlib
+import datetime
+from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render,redirect
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -379,6 +381,47 @@ def blogabout(request):
 
 def addpost(request):
     return render(request, 'addpost.html')
+    
+def upload(request):
+
+    # myfile = request.FILES['sentFile']
+    # fs = FileSystemStorage()
+    # filename = fs.save(myfile.name, myfile)
+    # f = request.FILES['sentFile']
+    # f="./media/"+str(myfile)
+    # s3 = boto3.client('s3')
+    # bucket = 'tripplannerbucket'
+
+    # file_name = str(f)
+    # key_name = str(myfile)
+    # ###
+
+    # s3.upload_file(file_name, bucket, key_name)
+
+    # bucket_location = boto3.client('s3').get_bucket_location(Bucket=bucket)
+    # link = "https://s3-ap-south-1.amazonaws.com/{0}/{1}".format(
+    #         bucket,
+    #         key_name)
+    email="saiavinash.d17@iiits.in"
+    category="monument"
+    description=request.POST.get['Description']
+    title=request.POST.get['Title']
+    dynamoDB = boto3.resource('dynamodb')
+    dynamoTable = dynamoDB.Table('blog')
+
+    scan = dynamoTable.scan()
+
+    dynamoTable.put_item(
+        Item={
+            'email': email,
+            'category': category,
+            'content':description,
+            'date':str(str(now.day) + '/' + str(now.month) + '/' + str(now.year)),
+            'title':title,
+            
+            }
+    )
+    return render(request, 'blog.html')
 
 
 def about(request):
