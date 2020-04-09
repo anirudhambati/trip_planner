@@ -381,8 +381,8 @@ def blogabout(request):
 
 def addpost(request):
     return render(request, 'addpost.html')
-    
-def upload(request):
+
+# def upload(request):
 
     # myfile = request.FILES['sentFile']
     # fs = FileSystemStorage()
@@ -402,26 +402,26 @@ def upload(request):
     # link = "https://s3-ap-south-1.amazonaws.com/{0}/{1}".format(
     #         bucket,
     #         key_name)
-    email="saiavinash.d17@iiits.in"
-    category="monument"
-    description=request.POST.get['Description']
-    title=request.POST.get['Title']
-    dynamoDB = boto3.resource('dynamodb')
-    dynamoTable = dynamoDB.Table('blog')
+    # email="saiavinash.d17@iiits.in"
+    # category="monument"
+    # description=request.POST.get['Description']
+    # title=request.POST.get['Title']
+    # dynamoDB = boto3.resource('dynamodb')
+    # dynamoTable = dynamoDB.Table('blog')
 
-    scan = dynamoTable.scan()
+    # scan = dynamoTable.scan()
 
-    dynamoTable.put_item(
-        Item={
-            'email': email,
-            'category': category,
-            'content':description,
-            'date':str(str(now.day) + '/' + str(now.month) + '/' + str(now.year)),
-            'title':title,
+    # dynamoTable.put_item(
+    #     Item={
+    #         'email': email,
+    #         'category': category,
+    #         'content':description,
+    #         'date':str(str(now.day) + '/' + str(now.month) + '/' + str(now.year)),
+    #         'title':title,
             
-            }
-    )
-    return render(request, 'blog.html')
+    #         }
+    # )
+    # return render(request, 'blog.html')
 
 
 def about(request):
