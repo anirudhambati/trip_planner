@@ -2,6 +2,123 @@
 {% load staticfiles %}
 {% load static %}
 
+{% block extrahead %}
+<style>
+  .radio {
+  margin: 0.5rem;
+}
+.radio input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+}
+.radio input[type="radio"] + .radio-label:before {
+  content: '';
+  background: #f4f4f4;
+  border-radius: 100%;
+  border: 1px solid #b4b4b4;
+  display: inline-block;
+  width: 1.4em;
+  height: 1.4em;
+  position: relative;
+  top: 0.1em;
+  margin-right: 1em;
+  vertical-align: top;
+  cursor: pointer;
+  text-align: center;
+  -webkit-transition: all 250ms ease;
+  transition: all 250ms ease;
+}
+.radio input[type="radio"]:checked + .radio-label:before {
+  background-color: #3197EE;
+  box-shadow: inset 0 0 0 4px #f4f4f4;
+}
+.radio input[type="radio"]:focus + .radio-label:before {
+  outline: none;
+  border-color: #3197EE;
+}
+.radio input[type="radio"]:disabled + .radio-label:before {
+  box-shadow: inset 0 0 0 4px #f4f4f4;
+  border-color: #b4b4b4;
+  background: #b4b4b4;
+}
+.radio input[type="radio"] + .radio-label:empty:before {
+  margin-right: 0;
+}
+
+
+.testi-wrap {
+  margin: 10px auto;
+}
+.testi-wrap:before, .testi-wrap:after {
+  content: "";
+  display: table;
+}
+.testi-wrap:after {
+  clear: both;
+}
+
+.testi {
+  background: white;
+  border-radius: 3px;
+  border: none;
+  box-shadow: 0 2px 0 0 rgba(1, 1, 1, 0.1);
+  position: relative;
+  color: #666;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+.testi:before, .testi:after {
+  position: absolute;
+  visibility: visible;
+  width: 0;
+  height: 0;
+  content: "";
+  border-style: solid;
+  border-color: transparent;
+  border-bottom: 0;
+}
+.testi:before {
+  border-width: 17px;
+  border-top-color: rgba(1, 1, 1, 0.15);
+  bottom: -17px;
+  left: 14px;
+}
+.testi:after {
+  border-width: 15px;
+  border-top-color: #fff;
+  bottom: -15px;
+  left: 16px;
+}
+.testi strong {
+  display: block;
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.testi-author {
+  display: block;
+  line-height: 1.2;
+}
+.testi-author .name {
+  color: #76b0f5;
+}
+.testi-author strong {
+  display: block;
+  font-weight: 600;
+  font-size: 22px;
+  color: #76b0f5;
+}
+.testi-author .name, .testi-author .stars {
+  display: block;
+  float: left;
+}
+</style>
+
+{% endblock %}
+
+
 {% block body %}
 
 
@@ -305,7 +422,7 @@
     <section class="ftco-section ftco-no-pb testimony-section" style="margin-top: 2%;margin-bottom: 2%;background-image: url({% static '/landing/images/bg_1.jpg' %});">
     	<div class="overlay"></div>
       <div class="container">
-        <div class="row justify-content-center mb-5 pb-3">
+        <div style="padding-bottom:0% !important;" class="row justify-content-center pb-3">
           <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
             <h2 class="mb-4">Happy Traveler Says</h2>
           </div>
@@ -314,6 +431,94 @@
           <div class="col-md-12 testimonial">
             <div class="carousel-testimony owl-carousel ftco-owl">
               <div class="item">
+                <div style="margin-bottom:9%;" class="testi-wrap">
+      						<div class="testi">
+      							<strong>"Lorem ipsum dolor..."</strong>
+      			        <p>
+      			          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis voluptas odit consectetur necessitatibus suscipit libero nam porro hic, cumque quos, aspernatur voluptatem laboriosam modi voluptatum nesciunt deleniti repellat error doloribus! Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+      			        </p>
+      						</div>
+      						<cite class="testi-author">
+      							<span class="name">
+                      <div class="row">
+                        <div class="col-10">
+                          <strong>Betty Crocker</strong>
+                        </div>
+                        <div class="col-2" style="margin-top:-3%;">
+                          <img style="border:2px solid white;width:7vh;height:7vh;float:right;border-radius:50%;" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80" alt="dp">
+                        </div>
+                      </div>
+                    </span>
+      						</cite>
+      					</div>
+              </div>
+              <div class="item">
+                <div style="margin-bottom:9%;" class="testi-wrap">
+      						<div class="testi">
+      							<strong>"Lorem ipsum dolor..."</strong>
+      			        <p>
+      			          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis voluptas odit consectetur necessitatibus suscipit libero nam porro hic, cumque quos, aspernatur voluptatem laboriosam modi voluptatum nesciunt deleniti repellat error doloribus! Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+      			        </p>
+      						</div>
+      						<cite class="testi-author">
+      							<span class="name">
+                      <div class="row">
+                        <div class="col-10">
+                          <strong>Betty Crocker</strong>
+                        </div>
+                        <div class="col-2" style="margin-top:-3%;">
+                          <img style="border:2px solid white;width:7vh;height:7vh;float:right;border-radius:50%;" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80" alt="dp">
+                        </div>
+                      </div>
+      							</span>
+      						</cite>
+      					</div>
+              </div>
+              <div class="item">
+                <div style="margin-bottom:9%;" class="testi-wrap">
+      						<div class="testi">
+      							<strong>"Lorem ipsum dolor..."</strong>
+      			        <p>
+      			          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis voluptas odit consectetur necessitatibus suscipit libero nam porro hic, cumque quos, aspernatur voluptatem laboriosam modi voluptatum nesciunt deleniti repellat error doloribus! Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+      			        </p>
+      						</div>
+      						<cite class="testi-author">
+      							<span class="name">
+                      <div class="row">
+                        <div class="col-10">
+                          <strong>Betty Crocker</strong>
+                        </div>
+                        <div class="col-2" style="margin-top:-3%;">
+                          <img style="border:2px solid white;width:7vh;height:7vh;float:right;border-radius:50%;" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80" alt="dp">
+                        </div>
+                      </div>
+      							</span>
+      						</cite>
+      					</div>
+              </div>
+              <div class="item">
+                <div style="margin-bottom:9%;" class="testi-wrap">
+      						<div class="testi">
+      							<strong>"Lorem ipsum dolor..."</strong>
+      			        <p>
+      			          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis voluptas odit consectetur necessitatibus suscipit libero nam porro hic, cumque quos, aspernatur voluptatem laboriosam modi voluptatum nesciunt deleniti repellat error doloribus! Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+      			        </p>
+      						</div>
+      						<cite class="testi-author">
+      							<span class="name">
+                      <div class="row">
+                        <div class="col-10">
+                          <strong>Betty Crocker</strong>
+                        </div>
+                        <div class="col-2" style="margin-top:-3%;">
+                          <img style="border:2px solid white;width:7vh;height:7vh;float:right;border-radius:50%;" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80" alt="dp">
+                        </div>
+                      </div>
+      							</span>
+      						</cite>
+      					</div>
+              </div>
+              <!-- <div class="item">
                 <div class="testimony-wrap img" style="background-image: url({% static '/landing/images/traveler-1.jpg' %});">
                 	<div class="overlay"></div>
                   <div class="text">
@@ -362,7 +567,7 @@
                     <span class="position">System Analyst</span>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -374,13 +579,42 @@
         <div class="container">
           <div class="row d-flex justify-content-center">
             <div class="col-md-10 text-wrap text-center heading-section ftco-animate">
-              <h2>Subcribe to our Newsletter</h2>
+              <h2>Your Valuable Feedback</h2>
               <div class="row d-flex justify-content-center mt-4 mb-4">
                 <div class="col-md-10">
-                  <form action="#" class="subscribe-form">
+                  <form action="/review/" class="subscribe-form" method="POST">
+                    {% csrf_token %}
                     <div class="form-group d-flex">
-                      <input type="text" class="form-control" placeholder="Enter email address">
-                      <input type="submit" value="Subscribe" class="submit px-3">
+                      <div class="row" style="margin-left:0%;width:100%;">
+                        <div class="col-6">
+                          <input style="border-radius: 5px 5px 5px 5px;" type="email" name="email" class="form-control" placeholder="Email address" required>
+                        </div>
+                        <div class="col-6">
+                          <input style="border-radius: 5px 5px 5px 5px;" type="text" name="title" class="form-control" placeholder="Title" required>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <div class="form-group d-flex" style="margin-top:3%;">
+                      <div class="row" style="width:100%;">
+                        <div class="col-3">
+                          <div class="radio">
+                            <input id="radio-1" name="type" value="review" type="radio">
+                            <label for="radio-1" class="radio-label">Review</label>
+                          </div>
+                        </div>
+                        <div class="col-3">
+                          <div class="radio">
+                            <input id="radio-2" name="type" value="complaint" type="radio">
+                            <label for="radio-2" class="radio-label">Complaint</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div> -->
+                    <div style="margin-top:3%;" class="form-group d-flex">
+                      <textarea class="form-control" placeholder="Your content goes here..." name="content" rows="8" cols="80" required></textarea>
+                    </div>
+                    <div style="margin-top:3%;" class="form-group d-flex">
+                      <input style="width:40%;margin-left:30%;border-radius: 5px 5px 5px 5px;" type="submit" name="submit" value="Submit" class="submit px-3">
                     </div>
                   </form>
                 </div>

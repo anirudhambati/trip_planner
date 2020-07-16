@@ -9,6 +9,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.landing, name="landing"),
     path('timeline/', views.timeline, name="timeline"),
+    path('review/', views.review, name="review"),
     path('blog/', views.blog, name='blog'),
     path('blogabout/', views.blogabout, name='blogabout'),
     path('addpost/', views.addpost, name='addpost'),
@@ -29,7 +30,8 @@ urlpatterns = [
     path('save_password/',views.save_password,name='save_password'),
     path('questions/', views.questions, name='questions'),
     path('overview/', views.overview, name='overview'),
+    path('maps/', views.maps, name='maps'),
     path('userapi/', views.loginapi.as_view(), name='userapi'),
     path('planapi/', views.planapi.as_view(), name='planapi'),
-    
+
 ]

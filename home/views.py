@@ -21,6 +21,7 @@ import json
 import urllib
 from django.conf import settings
 from django.utils.dateparse import parse_date
+from datetime import datetime
 
 countries = [
     "Afghanistan",
@@ -351,6 +352,22 @@ def questions(request):
         return redirect('/')
     return render(request, 'questions.html')
 
+def review(request):
+    if request.method == 'POST':
+        if (request.POST['email'] != '' and request.POST['title'] != '' and request.POST['content'] != ''):
+            dynamodb = boto3.resource('dynamodb')
+            table = dynamodb.Table('reviews')
+
+            table.put_item(
+                Item={
+                    'email': request.POST['email'],
+                    'review': request.POST['content'],
+                    'title': request.POST['title']
+                }
+            )
+
+    return redirect('/')
+
 def landing(request):
     if request.method == 'POST':
         if (request.POST['place'].lower() in continents) or (request.POST['place'].lower() in countries):
@@ -562,134 +579,206 @@ def activate(request, uidb64, token):
     else:
         return HttpResponse('Activation link is invalid!')
 
-def overview(request):
-    plan = {"start": 'New Delhi, India',
-            'finalplan':[
-                        {
-                            "place":"Hyderabad, India",
-                            'journey':[
-                                        {
-                                            "mode": 'Fly',
-                                            "distance": 900,
-                                            "time": 2
-                                        },
-                                        {
-                                            "mode": 'Subway',
-                                            "distance": 1900,
-                                            "time": 48
-                                        },
-                                        {
-                                            "mode": 'Car',
-                                            "distance": 1100,
-                                            "time": 24
-                                        }
-                                      ],
-                            "start": parse_date('2020-03-20'),
-                            "end": parse_date('2020-03-22'),
-                        },
-                        {
-                            "place":"Chennai, India",
-                            'journey':[
-                                        {
-                                            "mode": 'Subway',
-                                            "distance": 900,
-                                            "time": 12
-                                        },
-                                        {
-                                            "mode": 'Fly',
-                                            "distance": 900,
-                                            "time": 2
-                                        },
-                                        {
-                                            "mode": 'Car',
-                                            "distance": 1100,
-                                            "time": 14
-                                        }
-                                      ],
-                            "start": parse_date('2020-03-24'),
-                            "end": parse_date('2020-03-26'),
-                        },
-                        {
-                            "place":"Kodaikanal, India",
-                            'journey':[
-                                        {
-                                            "mode": 'Bus',
-                                            "distance": 500,
-                                            "time": 6
-                                        },
-                                        {
-                                            "mode": 'Car',
-                                            "distance": 500,
-                                            "time": 5
-                                        }
-                                      ],
-                            "start": parse_date('2020-03-27'),
-                            "end": parse_date('2020-03-29'),
-                        },
-                        {
-                            "place":"Mysuru, India",
-                            'journey':[
-                                        {
-                                            "mode": 'Bus',
-                                            "distance": 900,
-                                            "time": 6
-                                        },
-                                        {
-                                            "mode": 'Car',
-                                            "distance": 900,
-                                            "time": 7
-                                        }
-                                      ],
-                            "start": parse_date('2020-03-31'),
-                            "end": parse_date('2020-04-2'),
-                        },
-                        {
-                            "place":"Bengaluru, India",
-                            'journey':[
-                                        {
-                                            "mode": 'Car',
-                                            "distance": 100,
-                                            "time": 2
-                                        },
-                                        {
-                                            "mode": 'Bus',
-                                            "distance": 100,
-                                            "time": 3
-                                        },
-                                        {
-                                            "mode": 'Subway',
-                                            "distance": 150,
-                                            "time": 5
-                                        }
-                                      ],
-                            "start": parse_date('2020-04-3'),
-                            "end": parse_date('2020-04-5'),
-                        }
-                    ],
-             "end":{
-                        "place": "New Delhi, India",
-                        "journey":[
-                            {
-                                "mode": 'Fly',
-                                "distance": 1000,
-                                "time": 2
-                            },
-                            {
-                                "mode": 'Subway',
-                                "distance": 1900,
-                                "time": 24
-                            },
-                            {
-                                "mode": 'Car',
-                                "distance": 2000,
-                                "time": 27
-                            }
+finalplan = {"start": 'New Delhi, India',
+        'finalplan':[
+                    {
+                        "place":"Hyderabad, India",
+                        'journey':[
+                                    {
+                                        "mode": 'Fly',
+                                        "distance": 900,
+                                        "time": 2
+                                    },
+                                    {
+                                        "mode": 'Subway',
+                                        "distance": 1900,
+                                        "time": 48
+                                    },
+                                    {
+                                        "mode": 'Car',
+                                        "distance": 1100,
+                                        "time": 24
+                                    }
+                                  ],
+                        "start": parse_date('2020-03-20'),
+                        "end": parse_date('2020-03-22'),
+                        "places":[
+                                    {
+                                        "day": parse_date('2020-03-20'),
+                                        "place":[{"starttime":"10:00", "name":"Golconda Fort", "endtime":"12:00", "next":"60 min"}, {"starttime":"14:00", "name":"Charminar", "endtime":"15:00"}]
+                                    },
+                                    {
+                                        "day": parse_date('2020-03-21'),
+                                        "place":[{"starttime":"10:00", "name":"IMax", "endtime":"12:00", "next":"30 min"}, {"starttime":"13:00", "name":"Budha Statue", "endtime":"15:00", "next":"20 min"}, {"starttime":"16:00", "name":"Necklace Road", "endtime":"17:00"}]
+                                    },
+                                    {
+                                        "day": parse_date('2020-03-22'),
+                                        "place":[{"starttime":"10:00", "name":"Forum Mall", "endtime":"12:00", "next":"30 min"}, {"starttime":"13:00", "name":"Shilparamam", "endtime":"15:00", "next":"20 min"}, {"starttime":"16:00", "name":"AMB Mall", "endtime":"18:00"}]
+                                    }
                         ]
-                   }
-            }
-    return render(request, 'trip_overview.html', plan)
+                    },
+                    {
+                        "place":"Chennai, India",
+                        'journey':[
+                                    {
+                                        "mode": 'Subway',
+                                        "distance": 900,
+                                        "time": 12
+                                    },
+                                    {
+                                        "mode": 'Fly',
+                                        "distance": 900,
+                                        "time": 2
+                                    },
+                                    {
+                                        "mode": 'Car',
+                                        "distance": 1100,
+                                        "time": 14
+                                    }
+                                  ],
+                        "start": parse_date('2020-03-24'),
+                        "end": parse_date('2020-03-26'),
+                        "places":[
+                                    {
+                                        "day": parse_date('2020-03-24'),
+                                        "place":[{"starttime":"10:00", "name":"Golconda Fort", "endtime":"12:00", "next":"60min"}, {"starttime":"14:00", "name":"Charminar", "endtime":"15:00"}]
+                                    },
+                                    {
+                                        "day": parse_date('2020-03-25'),
+                                        "place":[{"starttime":"10:00", "name":"IMax", "endtime":"12:00", "next":"30min"}, {"starttime":"13:00", "name":"Budha Statue", "endtime":"15:00", "next":"20min"}, {"starttime":"16:00", "name":"Necklace Road", "endtime":"17:00"}]
+                                    },
+                                    {
+                                        "day": parse_date('2020-03-26'),
+                                        "place":[{"starttime":"10:00", "name":"Forum Mall", "endtime":"12:00", "next":"30min"}, {"starttime":"13:00", "name":"Shilparamam", "endtime":"15:00", "next":"20min"}, {"starttime":"16:00", "name":"AMB Mall", "endtime":"18:00"}]
+                                    }
+                        ]
+                    },
+                    {
+                        "place":"Kodaikanal, India",
+                        'journey':[
+                                    {
+                                        "mode": 'Bus',
+                                        "distance": 500,
+                                        "time": 6
+                                    },
+                                    {
+                                        "mode": 'Car',
+                                        "distance": 500,
+                                        "time": 5
+                                    }
+                                  ],
+                        "start": parse_date('2020-03-27'),
+                        "end": parse_date('2020-03-29'),
+                        "places":[
+                                    {
+                                        "day": parse_date('2020-03-27'),
+                                        "place":[{"starttime":"10:00", "name":"Golconda Fort", "endtime":"12:00", "next":"60min"}, {"starttime":"14:00", "name":"Charminar", "endtime":"15:00"}]
+                                    },
+                                    {
+                                        "day": parse_date('2020-03-28'),
+                                        "place":[{"starttime":"10:00", "name":"IMax", "endtime":"12:00", "next":"30min"}, {"starttime":"13:00", "name":"Budha Statue", "endtime":"15:00", "next":"20min"}, {"starttime":"16:00", "name":"Necklace Road", "endtime":"17:00"}]
+                                    },
+                                    {
+                                        "day": parse_date('2020-03-29'),
+                                        "place":[{"starttime":"10:00", "name":"Forum Mall", "endtime":"12:00", "next":"30min"}, {"starttime":"13:00", "name":"Shilparamam", "endtime":"15:00", "next":"20min"}, {"starttime":"16:00", "name":"AMB Mall", "endtime":"18:00"}]
+                                    }
+                        ]
+                    },
+                    {
+                        "place":"Mysuru, India",
+                        'journey':[
+                                    {
+                                        "mode": 'Bus',
+                                        "distance": 900,
+                                        "time": 6
+                                    },
+                                    {
+                                        "mode": 'Car',
+                                        "distance": 900,
+                                        "time": 7
+                                    }
+                                  ],
+                        "start": parse_date('2020-03-31'),
+                        "end": parse_date('2020-04-2'),
+                        "places":[
+                                    {
+                                        "day": parse_date('2020-03-31'),
+                                        "place":[{"starttime":"10:00", "name":"Golconda Fort", "endtime":"12:00", "next":"60min"}, {"starttime":"14:00", "name":"Charminar", "endtime":"15:00"}]
+                                    },
+                                    {
+                                        "day": parse_date('2020-04-1'),
+                                        "place":[{"starttime":"10:00", "name":"IMax", "endtime":"12:00", "next":"30min"}, {"starttime":"13:00", "name":"Budha Statue", "endtime":"15:00", "next":"20min"}, {"starttime":"16:00", "name":"Necklace Road", "endtime":"17:00"}]
+                                    },
+                                    {
+                                        "day": parse_date('2020-04-2'),
+                                        "place":[{"starttime":"10:00", "name":"Forum Mall", "endtime":"12:00", "next":"30min"}, {"starttime":"13:00", "name":"Shilparamam", "endtime":"15:00", "next":"20min"}, {"starttime":"16:00", "name":"AMB Mall", "endtime":"18:00"}]
+                                    }
+                        ]
+                    },
+                    {
+                        "place":"Bengaluru, India",
+                        'journey':[
+                                    {
+                                        "mode": 'Car',
+                                        "distance": 100,
+                                        "time": 2
+                                    },
+                                    {
+                                        "mode": 'Bus',
+                                        "distance": 100,
+                                        "time": 3
+                                    },
+                                    {
+                                        "mode": 'Subway',
+                                        "distance": 150,
+                                        "time": 5
+                                    }
+                                  ],
+                        "start": parse_date('2020-04-3'),
+                        "end": parse_date('2020-04-5'),
+                        "places":[
+                                    {
+                                        "day": parse_date('2020-04-3'),
+                                        "place":[{"starttime":"10:00", "name":"Golconda Fort", "endtime":"12:00", "next":"60min"}, {"starttime":"14:00", "name":"Charminar", "endtime":"15:00"}]
+                                    },
+                                    {
+                                        "day": parse_date('2020-04-4'),
+                                        "place":[{"starttime":"10:00", "name":"IMax", "endtime":"12:00", "next":"30min"}, {"starttime":"13:00", "name":"Budha Statue", "endtime":"15:00", "next":"20min"}, {"starttime":"16:00", "name":"Necklace Road", "endtime":"17:00"}]
+                                    },
+                                    {
+                                        "day": parse_date('2020-04-5'),
+                                        "place":[{"starttime":"10:00", "name":"Forum Mall", "endtime":"12:00", "next":"30min"}, {"starttime":"13:00", "name":"Shilparamam", "endtime":"15:00", "next":"20min"}, {"starttime":"16:00", "name":"AMB Mall", "endtime":"18:00"}]
+                                    }
+                        ]
+                    }
+                ],
+         "end":{
+                    "place": "New Delhi, India",
+                    "journey":[
+                        {
+                            "mode": 'Fly',
+                            "distance": 1000,
+                            "time": 2
+                        },
+                        {
+                            "mode": 'Subway',
+                            "distance": 1900,
+                            "time": 24
+                        },
+                        {
+                            "mode": 'Car',
+                            "distance": 2000,
+                            "time": 27
+                        }
+                    ]
+               }
+        }
 
+def maps(request):
+    return render(request, 'maps.html', finalplan)
 
+def overview(request):
+    return render(request, 'trip_overview.html', finalplan)
 
 class loginapi(APIView):
 
@@ -697,7 +786,7 @@ class loginapi(APIView):
         dynamodb = boto3.resource('dynamodb')
         table = dynamodb.Table('user')
         response_api = table.scan(FilterExpression=Attr('is_active').eq(True))
-    
+
         return Response(response_api['Items'])
 
 class planapi(APIView):
@@ -706,5 +795,5 @@ class planapi(APIView):
         dynamodb = boto3.resource('dynamodb')
         table = dynamodb.Table('Plans')
         response_planapi = table.scan()
-    
+
         return Response(response_planapi['Items'])

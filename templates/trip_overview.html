@@ -787,7 +787,7 @@ body {
               </div>
             </div>
             <span style="margin-top:-3.9%;margin-left:2%;" class="cd-date"><span id="btn{{ forloop.counter }}" style="cursor:pointer;color:#6b9ee8" onclick="show({{ forloop.counter }})">{{ plan.journey.0.mode }}: {{ plan.journey.0.time }}h +</span><br>{{ plan.start|date:"D, d M" }}</span>
-            <div style="display:none;" id='id{{ forloop.counter }}' class="cd-date travel">
+            <div style="overflow:visibledisplay:none;" id='id{{ forloop.counter }}' class="cd-date travel">
               <span style="padding:5%;color:#7a7572;font-weight:bold;">More options</span>
               <table style="margin-left:5%;margin-top: 2%;width:90%;">
                 {% for opt in plan.journey %}
@@ -1040,14 +1040,6 @@ body {
         this.setZoom(14);
         google.maps.event.removeListener(boundsListener);
     });
-    //path(resultsMap);
-    //console.log($_);
-  //   var locations = [
-  //   {lat: 37.772, lng: -122.214},
-  //   {lat: 21.291, lng: -157.821},
-  //   {lat: -18.142, lng: 178.431},
-  //   {lat: -27.467, lng: 153.027}
-  // ]
   }
 
 </script>
