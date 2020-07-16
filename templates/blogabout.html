@@ -3,20 +3,261 @@
 {% load static %}
 
   {% block extrahead %}
- 
+  <link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville" rel="stylesheet" type="text/css">
+  <script src="https://kit.fontawesome.com/ea0619ce99.js" crossorigin="anonymous"></script>
+
+  <style>
+    #over {
+      position:absolute;
+  width: 100%;
+  height: 450px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.3);
+  z-index: 0;
+}
+
+.btns {
+  box-sizing: border-box;
+  border-radius: 0.6em;
+  cursor: pointer;
+  display: flex;
+  align-self: center;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+  margin: 20px;
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  padding-left:1.5em;
+  padding-right:1em;
+  text-decoration: none;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  color: #fff;
+  outline: 0;
+}
+
+.like {
+  background-color: #6b9ee8;
+  border: 2px solid #6b9ee8;
+  box-shadow: 0 0 40px 40px #6b9ee8 inset;
+}
+
+.time{
+  background-color: white;
+  border: 2px solid white;
+  box-shadow: 0 0 40px 40px white inset;
+}
+
+.tags span{
+  display: inline-block;
+}
+
+.tags .tag {
+  border: 1px solid #ffd266;
+  background-color: #ffd266;
+  border-radius: 5px;
+  padding: 2px 7px;
+  color: white;
+  transition: all 300ms ease-in-out;
+  margin-bottom: 20px;
+  font-size:13px;
+}
+
+.line{
+  color: #333;
+  color: transparent;
+  text-shadow: 0 0 #333, .08em 0 0 #fff, 0 0, -.08em 0 0 #fff;
+  background: -webkit-linear-gradient(#999, #999) center 1.09em no-repeat;
+  background: linear-gradient(#999, #999) center 1.09em no-repeat;
+  background-size: 25% 1px;
+  -webkit-transition: .2s ease;
+  transition: .2s ease;
+}
+
+.td{
+  padding-top: 5%;
+  padding-bottom: 5%;
+  border-bottom: 1px solid #ccc;
+}
+  </style>
+
   {% endblock %}
   {% block body %}
   <!--================Header Menu Area =================-->
-  
+
   <!--================Header Menu Area =================-->
-  
-  <!--================ Hero sm Banner start =================-->      
+
+  <!--================ Hero sm Banner start =================-->
 
 
-  
+
 
   <!--================ Start Blog Post Area =================-->
-  <section class="blog-post-area section-margin" style="padding-top: 5%;">
+  <div style="width:100%;height:450px;background-size:100%;">
+    <img style="width:100%;height:450px;" src="{% static 'landing/blogbg.jpeg' %}" alt="">
+    <div id="over"></div>
+    <span style="font-family:oswald;position:absolute;color:white;font-size:50px;text-align: center;top:0;left:0;right:0;bottom:0;z-index:2;margin-top:11%;">This is the title</span>
+    <span style="position:absolute;color:white;text-align:center;top:0;left:0;right:0;bottom:0;z-index:2;margin-top:17%;">
+      <table style="margin-left:30%;width:40%">
+        <tr>
+          <td style="width:50%">
+            <button class="btns like" style="margin-left:20%;width:60%;"><i style="font-size:20px;" class="far fa-thumbs-up"></i> <span style="margin-left:10%;margin-top:2.5%;font-family:unset;">16 Likes</span> </button>
+          </td>
+          <td style="width:50%">
+            <button class="btns time" style="margin-left:15%;width:70%;color:#999999"><i style="font-size:20px;" class="far fa-calendar-alt"></i> <span style="margin-left:10%;margin-top:2.5%;font-family:unset;">April 11, 20</span> </button>
+          </td>
+        </tr>
+      </table>
+    </span>
+  </div>
+  <div class="row" style="width:100%;margin-top:-5%;margin-bottom:10%;z-index:10;">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-6">
+      <div class="main_blog_details" style="background-color:white;border:1px solid #ccc;border-radius:3px;box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);padding:20px;margin-left:5%;width:95%;">
+        <img class="img-fluid" src={% static "/landing/img/blog/blog1.png" %} alt="">
+          <!-- <img class="img-fluid" src="img/blog/blog4.png" alt=""> -->
+          <!-- <a href="#"><h4>Cartridge Is Better Than Ever <br /> A Discount Toner</h4></a>
+          <div class="user_details">
+            <div class="float-left">
+              <a href="#">Lifestyle</a>
+              <a href="#">Gadget</a>
+            </div>
+            <div class="float-right mt-sm-0 mt-3">
+              <div class="media">
+                <div class="media-body">
+                  <h5>Mark wiens</h5>
+                  <p>12 Dec, 2017 11:21 am</p>
+                </div>
+                <div class="d-flex">
+                  <img width="42" height="42" src="img/blog/user-img.png" alt="">
+                </div>
+              </div>
+            </div>
+          </div>
+          <p>MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction of the camp price. However, who has the willpower</p>
+          <p>MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction of the camp price. However, who has the willpower to actually sit through a self-imposed MCSE training. who has the willpower to actually sit through a self-imposed MCSE training.</p>
+     <blockquote class="blockquote">
+       <p class="mb-0">MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction of the camp price. However, who has the willpower to actually sit through a self-imposed MCSE training.</p>
+     </blockquote>
+     <p>MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction of the camp price. However, who has the willpower</p>
+     <p>MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction of the camp price. However, who has the willpower</p>
+         <div class="news_d_footer flex-column flex-sm-row">
+           <a href="#"><span class="align-middle mr-2"><i class="ti-heart"></i></span>Lily and 4 people like this</a>
+           <a class="justify-content-sm-center ml-sm-auto mt-sm-0 mt-2" href="#"><span class="align-middle mr-2"><i class="ti-themify-favicon"></i></span>06 Comments</a>
+           <div class="news_socail ml-sm-auto mt-sm-0 mt-2">
+         <a href="#"><i class="fab fa-facebook-f"></i></a>
+         <a href="#"><i class="fab fa-twitter"></i></a>
+         <a href="#"><i class="fab fa-dribbble"></i></a>
+         <a href="#"><i class="fab fa-behance"></i></a>
+       </div>
+         </div> -->
+         <div class="tags" style="margin-top:3%;margin-bottom:-1%;">
+           <span class="tag">Nature</span>
+           <span class="tag">Beachs</span>
+         </div>
+         <p style="text-align:justify;font-family:'Libre Baskerville', serif">MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction of the camp price. However, who has the willpower.<br>
+           MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction of the camp price. However, who has the willpower.<br>
+           MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction of the camp price. However, who has the willpower.<br>
+         MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction of the camp price. However, who has the willpower.<br></p>
+         <hr style="width:65%;margin-left:17.5%;">
+         <div class="row" style="width:60%;margin-left:20%;">
+           <div class="col-2">
+             <img style="border:2px solid white;width:7vh;height:7vh;border-radius:50%;" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80" alt="dp">
+           </div>
+           <div class="col-10" style="margin-top:2%;">
+             <span style="color:#6b9ee8;font-size:18px;">Roshan</span>
+             - <small>Traveller and blogger</small>
+           </div>
+         </div>
+        </div>
+    </div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-3 sidebar-widgets" style="font-family:'Libre Baskerville', serif;background-color:white;border:1px solid #ccc;border-radius:3px;box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);padding:20px;">
+      <div class="widget-wrap">
+        <div class="single-sidebar-widget post-category-widget">
+          <h4 style="text-align:center;" class="line single-sidebar-widget__title">Catgory</h4>
+          <table style="color:#666;width:90%;margin-left:5%;">
+            <tr>
+              <td class="td" style="width:90%">Technology</td>
+              <td class="td" style="width:10%">(03)</td>
+            </tr>
+            <tr>
+              <td class="td">Software</td>
+              <td class="td">(09)</td>
+            </tr>
+            <tr>
+              <td class="td">Lifestyle</td>
+              <td class="td">(12)</td>
+            </tr>
+            <tr>
+              <td class="td">Shopping</td>
+              <td class="td">(02)</td>
+            </tr>
+            <tr>
+              <td style="border:none" class="td">Food</td>
+              <td style="border:none" class="td">(10)</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="single-sidebar-widget popular-post-widget">
+          <h4 style="text-align:center;background-size: 45% 1px;margin-top:5%;" class="line single-sidebar-widget__title">Popular Posts</h4>
+          <a href="#">
+          <div class="row" style="width:114%;margin-left:-7%;padding-top:4%;background-color:#eee;padding-bottom:4%;">
+            <div class="col-4">
+              <img style="width:12vh;height:12vh;" src="{% static "/landing/img/blog/blog1.png" %}" alt="">
+            </div>
+            <div style="color:#666;line-height:1.5;" class="col-8">
+              This is another post title <br> <small style="color:#bbb">Aug 11, 20</small>
+            </div>
+          </div>
+          </a>
+          <hr style="color:#eee;width:80%;">
+          <a href="#">
+          <div class="row" style="width:114%;margin-left:-7%;padding-top:4%;background-color:#eee;padding-bottom:4%;">
+            <div class="col-4">
+              <img style="width:12vh;height:12vh;" src="{% static "/landing/img/blog/blog1.png" %}" alt="">
+            </div>
+            <div style="color:#666;line-height:1.5;" class="col-8">
+              This is another post title <br> <small style="color:#bbb">Aug 11, 20</small>
+            </div>
+          </div>
+          </a>
+          <hr style="color:#eee;width:80%;">
+          <a href="#">
+          <div class="row" style="width:114%;margin-left:-7%;padding-top:4%;background-color:#eee;padding-bottom:4%;">
+            <div class="col-4">
+              <img style="width:12vh;height:12vh;" src="{% static "/landing/img/blog/blog1.png" %}" alt="">
+            </div>
+            <div style="color:#666;line-height:1.5;" class="col-8">
+              This is another post title <br> <small style="color:#bbb">Aug 11, 20</small>
+            </div>
+          </div>
+          </a>
+          <hr style="color:#eee;width:80%;">
+          <a href="#">
+          <div class="row" style="width:114%;margin-left:-7%;padding-top:4%;background-color:#eee;padding-bottom:4%;">
+            <div class="col-4">
+              <img style="width:12vh;height:12vh;" src="{% static "/landing/img/blog/blog1.png" %}" alt="">
+            </div>
+            <div style="color:#666;line-height:1.5;" class="col-8">
+              This is another post title <br> <small style="color:#bbb">Aug 11, 20</small>
+            </div>
+          </div>
+          </a>
+        </div>
+        </div>
+    </div>
+    <div class="col-lg-1"></div>
+  </div>
+  <!-- <section class="blog-post-area section-margin" style="padding-top: 10%;">
     <div class="container">
       <div class="row">
         <div class="col-lg-8">
@@ -26,13 +267,13 @@
                 <a href="#"><h4>OOTY - Heaven on Earth <br /></h4></a>
                 <div class="user_details">
                   <div class="float-left">
-                    
+
                   </div>
                   <div class="float-right mt-sm-0 mt-3">
                     <div class="media">
-                      
+
                       <div class="d-flex">
-                     
+
                       </div>
                     </div>
                   </div>
@@ -44,11 +285,11 @@
                <div class="news_d_footer flex-column flex-sm-row">
                 <a class="justify-content-sm-center ml-sm-auto mt-sm-0 mt-2" href="#"><span class="align-middle mr-2"><i class="ti-themify-favicon"></i></span>02 Comments</a>
                  <div class="news_socail ml-sm-auto mt-sm-0 mt-2">
-               
+
              </div>
                </div>
               </div>
-          
+
 
           <div class="navigation-area">
                   <div class="row">
@@ -60,24 +301,27 @@
                               <a href="#"><span class="lnr text-white lnr-arrow-left"></span></a>
                           </div>
                           <div class="detials">
-                             
+
                           </div>
                       </div>
                       <div class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
                           <div class="detials">
-                        
+
                           </div>
                           <div class="arrow">
                               <a href="#"><span class="lnr text-white lnr-arrow-right"></span></a>
                           </div>
                           <div class="thumb">
+                            <!-- <a href="#"><img class="img-fluid" src="img/blog/next.jpg" alt=""></a>
+                        </div>
+                    </div> -->
                               <!-- <a href="#"><img class="img-fluid" src="img/blog/next.jpg" alt=""></a> -->
-                          </div>										
-                      </div>									
+                          </div>
+                      </div>
                   </div>
                 </div>
                 <div class="comments-area">
-                    
+
                     <div class="comment-list">
                         <div class="single-comment justify-content-between d-flex">
                             <div class="user justify-content-between d-flex">
@@ -93,10 +337,10 @@
                                 </div>
                             </div>
                             <div class="reply-btn">
-                                    <a href="" class="btn-reply text-uppercase">reply</a> 
+                                    <a href="" class="btn-reply text-uppercase">reply</a>
                             </div>
                         </div>
-                    </div>	
+                    </div>
                     <div class="comment-list left-padding">
                         <div class="single-comment justify-content-between d-flex">
                             <div class="user justify-content-between d-flex">
@@ -115,46 +359,46 @@
                                     <!-- <a href="" class="btn-reply text-uppercase">reply</a>  -->
                             </div>
                         </div>
-                    </div>	
+                    </div>
                     <div class="comment-list left-padding">
                         <div class="single-comment justify-content-between d-flex">
                             <div class="user justify-content-between d-flex">
                                 <div class="thumb">
                                     <!-- <img src="img/blog/c3.jpg" alt=""> -->
                                 </div>
-                               
+
                             </div>
                             <div class="reply-btn">
                                     <!-- <a href="" class="btn-reply text-uppercase">reply</a>  -->
                             </div>
                         </div>
-                    </div>	
+                    </div>
                     <div class="comment-list">
                         <div class="single-comment justify-content-between d-flex">
                             <div class="user justify-content-between d-flex">
                                 <div class="thumb">
                                     <!-- <img src="img/blog/c4.jpg" alt=""> -->
                                 </div>
-                                
+
                             </div>
                             <div class="reply-btn">
-                                 
+                                                                <!-- <a href="" class="btn-reply text-uppercase">reply</a>      -->
                             </div>
                         </div>
-                    </div>	
+                    </div>
                     <div class="comment-list">
                         <div class="single-comment justify-content-between d-flex">
                             <div class="user justify-content-between d-flex">
                                 <div class="thumb">
                                     <!-- <img src="img/blog/c5.jpg" alt=""> -->
                                 </div>
-                                
+
                             </div>
                             <div class="reply-btn">
-                                    <a href="" class="btn-reply text-uppercase">reply</a> 
+                                    <a href="" class="btn-reply text-uppercase">reply</a>
                             </div>
                         </div>
-                    </div>	                                             				
+                    </div>
                 </div>
                 <div class="comment-form">
                     <h4>Leave a Reply</h4>
@@ -165,7 +409,7 @@
                           </div>
                           <div class="form-group col-lg-6 col-md-6 email">
                             <!-- <input type="email" class="form-control" id="email" placeholder="Enter email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'"> -->
-                          </div>										
+                          </div>
                         </div>
                         <div class="form-group">
                             <!-- <input type="text" class="form-control" id="subject" placeholder="Subject" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Subject'"> -->
@@ -173,15 +417,12 @@
                         <div class="form-group">
                             <textarea class="form-control mb-10" rows="5" name="message" placeholder="Messege" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Messege'" required=""></textarea>
                         </div>
-                        <a href="#" class="button submit_btn">Post Comment</a>	
+                        <a href="#" class="button submit_btn">Post Comment</a>
                     </form>
                 </div>
         </div>
 
-        <!-- Start Blog Post Siddebar -->
-        <div class="col-lg-4 sidebar-widgets">
-            <div class="widget-wrap">
-              
+        <div class="col-lg-4">
 
 
               <div class="single-sidebar-widget post-category-widget">
@@ -227,7 +468,7 @@
                     <div class="thumb">
                       <img class="card-img rounded-0"  src={% static "/landing/img/blog/dar.jpeg" %} alt="">
                       <ul class="thumb-info">
-                       
+
                       </ul>
                     </div>
                     <div class="details mt-20">
@@ -240,7 +481,7 @@
                     <div class="thumb">
                       <img class="card-img rounded-0"  src={% static "/landing/img/blog/kodai.jpg" %} alt="">
                       <ul class="thumb-info">
-                     
+
                       </ul>
                     </div>
                     <div class="details mt-20">
@@ -267,18 +508,17 @@
                 </div>
               </div>
 
-     
+
               </div>
             </div>
           </div>
-        <!-- End Blog Post Siddebar -->
       </div>
-  </section>
+  </section> -->
 
   <!--================ End Blog Post Area =================-->
 
   <!--================ Start Footer Area =================-->
- 
+
   <!--================ End Footer Area =================-->
 
   {% endblock %}

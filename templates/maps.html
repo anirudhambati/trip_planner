@@ -2,5 +2,314 @@
 {% load staticfiles %}
 {% load static %}
 
+{% block extrahead %}
+
+<style media="screen">
+  .dates{
+    color:#6b9ee8;
+    font-size:18px;
+    cursor:pointer;
+  }
+
+  #scrollbar::-webkit-scrollbar-track
+  {
+  	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  	background-color: #F5F5F5;
+  }
+
+  #scrollbar::-webkit-scrollbar
+  {
+  	width: 5px;
+  	background-color: #F5F5F5;
+  }
+
+  #scrollbar::-webkit-scrollbar-thumb
+  {
+  	background-color: #F90;
+  }
+
+  .tooltip--left:after {
+  top: -4px;
+  left: 0;
+  -webkit-transform: translateX(-112%) translateY(0);
+          transform: translateX(-112%) translateY(0);
+}
+.tooltip--left:hover:after {
+  -webkit-transform: translateX(-110%) translateY(0);
+          transform: translateX(-110%) translateY(0);
+}
+[class^="tooltip"] {
+  position: relative;
+}
+[class^="tooltip"]:after {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  content: attr(data-tooltip);
+  padding-top: -4px;
+  padding-bottom: -4px;
+  padding-left:3px;
+  padding-right:3px;
+  top: -4px;
+  font-size:12px;
+  left: -100%;
+  overflow:visible;
+  -webkit-transform: translateX(-50%) translateY(-2px);
+          transform: translateX(-50%) translateY(-2px);
+  background: grey;
+  color: white;
+  white-space: nowrap;
+  z-index: 2;
+  border-radius: 2px;
+  -webkit-transition: opacity 0.2s cubic-bezier(0.64, 0.09, 0.08, 1), -webkit-transform 0.2s cubic-bezier(0.64, 0.09, 0.08, 1);
+  transition: opacity 0.2s cubic-bezier(0.64, 0.09, 0.08, 1), -webkit-transform 0.2s cubic-bezier(0.64, 0.09, 0.08, 1);
+  transition: opacity 0.2s cubic-bezier(0.64, 0.09, 0.08, 1), transform 0.2s cubic-bezier(0.64, 0.09, 0.08, 1);
+  transition: opacity 0.2s cubic-bezier(0.64, 0.09, 0.08, 1), transform 0.2s cubic-bezier(0.64, 0.09, 0.08, 1), -webkit-transform 0.2s cubic-bezier(0.64, 0.09, 0.08, 1);
+}
+[class^="tooltip"]:hover:after {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  -webkit-transform: translateX(-50%) translateY(0);
+          transform: translateX(-50%) translateY(0);
+}
+
+.timeline {
+  border-left: 4px solid #4298C3;
+  border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  color: black;
+  margin-left:15%;
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 0.5px;
+  position: relative;
+  line-height: 1em;
+  font-size: 1.03em;
+  padding: 20px;
+  list-style: none;
+  text-align: left;
+  font-weight: 100;
+  max-width: 90%;
+  color:#999;
+}
+.timeline h1,
+.timeline h2,
+.timeline h3 {
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 0.25px;
+  font-weight: 100;
+  font-size: 1.4em;
+}
+.timeline .event {
+  position: relative;
+}
+
+.timeline .event:last-of-type {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border: none;
+}
+.timeline .event:before,
+.timeline .event:after {
+  position: absolute;
+  top: 0;
+}
+.timeline .event:before {
+  margin-left: -75.5px;
+  top: -4px;
+  color: rgba(255, 255, 255, 0.4);
+  content: attr(data-date);
+  text-align: left;
+  font-weight: 100;
+  font-size: 0.9em;
+  min-width: 120px;
+  color: #999;
+  word-spacing:999px;
+}
+.timeline .event:after {
+  box-shadow: 0 0 0 4px #4298c3;
+  left: -26.85px;
+  background: white;
+  border-radius: 50%;
+  height: 11px;
+  width: 11px;
+  content: "";
+  top: 3px;
+}
+
+</style>
+
+<script src="https://kit.fontawesome.com/ea0619ce99.js" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
+
+{% endblock %}
+
 {% block body %}
+<body>
+
+</body>
+<div id="navbar2" style="box-shadow: 0 4px 2px -2px gray;width:100%">
+  <div style="margin-left: 26%;">
+    <a class="active" href="">Overview</a>
+    <a href="">Timeline</a>
+    <a href="">Maps</a>
+    <a href="">Where to stay</a>
+  </div>
+</div>
+<br>
+<div class="row" style="width:100%;">
+  <table style="width:100%;height:100px;">
+    <tr>
+      <td style="width:20%;">
+        <div id="scrollbar" class="row" style="overflow-y:scroll;height:460px;overflow-x:hidden;">
+          <ul style="margin-left:65%;list-style-type:none;line-height:250%;">
+            {% for plan in finalplan %}
+              {% for places in plan.places %}
+                <li class="dates"> <span class="tooltip--left" data-tooltip="{{ plan.place }}"> {{ places.day|date:"d/m" }} </span> </li>
+              {% endfor %}
+            {% endfor %}
+          </ul>
+        </div>
+      </td>
+      <td style="width:65%">
+        <div class="row" style="border:1px solid #ddd;width:100%;height:460px;padding:3%;box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);margin-left:5%;">
+          <div class="col-9">
+            <div id="map" style="width:90vh;height:66vh;"></div>
+          </div>
+          {% for plan in finalplan %}
+            {% for places in plan.places %}
+              <div style="display:none;" class="details col-3">
+                <h4 class="city">{{ plan.place }}</h4>
+                <h6>{{ places.day|date:"l, d b" }}</h6><br>
+                <ul class="timeline">
+                  {% for area in places.place %}
+                    <li class="event" data-date="{{ area.starttime }} {{ area.endtime }}">
+                      <p class="names">{{ area.name }}</p>
+                    </li>
+                    {% if area.next %}
+                      <li>
+                        <p> <small> <i class="fas fa-car">  {{ area.next }}</i> </small> </p>
+                      </li>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endfor %}
+          {% endfor %}
+        </div>
+      </td>
+      <td style="width:15%"></td>
+    </tr>
+  </table>
+</div>
+<br><br><br><br><br>
+{% endblock %}
+
+{% block extrajs %}
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCe2otGPKiUf4Qq35MmOfDWHaQm-Cjtopw&libraries=places" async defer></script>
+
+<script type="text/javascript">
+  window.onscroll = function() {myFunction()};
+
+  var navbar2 = document.getElementById("navbar2");
+  var sticky = navbar2.offsetTop;
+
+  function myFunction() {
+    if (window.pageYOffset >= 480) {
+      navbar2.classList.add("sticky");
+    } else {
+      navbar2.classList.remove("sticky");
+    }
+  }
+
+  var map;
+  var geocoder;
+
+  function renderRoute(res){
+    var directionsRenderer = new google.maps.DirectionsRenderer();
+    directionsRenderer.setMap(map);
+    directionsRenderer.setOptions({suppressMarkers:true, preserveViewport: true})
+    directionsRenderer.setDirections(res);
+  }
+
+  function initMap(i) {
+    map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 12,
+      center: {lat: -34.397, lng: 150.644}
+    });
+    geocoder = new google.maps.Geocoder();
+    var directionsService = new google.maps.DirectionsService();
+
+    var arr = new Array();
+    console.log(i);
+    var names = document.getElementsByClassName("details")[i].getElementsByClassName("names");
+    var city = document.getElementsByClassName("details")[i].getElementsByClassName("city")[0].innerHTML;
+    for(var j=0;j<names.length-1;j++){
+      directionsService.route(
+              {
+                origin: {query: names[j].innerHTML+", "+city},
+                destination: {query: names[j+1].innerHTML+", "+city},
+                travelMode: 'DRIVING'
+              },
+              function(response, status) {
+                if (status === 'OK') {
+                  renderRoute(response);
+                } else {
+                  window.alert('Directions request failed due to ' + status);
+                }
+              });
+      arr.push(names[j].innerHTML);
+    }
+    arr.push(names[names.length-1].innerHTML);
+    geocodeAddress(arr, city)
+  }
+
+  function geocodeAddress(arr, city){
+    var bounds = new google.maps.LatLngBounds();
+    for(var i=0;i<arr.length;i++){
+      geocoder.geocode({'address': arr[i]+", "+city}, function(results, status) {
+        if (status === 'OK') {
+          map.setCenter(results[0].geometry.location);
+          var lat = results[0].geometry.location.lat();
+          var lng = results[0].geometry.location.lng();
+          console.log(results);
+          var position = new google.maps.LatLng(lat, lng);
+          bounds.extend(position);
+          var marker = new google.maps.Marker({
+            map: map,
+            position: results[0].geometry.location,
+            title: results[0].address_components[0].long_name
+          });
+          map.fitBounds(bounds);
+        } else {
+          alert('Geocode was not successful for the following reason: ' + status);
+        }
+      });
+    }
+    var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
+        this.setZoom(14);
+        google.maps.event.removeListener(boundsListener);
+    });
+  }
+
+  window.onload = function(){
+    var dates = document.getElementsByClassName("dates");
+    var details = document.getElementsByClassName("details");
+
+    current = 0;
+    details[0].style.display = "block";
+    initMap(0);
+
+    for(var i=0;i<dates.length;i++) (function(i){
+      dates[i].onclick = function(){
+        details[current].style.display = "none";
+        details[i].style.display = "block";
+        current = i;
+        initMap(i);
+      }
+    })(i);
+  }
+
+</script>
 {% endblock %}
