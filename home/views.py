@@ -23,8 +23,22 @@ import json
 import urllib
 from django.conf import settings
 from django.utils.dateparse import parse_date
-from datetime import datetime
 from .models import post
+import datetime
+import pyrebase
+
+config = {
+    'apiKey': "AIzaSyDvn6TnR5SB4ZHVo90XsKvnChd0ve5C5ps",
+    'authDomain': "traveland-3a34c.firebaseapp.com",
+    'databaseURL': "https://traveland-3a34c.firebaseio.com",
+    'projectId': "traveland-3a34c",
+    'storageBucket': "traveland-3a34c.appspot.com",
+    'messagingSenderId': "832786504613",
+    'appId': "1:832786504613:web:5b3afab39839600e73664c"
+}
+
+firebase = pyrebase.initialize_app(config)
+auth = firebase.auth()
 
 countries = [
     "Afghanistan",
@@ -444,7 +458,7 @@ def addpost(request):
     #         'content':description,
     #         'date':str(str(now.day) + '/' + str(now.month) + '/' + str(now.year)),
     #         'title':title,
-            
+
     #         }
     # )
     # return render(request, 'blog.html')
@@ -466,24 +480,14 @@ def plan(request):
 
 
 def login(request):
-    # if request.method == 'POST':
-    dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table('user')
-    response_api = table.scan(FilterExpression=Attr('is_active').eq(True))
-    print("!!!!!!!!!!!!!!!!!!!!!")
-    print(response_api['Items'][0]['username'])
-    print(response_api['Items'][0]['password'])
-    print("@@@@@@@@@@@@@")
-    print("  ")
-    print("  ")
-    print("  ")
 
     email = request.POST.get('email')
     password = request.POST.get('password')
-    password=hashlib.sha256(password.encode())
-    password=password.hexdigest()
+    password = hashlib.sha256(password.encode())
+    password = password.hexdigest()
 
     recaptcha_response = request.POST.get('g-recaptcha-response')
+
     url = 'https://www.google.com/recaptcha/api/siteverify'
     values = {
         'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
@@ -498,40 +502,16 @@ def login(request):
         messages.error(request, 'Invalid reCAPTCHA. Please try again.')
         return redirect('auth')
 
-    dynamodb = boto3.resource('dynamodb')
-    if(email != '' and password!=''):
-        table = dynamodb.Table('user')
-        response = table.scan(FilterExpression=Attr('email').eq(email))
-        print(response)
-        # response = table.scan(
-        # ProjectionExpression="email,password,organizations_created,organizations_joined,username",
-        # FilterExpression=Attr('email').eq(email)
-        # )
-        print('\n\n\n')
-        print(response['Items'])
-        # print(response['Items'][0])
-
-        print('\n\n\n')
-        if(len(response['Items'])>0):
-            if(response['Items'][0]['password']==password):
-                if(response['Items'][0]['is_active']):
-
-                    request.session['username'] = response['Items'][0]['username']
-                    request.session['email']=response['Items'][0]['email']
-                    print(request.session['username'],request.session['email'])
-
-                    return redirect('home')
-                else:
-                    return redirect('verify')
-            else:
-                messages.success(request, 'Failed to login as the password does not match.')
-                return redirect('auth')
-        else:
-            messages.success(request, 'Failed to login as the email ID is not registered.')
+    try:
+        user = auth.sign_in_with_email_and_password(email, password)
+        return redirect('home')
+    except:
+        if(email != '' and password!=''):
+            messages.success(request, 'Failed to login as the email or password does not match.')
             return redirect('auth')
-    else:
-        messages.success(request, 'Failed to login as the email or password is provided empty')
-        return redirect('auth')
+        else:
+            messages.success(request, 'Failed to login as the email or password is provided empty')
+            return redirect('auth')
 
 
 def signup(request):
@@ -635,6 +615,8 @@ finalplan = {"start": 'New Delhi, India',
         'finalplan':[
                     {
                         "place":"Hyderabad, India",
+                        "lat":17.3850,
+                        "lng":78.4867,
                         'journey':[
                                     {
                                         "mode": 'Fly',
@@ -654,23 +636,89 @@ finalplan = {"start": 'New Delhi, India',
                                   ],
                         "start": parse_date('2020-03-20'),
                         "end": parse_date('2020-03-22'),
-                        "places":[
-                                    {
-                                        "day": parse_date('2020-03-20'),
-                                        "place":[{"starttime":"10:00", "name":"Golconda Fort", "endtime":"12:00", "next":"60 min"}, {"starttime":"14:00", "name":"Charminar", "endtime":"15:00"}]
-                                    },
-                                    {
-                                        "day": parse_date('2020-03-21'),
-                                        "place":[{"starttime":"10:00", "name":"IMax", "endtime":"12:00", "next":"30 min"}, {"starttime":"13:00", "name":"Budha Statue", "endtime":"15:00", "next":"20 min"}, {"starttime":"16:00", "name":"Necklace Road", "endtime":"17:00"}]
-                                    },
-                                    {
-                                        "day": parse_date('2020-03-22'),
-                                        "place":[{"starttime":"10:00", "name":"Forum Mall", "endtime":"12:00", "next":"30 min"}, {"starttime":"13:00", "name":"Shilparamam", "endtime":"15:00", "next":"20 min"}, {"starttime":"16:00", "name":"AMB Mall", "endtime":"18:00"}]
-                                    }
-                        ]
+                        "places":[{'day': datetime.date(2020, 7, 17),
+  'places': [{'starttime': '10:30',
+    'endtime': '12:00',
+    'name': 'Shilparamam',
+    'lat': 17.452573,
+    'lng': 78.3783065,
+    'next': '30min'},
+   {'starttime': '12:30',
+    'endtime': '15:00',
+    'name': 'Qutb Shahi Tombs',
+    'lat': 17.3950064,
+    'lng': 78.39675419999999,
+    'next': '15min'},
+   {'starttime': '15:15',
+    'endtime': '17:15',
+    'name': 'Golconda Fort',
+    'lat': 17.383309,
+    'lng': 78.4010528,
+    'next': '30min'},
+   {'starttime': '17:45',
+    'endtime': '20:15',
+    'name': 'Chowmahalla Palace',
+    'lat': 17.3578233,
+    'lng': 78.4716897}]},
+ {'day': datetime.date(2020, 7, 18),
+  'places': [{'starttime': '10:30',
+    'endtime': '11:30',
+    'name': 'Charminar',
+    'lat': 17.3615636,
+    'lng': 78.4746645,
+    'next': '15min'},
+   {'starttime': '11:45',
+    'endtime': '15:45',
+    'name': 'Salar Jung Museum',
+    'lat': 17.3713224,
+    'lng': 78.4803589,
+    'next': '15min'},
+   {'starttime': '16:00',
+    'endtime': '18:00',
+    'name': 'Lumbini Park',
+    'lat': 17.4098755,
+    'lng': 78.47315180000001,
+    'next': '15min'},
+   {'starttime': '18:15',
+    'endtime': '20:15',
+    'name': 'NTR Gardens',
+    'lat': 17.4124512,
+    'lng': 78.4688386}]},
+ {'day': datetime.date(2020, 7, 19),
+  'places': [{'starttime': '10:30',
+    'endtime': '11:30',
+    'name': 'Buddha Statue',
+    'lat': 17.4155657,
+    'lng': 78.474973,
+    'next': '15min'},
+   {'starttime': '11:45',
+    'endtime': '13:45',
+    'name': 'Jalavihar Water Park',
+    'lat': 17.4325926,
+    'lng': 78.4647823,
+    'next': '15min'},
+   {'starttime': '14:00',
+    'endtime': '15:00',
+    'name': 'Shri Jagannath Temple, Hyderabad',
+    'lat': 17.4151421,
+    'lng': 78.4261934,
+    'next': '15min'},
+   {'starttime': '15:15',
+    'endtime': '16:45',
+    'name': 'Kasu Brahmanandha Reddy National Park',
+    'lat': 17.4237592,
+    'lng': 78.41595199999999,
+    'next': '30min'},
+   {'starttime': '17:15',
+    'endtime': '18:45',
+    'name': 'Snow World',
+    'lat': 17.4145708,
+    'lng': 78.48092249999999}]}]
                     },
                     {
                         "place":"Chennai, India",
+                        "lat":13.0827,
+                        "lng":80.2707,
                         'journey':[
                                     {
                                         "mode": 'Subway',
@@ -690,23 +738,89 @@ finalplan = {"start": 'New Delhi, India',
                                   ],
                         "start": parse_date('2020-03-24'),
                         "end": parse_date('2020-03-26'),
-                        "places":[
-                                    {
-                                        "day": parse_date('2020-03-24'),
-                                        "place":[{"starttime":"10:00", "name":"Golconda Fort", "endtime":"12:00", "next":"60min"}, {"starttime":"14:00", "name":"Charminar", "endtime":"15:00"}]
-                                    },
-                                    {
-                                        "day": parse_date('2020-03-25'),
-                                        "place":[{"starttime":"10:00", "name":"IMax", "endtime":"12:00", "next":"30min"}, {"starttime":"13:00", "name":"Budha Statue", "endtime":"15:00", "next":"20min"}, {"starttime":"16:00", "name":"Necklace Road", "endtime":"17:00"}]
-                                    },
-                                    {
-                                        "day": parse_date('2020-03-26'),
-                                        "place":[{"starttime":"10:00", "name":"Forum Mall", "endtime":"12:00", "next":"30min"}, {"starttime":"13:00", "name":"Shilparamam", "endtime":"15:00", "next":"20min"}, {"starttime":"16:00", "name":"AMB Mall", "endtime":"18:00"}]
-                                    }
-                        ]
+                        "places":[{'day': datetime.date(2020, 7, 17),
+  'places': [{'starttime': '10:30',
+    'endtime': '12:00',
+    'name': 'Shilparamam',
+    'lat': 17.452573,
+    'lng': 78.3783065,
+    'next': '30min'},
+   {'starttime': '12:30',
+    'endtime': '15:00',
+    'name': 'Qutb Shahi Tombs',
+    'lat': 17.3950064,
+    'lng': 78.39675419999999,
+    'next': '15min'},
+   {'starttime': '15:15',
+    'endtime': '17:15',
+    'name': 'Golconda Fort',
+    'lat': 17.383309,
+    'lng': 78.4010528,
+    'next': '30min'},
+   {'starttime': '17:45',
+    'endtime': '20:15',
+    'name': 'Chowmahalla Palace',
+    'lat': 17.3578233,
+    'lng': 78.4716897}]},
+ {'day': datetime.date(2020, 7, 18),
+  'places': [{'starttime': '10:30',
+    'endtime': '11:30',
+    'name': 'Charminar',
+    'lat': 17.3615636,
+    'lng': 78.4746645,
+    'next': '15min'},
+   {'starttime': '11:45',
+    'endtime': '15:45',
+    'name': 'Salar Jung Museum',
+    'lat': 17.3713224,
+    'lng': 78.4803589,
+    'next': '15min'},
+   {'starttime': '16:00',
+    'endtime': '18:00',
+    'name': 'Lumbini Park',
+    'lat': 17.4098755,
+    'lng': 78.47315180000001,
+    'next': '15min'},
+   {'starttime': '18:15',
+    'endtime': '20:15',
+    'name': 'NTR Gardens',
+    'lat': 17.4124512,
+    'lng': 78.4688386}]},
+ {'day': datetime.date(2020, 7, 19),
+  'places': [{'starttime': '10:30',
+    'endtime': '11:30',
+    'name': 'Buddha Statue',
+    'lat': 17.4155657,
+    'lng': 78.474973,
+    'next': '15min'},
+   {'starttime': '11:45',
+    'endtime': '13:45',
+    'name': 'Jalavihar Water Park',
+    'lat': 17.4325926,
+    'lng': 78.4647823,
+    'next': '15min'},
+   {'starttime': '14:00',
+    'endtime': '15:00',
+    'name': 'Shri Jagannath Temple, Hyderabad',
+    'lat': 17.4151421,
+    'lng': 78.4261934,
+    'next': '15min'},
+   {'starttime': '15:15',
+    'endtime': '16:45',
+    'name': 'Kasu Brahmanandha Reddy National Park',
+    'lat': 17.4237592,
+    'lng': 78.41595199999999,
+    'next': '30min'},
+   {'starttime': '17:15',
+    'endtime': '18:45',
+    'name': 'Snow World',
+    'lat': 17.4145708,
+    'lng': 78.48092249999999}]}]
                     },
                     {
                         "place":"Kodaikanal, India",
+                        "lat":10.2381,
+                        "lng":77.4892,
                         'journey':[
                                     {
                                         "mode": 'Bus',
@@ -721,23 +835,89 @@ finalplan = {"start": 'New Delhi, India',
                                   ],
                         "start": parse_date('2020-03-27'),
                         "end": parse_date('2020-03-29'),
-                        "places":[
-                                    {
-                                        "day": parse_date('2020-03-27'),
-                                        "place":[{"starttime":"10:00", "name":"Golconda Fort", "endtime":"12:00", "next":"60min"}, {"starttime":"14:00", "name":"Charminar", "endtime":"15:00"}]
-                                    },
-                                    {
-                                        "day": parse_date('2020-03-28'),
-                                        "place":[{"starttime":"10:00", "name":"IMax", "endtime":"12:00", "next":"30min"}, {"starttime":"13:00", "name":"Budha Statue", "endtime":"15:00", "next":"20min"}, {"starttime":"16:00", "name":"Necklace Road", "endtime":"17:00"}]
-                                    },
-                                    {
-                                        "day": parse_date('2020-03-29'),
-                                        "place":[{"starttime":"10:00", "name":"Forum Mall", "endtime":"12:00", "next":"30min"}, {"starttime":"13:00", "name":"Shilparamam", "endtime":"15:00", "next":"20min"}, {"starttime":"16:00", "name":"AMB Mall", "endtime":"18:00"}]
-                                    }
-                        ]
+                        "places":[{'day': datetime.date(2020, 7, 17),
+  'places': [{'starttime': '10:30',
+    'endtime': '12:00',
+    'name': 'Shilparamam',
+    'lat': 17.452573,
+    'lng': 78.3783065,
+    'next': '30min'},
+   {'starttime': '12:30',
+    'endtime': '15:00',
+    'name': 'Qutb Shahi Tombs',
+    'lat': 17.3950064,
+    'lng': 78.39675419999999,
+    'next': '15min'},
+   {'starttime': '15:15',
+    'endtime': '17:15',
+    'name': 'Golconda Fort',
+    'lat': 17.383309,
+    'lng': 78.4010528,
+    'next': '30min'},
+   {'starttime': '17:45',
+    'endtime': '20:15',
+    'name': 'Chowmahalla Palace',
+    'lat': 17.3578233,
+    'lng': 78.4716897}]},
+ {'day': datetime.date(2020, 7, 18),
+  'places': [{'starttime': '10:30',
+    'endtime': '11:30',
+    'name': 'Charminar',
+    'lat': 17.3615636,
+    'lng': 78.4746645,
+    'next': '15min'},
+   {'starttime': '11:45',
+    'endtime': '15:45',
+    'name': 'Salar Jung Museum',
+    'lat': 17.3713224,
+    'lng': 78.4803589,
+    'next': '15min'},
+   {'starttime': '16:00',
+    'endtime': '18:00',
+    'name': 'Lumbini Park',
+    'lat': 17.4098755,
+    'lng': 78.47315180000001,
+    'next': '15min'},
+   {'starttime': '18:15',
+    'endtime': '20:15',
+    'name': 'NTR Gardens',
+    'lat': 17.4124512,
+    'lng': 78.4688386}]},
+ {'day': datetime.date(2020, 7, 19),
+  'places': [{'starttime': '10:30',
+    'endtime': '11:30',
+    'name': 'Buddha Statue',
+    'lat': 17.4155657,
+    'lng': 78.474973,
+    'next': '15min'},
+   {'starttime': '11:45',
+    'endtime': '13:45',
+    'name': 'Jalavihar Water Park',
+    'lat': 17.4325926,
+    'lng': 78.4647823,
+    'next': '15min'},
+   {'starttime': '14:00',
+    'endtime': '15:00',
+    'name': 'Shri Jagannath Temple, Hyderabad',
+    'lat': 17.4151421,
+    'lng': 78.4261934,
+    'next': '15min'},
+   {'starttime': '15:15',
+    'endtime': '16:45',
+    'name': 'Kasu Brahmanandha Reddy National Park',
+    'lat': 17.4237592,
+    'lng': 78.41595199999999,
+    'next': '30min'},
+   {'starttime': '17:15',
+    'endtime': '18:45',
+    'name': 'Snow World',
+    'lat': 17.4145708,
+    'lng': 78.48092249999999}]}]
                     },
                     {
                         "place":"Mysuru, India",
+                        "lat":12.2958,
+                        "lng":76.6394,
                         'journey':[
                                     {
                                         "mode": 'Bus',
@@ -752,23 +932,89 @@ finalplan = {"start": 'New Delhi, India',
                                   ],
                         "start": parse_date('2020-03-31'),
                         "end": parse_date('2020-04-2'),
-                        "places":[
-                                    {
-                                        "day": parse_date('2020-03-31'),
-                                        "place":[{"starttime":"10:00", "name":"Golconda Fort", "endtime":"12:00", "next":"60min"}, {"starttime":"14:00", "name":"Charminar", "endtime":"15:00"}]
-                                    },
-                                    {
-                                        "day": parse_date('2020-04-1'),
-                                        "place":[{"starttime":"10:00", "name":"IMax", "endtime":"12:00", "next":"30min"}, {"starttime":"13:00", "name":"Budha Statue", "endtime":"15:00", "next":"20min"}, {"starttime":"16:00", "name":"Necklace Road", "endtime":"17:00"}]
-                                    },
-                                    {
-                                        "day": parse_date('2020-04-2'),
-                                        "place":[{"starttime":"10:00", "name":"Forum Mall", "endtime":"12:00", "next":"30min"}, {"starttime":"13:00", "name":"Shilparamam", "endtime":"15:00", "next":"20min"}, {"starttime":"16:00", "name":"AMB Mall", "endtime":"18:00"}]
-                                    }
-                        ]
+                        "places":[{'day': datetime.date(2020, 7, 17),
+  'places': [{'starttime': '10:30',
+    'endtime': '12:00',
+    'name': 'Shilparamam',
+    'lat': 17.452573,
+    'lng': 78.3783065,
+    'next': '30min'},
+   {'starttime': '12:30',
+    'endtime': '15:00',
+    'name': 'Qutb Shahi Tombs',
+    'lat': 17.3950064,
+    'lng': 78.39675419999999,
+    'next': '15min'},
+   {'starttime': '15:15',
+    'endtime': '17:15',
+    'name': 'Golconda Fort',
+    'lat': 17.383309,
+    'lng': 78.4010528,
+    'next': '30min'},
+   {'starttime': '17:45',
+    'endtime': '20:15',
+    'name': 'Chowmahalla Palace',
+    'lat': 17.3578233,
+    'lng': 78.4716897}]},
+ {'day': datetime.date(2020, 7, 18),
+  'places': [{'starttime': '10:30',
+    'endtime': '11:30',
+    'name': 'Charminar',
+    'lat': 17.3615636,
+    'lng': 78.4746645,
+    'next': '15min'},
+   {'starttime': '11:45',
+    'endtime': '15:45',
+    'name': 'Salar Jung Museum',
+    'lat': 17.3713224,
+    'lng': 78.4803589,
+    'next': '15min'},
+   {'starttime': '16:00',
+    'endtime': '18:00',
+    'name': 'Lumbini Park',
+    'lat': 17.4098755,
+    'lng': 78.47315180000001,
+    'next': '15min'},
+   {'starttime': '18:15',
+    'endtime': '20:15',
+    'name': 'NTR Gardens',
+    'lat': 17.4124512,
+    'lng': 78.4688386}]},
+ {'day': datetime.date(2020, 7, 19),
+  'places': [{'starttime': '10:30',
+    'endtime': '11:30',
+    'name': 'Buddha Statue',
+    'lat': 17.4155657,
+    'lng': 78.474973,
+    'next': '15min'},
+   {'starttime': '11:45',
+    'endtime': '13:45',
+    'name': 'Jalavihar Water Park',
+    'lat': 17.4325926,
+    'lng': 78.4647823,
+    'next': '15min'},
+   {'starttime': '14:00',
+    'endtime': '15:00',
+    'name': 'Shri Jagannath Temple, Hyderabad',
+    'lat': 17.4151421,
+    'lng': 78.4261934,
+    'next': '15min'},
+   {'starttime': '15:15',
+    'endtime': '16:45',
+    'name': 'Kasu Brahmanandha Reddy National Park',
+    'lat': 17.4237592,
+    'lng': 78.41595199999999,
+    'next': '30min'},
+   {'starttime': '17:15',
+    'endtime': '18:45',
+    'name': 'Snow World',
+    'lat': 17.4145708,
+    'lng': 78.48092249999999}]}]
                     },
                     {
                         "place":"Bengaluru, India",
+                        "lat":12.9716,
+                        "lng":77.5946,
                         'journey':[
                                     {
                                         "mode": 'Car',
@@ -788,20 +1034,84 @@ finalplan = {"start": 'New Delhi, India',
                                   ],
                         "start": parse_date('2020-04-3'),
                         "end": parse_date('2020-04-5'),
-                        "places":[
-                                    {
-                                        "day": parse_date('2020-04-3'),
-                                        "place":[{"starttime":"10:00", "name":"Golconda Fort", "endtime":"12:00", "next":"60min"}, {"starttime":"14:00", "name":"Charminar", "endtime":"15:00"}]
-                                    },
-                                    {
-                                        "day": parse_date('2020-04-4'),
-                                        "place":[{"starttime":"10:00", "name":"IMax", "endtime":"12:00", "next":"30min"}, {"starttime":"13:00", "name":"Budha Statue", "endtime":"15:00", "next":"20min"}, {"starttime":"16:00", "name":"Necklace Road", "endtime":"17:00"}]
-                                    },
-                                    {
-                                        "day": parse_date('2020-04-5'),
-                                        "place":[{"starttime":"10:00", "name":"Forum Mall", "endtime":"12:00", "next":"30min"}, {"starttime":"13:00", "name":"Shilparamam", "endtime":"15:00", "next":"20min"}, {"starttime":"16:00", "name":"AMB Mall", "endtime":"18:00"}]
-                                    }
-                        ]
+                        "places":[{'day': datetime.date(2020, 7, 17),
+  'places': [{'starttime': '10:30',
+    'endtime': '12:00',
+    'name': 'Shilparamam',
+    'lat': 17.452573,
+    'lng': 78.3783065,
+    'next': '30min'},
+   {'starttime': '12:30',
+    'endtime': '15:00',
+    'name': 'Qutb Shahi Tombs',
+    'lat': 17.3950064,
+    'lng': 78.39675419999999,
+    'next': '15min'},
+   {'starttime': '15:15',
+    'endtime': '17:15',
+    'name': 'Golconda Fort',
+    'lat': 17.383309,
+    'lng': 78.4010528,
+    'next': '30min'},
+   {'starttime': '17:45',
+    'endtime': '20:15',
+    'name': 'Chowmahalla Palace',
+    'lat': 17.3578233,
+    'lng': 78.4716897}]},
+ {'day': datetime.date(2020, 7, 18),
+  'places': [{'starttime': '10:30',
+    'endtime': '11:30',
+    'name': 'Charminar',
+    'lat': 17.3615636,
+    'lng': 78.4746645,
+    'next': '15min'},
+   {'starttime': '11:45',
+    'endtime': '15:45',
+    'name': 'Salar Jung Museum',
+    'lat': 17.3713224,
+    'lng': 78.4803589,
+    'next': '15min'},
+   {'starttime': '16:00',
+    'endtime': '18:00',
+    'name': 'Lumbini Park',
+    'lat': 17.4098755,
+    'lng': 78.47315180000001,
+    'next': '15min'},
+   {'starttime': '18:15',
+    'endtime': '20:15',
+    'name': 'NTR Gardens',
+    'lat': 17.4124512,
+    'lng': 78.4688386}]},
+ {'day': datetime.date(2020, 7, 19),
+  'places': [{'starttime': '10:30',
+    'endtime': '11:30',
+    'name': 'Buddha Statue',
+    'lat': 17.4155657,
+    'lng': 78.474973,
+    'next': '15min'},
+   {'starttime': '11:45',
+    'endtime': '13:45',
+    'name': 'Jalavihar Water Park',
+    'lat': 17.4325926,
+    'lng': 78.4647823,
+    'next': '15min'},
+   {'starttime': '14:00',
+    'endtime': '15:00',
+    'name': 'Shri Jagannath Temple, Hyderabad',
+    'lat': 17.4151421,
+    'lng': 78.4261934,
+    'next': '15min'},
+   {'starttime': '15:15',
+    'endtime': '16:45',
+    'name': 'Kasu Brahmanandha Reddy National Park',
+    'lat': 17.4237592,
+    'lng': 78.41595199999999,
+    'next': '30min'},
+   {'starttime': '17:15',
+    'endtime': '18:45',
+    'name': 'Snow World',
+    'lat': 17.4145708,
+    'lng': 78.48092249999999}]}]
                     }
                 ],
          "end":{

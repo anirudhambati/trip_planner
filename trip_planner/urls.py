@@ -36,6 +36,7 @@ urlpatterns = [
     path('maps/', views.maps, name='maps'),
     path('userapi/', views.loginapi.as_view(), name='userapi'),
     path('planapi/', views.planapi.as_view(), name='planapi'),
+    path('accounts/', include('allauth.urls')),
 
 ]
 

@@ -719,7 +719,6 @@ body {
 <link href='//fonts.googleapis.com/css?family=Roboto:200,400,600' rel='stylesheet' type='text/css'>
 <script src="https://kit.fontawesome.com/ea0619ce99.js" crossorigin="anonymous"></script>
 
-
 {% endblock %}
 
 {% block body %}
@@ -729,7 +728,6 @@ body {
       <a class="active" href="">Overview</a>
       <a href="">Timeline</a>
       <a href="">Maps</a>
-      <a href="">Where to stay</a>
     </div>
   </div><br><br>
 <br>
@@ -760,6 +758,7 @@ body {
               <div class="option">
                 <input type="checkbox" id="toggle{{ forloop.counter }}" class="toggle" />
                 <label class="title" for="toggle{{ forloop.counter }}">{{ plan.place }}
+                <span class="latlng" style="display:none">{{ plan.lat }} {{ plan.lng }}</span>
                 </label>
                 <div class="content">
                   <table style="width:100%;">
@@ -787,12 +786,12 @@ body {
               </div>
             </div>
             <span style="margin-top:-3.9%;margin-left:2%;" class="cd-date"><span id="btn{{ forloop.counter }}" style="cursor:pointer;color:#6b9ee8" onclick="show({{ forloop.counter }})">{{ plan.journey.0.mode }}: {{ plan.journey.0.time }}h +</span><br>{{ plan.start|date:"D, d M" }}</span>
-            <div style="overflow:visibledisplay:none;" id='id{{ forloop.counter }}' class="cd-date travel">
+            <div style="overflow:visible;display:none;width:60%;" id='id{{ forloop.counter }}' class="cd-date travel">
               <span style="padding:5%;color:#7a7572;font-weight:bold;">More options</span>
               <table style="margin-left:5%;margin-top: 2%;width:90%;">
                 {% for opt in plan.journey %}
                   <tr style="border-bottom:1px solid #ccc;border-top:1px solid #ccc;">
-                    <td style="width:45%;padding-top:4%;padding-bottom:2%;">
+                    <td style="width:35%;padding-top:4%;padding-bottom:2%;">
                       {% if opt.mode == 'Fly' %}
                           <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-plane"></i>
                       {% elif opt.mode == 'Subway' %}
@@ -803,7 +802,7 @@ body {
                           <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-car"></i>
                       {% endif %}
                     </td>
-                    <td style="width:45%;padding-top:3%;padding-bottom:2%;">
+                    <td style="width:55%;padding-top:3%;padding-bottom:2%;">
                        {{ opt.distance }}km / {{ opt.time }}h
                     </td>
                   </tr>
@@ -826,12 +825,12 @@ body {
             <i style="color:#6b9ee8; cursor:pointer" onclick="opt()" id="endsym" class="fas fa-car"> +</i>
         {% endif %}
       </div>
-      <div style="margin-left: 25%;margin-top: -2%;display:none;" id='opts' class="travel">
+      <div style="width:30%;margin-left: 50%;margin-top: -2%;display:none;margin-bottom:5%;" id='opts' class="travel">
         <span style="padding:5%;color:#7a7572;font-weight:bold;">More options</span>
         <table style="margin-left:5%;margin-top: 2%;width:90%;">
           {% for opt in end.journey %}
             <tr style="border-bottom:1px solid #ccc;border-top:1px solid #ccc;">
-              <td style="width:45%;padding-top:4%;padding-bottom:2%;">
+              <td style="width:35%;padding-top:4%;padding-bottom:2%;">
                 {% if opt.mode == 'Fly' %}
                     <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-plane"></i>
                 {% elif opt.mode == 'Subway' %}
@@ -842,7 +841,7 @@ body {
                     <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-car"></i>
                 {% endif %}
               </td>
-              <td style="width:45%;padding-top:3%;padding-bottom:2%;">
+              <td style="width:55%;padding-top:3%;padding-bottom:2%;">
                  {{ opt.distance }}km / {{ opt.time }}h
               </td>
             </tr>
@@ -855,19 +854,6 @@ body {
   </div>
 </div>
 
-<!-- <div style="width:100%;">
-<table style="width:60%;margin-right:-5%;">
-  <tr>
-    <td style="width100%;">
-
-    </td>
-  </tr>
-</table>
-<div style="position:sticky;top:0;left:0;width:40%;">
-</div>
-</div> -->
-
-<!-- cards of places -->
 <div style="display:block;clear:both;font-weight:bold;margin-left:22%; font-size:200%;">
   Day 1: New Delhi
 </div>
@@ -926,7 +912,7 @@ body {
   function show(num){
     var div = document.getElementById('id'+num.toString());
     var text = document.getElementById('btn'+num.toString()).innerHTML;
-    console.log(num);
+    //console.log(num);
     if (text[text.length-1] == '+'){
       text = text.slice(0, text.length-1) + '-';
       div.style.display = 'block';
@@ -956,7 +942,7 @@ body {
   var sticky = navbar2.offsetTop;
 
   function myFunction() {
-    console.log(map.getBoundingClientRect().y);
+    //console.log(map.getBoundingClientRect().y);
     if (window.pageYOffset >= 480) {
       navbar2.classList.add("sticky");
     } else {
@@ -964,7 +950,6 @@ body {
     }
   }
 </script>
-
 
 {% endblock %}
 
@@ -979,67 +964,40 @@ body {
       zoom: 12,
       center: {lat: -34.397, lng: 150.644}
     });
-    var geocoder = new google.maps.Geocoder();
 
-
-    document.getElementsByTagName('BODY')[0].onload = function(){
-      var address = document.getElementsByClassName('title');
-      geocodeAddress(geocoder, map, address);
+    var latlngs = document.getElementsByClassName('latlng');
+    var names = document.getElementsByClassName('title');
+    pointer_list = [];
+    for(var i=0;i<latlngs.length;i++){
+      latlng = latlngs[i].innerHTML.split(" ");
+      pointer_list.push({lat:parseFloat(latlng[0]), lng:parseFloat(latlng[1])});
     }
-  }
+    mark_pointers(map, pointer_list, names);
 
-  function path(add, map){
-      console.log(locations);
-      console.log(locations.length);
-      var temp = [];
-      for(var i=0;i<add.length;i++){
-          for(var j=0;j<locations.length;j++){
-              if (add[i].innerHTML.split(',')[0] === locations[j].name){
-                  temp.push({lat:locations[j].lat, lng:locations[j].lng})
-                  break;
-              }
-          }
-      }
-      console.log(temp);
-      var flightPath = new google.maps.Polyline({
-        path: temp,
-        geodesic: true,
-        strokeColor: '#FF0000',
-        strokeOpacity: 1.0,
-        strokeWeight: 2
-      });
-      flightPath.setMap(map);
-  }
-
-  function geocodeAddress(geocoder, resultsMap, address) {
-    var bounds = new google.maps.LatLngBounds();
-    for(var i=0;i<address.length;i++){
-      geocoder.geocode({'address': address[i].innerHTML}, function(results, status) {
-        if (status === 'OK') {
-          resultsMap.setCenter(results[0].geometry.location);
-          var lat = results[0].geometry.location.lat();
-          var lng = results[0].geometry.location.lng();
-          var position = new google.maps.LatLng(lat, lng);
-          locations.push({lat:lat, lng:lng, name:results[0].address_components[0].long_name})
-          bounds.extend(position);
-          var marker = new google.maps.Marker({
-            map: resultsMap,
-            position: results[0].geometry.location,
-            title: results[0].address_components[0].long_name
-          });
-          resultsMap.fitBounds(bounds);
-          if (locations.length == address.length){
-              path(address, resultsMap);
-          }
-        } else {
-          alert('Geocode was not successful for the following reason: ' + status);
-        }
-      });
-    }
-    var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
-        this.setZoom(14);
-        google.maps.event.removeListener(boundsListener);
+    var flightPath = new google.maps.Polyline({
+      path: pointer_list,
+      geodesic: true,
+      strokeColor: '#FF0000',
+      strokeOpacity: 1.0,
+      strokeWeight: 2
     });
+    flightPath.setMap(map);
+
+  }
+
+  function mark_pointers(map, list, names){
+    var bounds = new google.maps.LatLngBounds();
+    for(var i=0;i<list.length;i++){
+      var position = new google.maps.LatLng(parseFloat(list[i].lat), parseFloat(list[i].lng));
+      map.setCenter(position);
+      bounds.extend(position);
+      var marker = new google.maps.Marker({
+        position: position,
+        title: names[i].innerHTML.split('<')[0]
+      });
+      map.fitBounds(bounds);
+      marker.setMap(map);
+    }
   }
 
 </script>
