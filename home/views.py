@@ -23,6 +23,7 @@ import json
 import urllib
 from django.conf import settings
 from django.utils.dateparse import parse_date
+from .models import post
 import datetime
 import pyrebase
 
@@ -404,7 +405,15 @@ def landing(request):
     return render(request, 'index.html')
 
 def blog(request):
-    return render(request, 'blog2.html')
+    queryset = post.objects.filter(featured=True)
+    latest = post.objects.order_by('-timestamp')[0:3]
+    context = {
+        'object_list': queryset,
+        'latest': latest,
+    }
+    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    print(queryset)
+    return render(request, 'blog3.html', context)
 
 
 def blogabout(request):
