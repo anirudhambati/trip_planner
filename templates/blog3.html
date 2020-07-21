@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extrahead %}
+
+<style>
+    .main{
+        width: 45%;
+        align-items: center ;
+    }
+.image{
+    width: 25%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    max-width: 40px;
+
+
+}
+
+</style>
+
+{% endblock%}
+{% block body%}
+<header class="header_area" style="margin-top: 5%;"></header>
+        <!-- Post-->
+        {% for obj in object_list %}
+        <div class="main">
+          {% if not forloop.first and not forloop.last %}
+          <div class="image"><img src="{{ obj.image.url }}" alt="hi"></div>
+          {% endif %}
+          <div class="text col-lg-7">
+            <div class="text-inner d-flex align-items-center">
+              <div class="content">
+                <header class="post-header">
+                  <div class="category">
+                    {% for cat in obj.categories.all %}
+                    <a href="#">{{ cat }}</a>
+                    {% endfor %}
+                  </div>
+                  <a href="post.html">
+                    <h2 class="h4">{{ obj.title }}</h2>
+                    </a>
+                </header>
+                <p>{{ obj.overview|linebreaks|truncatechars:200 }}</p>
+                <footer class="post-footer d-flex align-items-center"><a href="#" class="author d-flex align-items-center flex-wrap">
+                   
+                    <div class="title"><span>{{ obj.author }}</span></div></a>
+                  <div class="date"><i class="icon-clock"></i> {{ obj.timestamp|timesince }} ago</div>
+                  <div class="comments"><i class="icon-comment"></i>{{ obj.comment_count }}</div>
+                </footer>
+              </div>
+            </div>
+          </div>
+          {% if forloop.first or forloop.last %}
+             <div class="image"><img src="{{ obj.image.url }}" alt="..."></div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    <!-- Divider Section-->
+   
+    <!-- Latest Posts -->
+    <section class="latest-posts"> 
+      <div class="container">
+        <header> 
+          <h2>Latest from the blog</h2>
+         
+        </header>
+        <div class="row">
+          {% for obj in latest %}
+          <div >
+            <div ><a href="#"><img src="{{ obj.image.url }}" alt="..." class="image"></a></div>
+            <div class="post-details">
+              <div class="post-meta d-flex justify-content-between">
+                <div class="date">{{ obj.timestamp }}</div>
+                <div class="category">
+                  {% for cat in obj.categories.all %}
+                  <a href="#">{{ cat }}</a>
+                  {% endfor %}
+                  </div>
+              </div><a href="#">
+                <h3 class="h4">{{ obj.title }}</h3></a>
+              <p class="text-muted">{{ obj.overview|linebreaks|truncatechars:200 }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+   
+   
+
+{% endblock %}
