@@ -2,348 +2,832 @@
 {% load staticfiles %}
 {% load static %}
 
-  {% block extrahead %}
+{% block extrahead %}
 
+<style>
+  @font-face {
+  font-family: Gilroy-Bold;
+  src: local(
+      "https://dj4bodrxy955u.cloudfront.net/fonts/Gilroy/Gilroy-Bold.otf"
+    ),
+    url(https://dj4bodrxy955u.cloudfront.net/fonts/Gilroy/Gilroy-Bold.otf)
+      format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: Gilroy-Medium;
+  src: local(
+      "https://dj4bodrxy955u.cloudfront.net/fonts/Gilroy/Gilroy-Medium.otf"
+    ),
+    url(https://dj4bodrxy955u.cloudfront.net/fonts/Gilroy/Gilroy-Medium.otf)
+      format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration: none !important;
+  color: black;
+}
+.best-post {
+  width: 100%;
+  height: 20em;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+  border-radius: 15px;
+  transition: 0.75s;
+}
+.best-post:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  background-color: #fff;
+}
+
+.best-post:hover .best-post-image {
+  border-radius: 15px 0 0 15px;
+}
+.best-post-image {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  margin-right: 25px;
+  transition: 0.75s;
+}
+.best-post-content {
+  padding-right:2%;
+}
+
+.best-post-content-cat {
+  padding: 6px 15px;
+  background: #6b9ee8;
+  border-radius: 9999px;
+  width: fit-content;
+  margin-bottom: 15px;
+  text-align: center;
+  line-height: 1.5;
+  font-family: Gilroy-Medium;
+  color: #f3f3f3;
+  font-size: 15px;
+}
+
+.best-post-content-title {
+  font-family: Gilroy-Bold;
+  font-size: 3rem;
+  margin-bottom: 15px;
+  line-height: 1;
+  color: #1d291f;
+  transition: 0.75s;
+}
+
+.best-post-content-title:hover{
+  color: #ffb400;
+}
+
+.best-post-content-sub {
+  font-size: 15px;
+  margin-bottom: 15px;
+  line-height: 1.5;
+  color: #1d291f;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.post__card-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  max-width: 23.1rem;
+  float: left;
+  transition: 0.75s;
+}
+
+.post__card_-2 {
+  overflow: hidden;
+  border-radius: 15px;
+}
+.post__card_-2:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  background-color: #fff;
+}
+.post__card__image-2 {
+  height: 14rem;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  border-radius: 15px;
+  transition: 0.75s;
+}
+
+.post__card-2:hover .post__card__image-2 {
+  border-radius: 15px 15px 0 0;
+}
+
+.post__card_meta-2 {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+.post__card_cat {
+  padding: 2px 15px;
+  font-size: 14px;
+  line-height: 1.5;
+  background: #6b9ee8;
+  width: fit-content;
+  border-radius: 9999px;
+  text-align: center;
+  font-family: Gilroy-Medium;
+  color: #f3f3f3;
+  margin-bottom: 7px;
+}
+.post__card_title-2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  font-family: Gilroy-Bold;
+  line-height: 1;
+  margin-bottom: 7px;
+}
+
+.post__card_alttitle-2 {
+  color: #4a5568;
+  margin: 0;
+  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 1.125rem;
+  margin-bottom: 7px;
+}
+.row {
+  margin: 0 !important;
+}
+
+@media screen and (max-width: 500px) {
+  .post__card-2 {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .best-post {
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+    border-radius: 15px;
+    transition: 0.75s;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .best-post-image {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    border-radius: 15px;
+    margin-right: 25px;
+    transition: 0.75s;
+    margin-bottom: 15px;
+    height: 14em;
+  }
+  .best-post-content-cat {
+    margin-bottom: 15px;
+  }
+  .best-post:hover .best-post-image {
+    border-radius: 15px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .post__card-2 {
+    width: 50%;
+    max-width: 50%;
+  }
+}
+
+@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Inter:700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Maven+Pro&display=swap");
+body {
+  margin: 0;
+  padding: 0;
+}
+.header {
+  width: 100%;
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  display: block;
+  left: 0;
+  right: 0;
+}
+.back {
+  font-family: "Montserrat", sans-serif;
+  padding-left: 4rem;
+  padding-top: 1.5rem;
+  display: block;
+  float: left;
+  font-size: 24px;
+}
+dribbble {
+  float: right;
+  padding-right: 4rem;
+  padding-top: 1.5rem;
+  display: block;
+}
+
+.main {
+  text-align: center;
+  padding-top: 5rem;
+}
+.main h5 {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  letter-spacing: 2px;
+  margin: 0;
+}
+.main h1 {
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  margin: 0.75rem 2rem 0.75rem;
+}
+.main .authorlink {
+  text-align: center;
+  font-size: 16px;
+  color: #0875ff;
+  text-decoration: none;
+  margin-bottom: 2rem;
+  display: block;
+  font-family: sans-serif;
+}
+.main figure {
+  width: 100%;
+  margin: 0 auto;
+}
+img {
+  width: 100%;
+}
+
+.fl {
+  float: left;
+}
+
+.main .share {
+  height: 60px;
+  display: flex;
+  position: absolute;
+  background: white;
+  padding-top: 0.75rem;
+  padding-left: 1rem;
+  padding-bottom: 0.75rem;
+  align-items: center;
+  justify-content: center;
+}
+.main .share a {
+  text-decoration: none;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-right: 1rem;
+}
+
+.main .share a svg {
+  width: 12px;
+  height: 12px;
+  text-align: center;
+  margin: 0 auto;
+  display: inline-block;
+}
+content {
+  font-family: "Maven Pro", sans-serif;
+  text-align: left;
+  width: 100%;
+  display: block;
+  margin: 1rem 0 0 0rem;
+  line-height: 1.5;
+}
+content h1,
+h2,
+h3 {
+  font-family: "Inter", sans-serif;
+  margin: 0 !important;
+}
+
+#over {
+  position:absolute;
+width: 100%;
+height: 430px;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: rgba(0,0,0,0.3);
+z-index: 0;
+}
+
+.line{
+  color: #333;
+  color: transparent;
+  text-shadow: 0 0 #333, .08em 0 0 #fff, 0 0, -.08em 0 0 #fff;
+  background: -webkit-linear-gradient(#999, #999) center 1.09em no-repeat;
+  background: linear-gradient(#999, #999) center 1.09em no-repeat;
+  background-size: 25% 1px;
+  -webkit-transition: .2s ease;
+  transition: .2s ease;
+}
+
+.td{
+  padding-top: 5%;
+  padding-bottom: 5%;
+  border-bottom: 1px solid #ccc;
+}
+
+.btns{
+  display: table;
+  margin: 30px auto;
+}
+.customNextBtn, .customPreviousBtn{
+      float: right;
+    background: #2d9070;
+    color: #fff;
+    padding: 10px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.fancy-button {
+  position: relative;
+  color: #fff;
+  border: 1px solid;
+  margin: 5px;
+  padding: 10px 25px;
+  text-decoration: none;
+  display: block;
+  outline: none;
+  line-height: 100%;
+  overflow: hidden;
+  height: 40px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.fancy-button:hover {
+  text-decoration: none;
+}
+.fancy-button .icon {
+  float: right;
+}
+.fancy-button.icon{
+display: inline-block;
+}
+.fancy-button:active .icon,
+.fancy-button:focus .icon {
+  -webkit-transform: scale(0.75);
+  -moz-transform: scale(0.75);
+  -o-transform: scale(0.75);
+  transform: scale(0.75);
+}
+.medium {
+  padding: 10px 25px;
+  font-size: 1.15em;
+}
+.pomegranate {
+  background-color: #ffb400;
+}
+.pomegranate:hover {
+  color: #ffb400;
+  background-color: #fff;
+}
+.half-left-rounded {
+  border-bottom-right-radius: 15px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.half-right-rounded {
+  border-bottom-right-radius: 5px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+.expand {
+  -webkit-transition: all 0.35s ease;
+  -moz-transition: all 0.35s ease;
+  -o-transition: all 0.35s ease;
+  transition: all 0.35s ease;
+}
+.expand:hover {
+  -webkit-animation: expand 0.15s forwards linear;
+  -moz-animation: expand 0.15s forwards linear;
+  -o-animation: expand 0.15s forwards linear;
+  animation: expand 0.15s forwards linear;
+}
+
+@-webkit-keyframes expand {
+  to {
+    -webkit-transform: scale(1.1);
+  }
+}
+@-moz-keyframes expand {
+  to {
+    -moz-transform: scale(1.1);
+  }
+}
+@-o-keyframes expand {
+  to {
+    -o-transform: scale(1.1);
+  }
+}
+@keyframes expand {
+  to {
+    transform: scale(1.1);
+  }
+}
+
+</style>
+
+<link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Libre+Baskerville" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 
 {% endblock %}
 {% block body %}
-  <!--================Header Menu Area =================-->
-  <header class="header_area" style="margin-top: 5%;">
-   
-  </header>
-  <!--================Header Menu Area =================-->
-  
-  <main class="site-main">
-    <!--================Hero Banner start =================-->  
-    <section class="mb-30px">
-      <div class="container">
-        <div class="hero-banner">
-          <div class="hero-banner__content">
-            <h3>Tours & Travels</h3>
-            <h1>Amazing Places on earth</h1>
-            
-          </div>
+
+<div style="width:100%;height:430px;background-size:100%;">
+  <img style="width:100%;height:430px;" src="{% static 'landing/bgimg.jpg' %}" alt="">
+  <div id="over"></div>
+  <span style="font-family:oswald;position:absolute;color:white;font-size:56px;text-align: center;top:0;left:0;right:0;bottom:0;z-index:2;margin-top:12%;">Travel Diaries</span>
+  <span style="position:absolute;color:white;text-align:center;top:0;left:0;right:0;bottom:0;z-index:2;margin-top:17%;">
+  </span>
+</div>
+
+<div class="row" style="width:100%;margin-top:-4%!important;margin-bottom:10%;z-index:10;">
+  <div style="margin-left:-3%;" class="col-lg-9">
+    <div class="your-class main_blog_details" style="background-color:white;border:1px solid #ccc;border-radius:3px;box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);padding:20px;margin-left:5%;width:95%;">
+      <div class="slides" id="slide0">
+        <div id="blog">
+           <div>
+              <header></header>
+              <div class="container pt-3">
+                 <div class="row">
+                    <a href="/lorem-ipsum-dolor-sit-amet-consectetur">
+                       <article class="best-post">
+                          <div class="best-post-image" style="background-image: url(&quot;https://mir-s3-cdn-cf.behance.net/projects/404/396f5591178321.Y3JvcCwxMjk0LDEwMTIsMCwzODQ.png&quot;);"></div>
+                          <div class="best-post-content">
+                             <div class="best-post-content-cat">videograper</div>
+                             <div class="best-post-content-title">Lorem ipsum dolor sit amet, consectetur 1</div>
+                             <div class="best-post-content-sub">Lorem Ipsum, masaüstü yayıncılık ve basın yayın sektöründe kullanılan taklit yazı bloğu olarak tanımlanır. Lipsum, oluşturulacak şablon ve taslaklarda içerik yerine geçerek yazı bloğunu doldurmak için kullanılır.</div>
+                             <p style="float:left">Likes: 20</p>
+                             <p style="margin-left:-10%;float:right">Time: 21 July</p>
+                          </div>
+                       </article>
+                    </a>
+                    <a style="width:285px!important" href="/lorem-ipsum-dolor-sit">
+                       <article class="post__card-2">
+                          <div class="post__card_-2">
+                             <div class="post__card__image-2" style="background-image: url(&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/ad9cb894970549.5e8f28eecdea8.jpg&quot;);"></div>
+                             <div>
+                                <div class="post__card_meta-2">
+                                   <div class="post__card_cat">youtube</div>
+                                   <p class="post__card_title-2">Lorem ipsum dolor sit</p>
+                                   <p class="post__card_alttitle-2">Lorem Ipsum, masaüstü yayıncılık ve basın yayın sektöründe kullanılan...</p>
+                                   <p style="float:left">Likes: 20</p>
+                                   <p style="margin-left:-10%;float:right">Time: 21 July</p>
+                                </div>
+                             </div>
+                          </div>
+                       </article>
+                    </a>
+                    <a style="width:285px!important" href="/lorem-ipsum-dolor-sit">
+                       <article class="post__card-2">
+                          <div class="post__card_-2">
+                             <div class="post__card__image-2" style="background-image: url(&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/7fa56a51087311.5a227b15ad57a.jpg&quot;);"></div>
+                             <div>
+                                <div class="post__card_meta-2">
+                                   <div class="post__card_cat">youtube</div>
+                                   <p class="post__card_title-2">Lorem ipsum dolor sit</p>
+                                   <p class="post__card_alttitle-2">Lorem Ipsum, masaüstü yayıncılık ve basın yayın sektöründe kullanılan...</p>
+                                   <p style="float:left">Likes: 20</p>
+                                   <p style="margin-left:-10%;float:right">Time: 21 July</p>
+                                </div>
+                             </div>
+                          </div>
+                       </article>
+                    </a>
+                    <a style="width:285px!important" href="/lorem-ipsum-dolor-sit">
+                       <article class="post__card-2">
+                          <div class="post__card_-2">
+                             <div class="post__card__image-2" style="background-image: url(&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/7c8a1e90624231.5e997520e9b9b.jpg&quot;);"></div>
+                             <div>
+                                <div class="post__card_meta-2">
+                                   <div class="post__card_cat">youtube</div>
+                                   <p class="post__card_title-2">Lorem ipsum dolor sit</p>
+                                   <p class="post__card_alttitle-2">Lorem Ipsum, masaüstü yayıncılık ve basın yayın sektöründe kullanılan...</p>
+                                   <p style="float:left">Likes: 20</p>
+                                   <p style="margin-left:-10%;float:right">Time: 21 July</p>
+                                </div>
+                             </div>
+                          </div>
+                       </article>
+                    </a>
+                 </div>
+              </div>
+           </div>
         </div>
       </div>
-    </section>
-    <!--================Hero Banner end =================-->  
-
-    <!--================ Blog slider start =================-->  
-    <section>
-      <div class="container">
-        <div class="owl-carousel owl-theme blog-slider">
-          <div class="card blog__slide text-center">
-            <div class="blog__slide__img">
-              <img class="card-img rounded-0" src={% static "/landing/img/blog/blog-slider/blog-slide1.png" %} alt="">
-            </div>
-            <div class="blog__slide__content">
-              <a class="blog__slide__label" href="#">Fashion</a>
-              <h3><a href="#">New york fashion week's continued the evolution</a></h3>
-              <p>2 days ago</p>
-            </div>
-          </div>
-          <div class="card blog__slide text-center">
-            <div class="blog__slide__img">
-              <img class="card-img rounded-0" src={% static "/landing/img/blog/blog-slider/blog-slide2.png" %} alt="">
-            </div>
-            <div class="blog__slide__content">
-              <a class="blog__slide__label" href="#">Fashion</a>
-              <h3><a href="#">New york fashion week's continued the evolution</a></h3>
-              <p>2 days ago</p>
-            </div>
-          </div>
-          <div class="card blog__slide text-center">
-            <div class="blog__slide__img">
-              <img class="card-img rounded-0" src={% static "/landing/img/blog/blog-slider/blog-slide3.png" %} alt="">
-            </div>
-            <div class="blog__slide__content">
-              <a class="blog__slide__label" href="#">Fashion</a>
-              <h3><a href="#">New york fashion week's continued the evolution</a></h3>
-              <p>2 days ago</p>
-            </div>
-          </div>
-          <div class="card blog__slide text-center">
-            <div class="blog__slide__img">
-              <img class="card-img rounded-0" src={% static "/landing/img/blog/blog-slider/blog-slide1.png" %} alt="">
-            </div>
-            <div class="blog__slide__content">
-              <a class="blog__slide__label" href="#">Fashion</a>
-              <h3><a href="#">New york fashion week's continued the evolution</a></h3>
-              <p>2 days ago</p>
-            </div>
-          </div>
-          <div class="card blog__slide text-center">
-            <div class="blog__slide__img">
-              <img class="card-img rounded-0" src={% static "/landing/img/blog/blog-slider/blog-slide2.png" %} alt="">
-            </div>
-            <div class="blog__slide__content">
-              <a class="blog__slide__label" href="#">Fashion</a>
-              <h3><a href="#">New york fashion week's continued the evolution</a></h3>
-              <p>2 days ago</p>
-            </div>
-          </div>
-          <div class="card blog__slide text-center">
-            <div class="blog__slide__img">
-              <img class="card-img rounded-0" src={% static "/landing/img/blog/blog-slider/blog-slide3.png" %} alt="">
-            </div>
-            <div class="blog__slide__content">
-              <a class="blog__slide__label" href="#">Fashion</a>
-              <h3><a href="#">New york fashion week's continued the evolution</a></h3>
-              <p>2 days ago</p>
-            </div>
-          </div>
+      <div class="slides" style="display:none;" id="slide1">
+        <div id="blog">
+           <div>
+              <header></header>
+              <div class="container pt-3">
+                 <div class="row">
+                    <a href="/lorem-ipsum-dolor-sit-amet-consectetur">
+                       <article class="best-post">
+                          <div class="best-post-image" style="background-image: url(&quot;https://mir-s3-cdn-cf.behance.net/projects/404/396f5591178321.Y3JvcCwxMjk0LDEwMTIsMCwzODQ.png&quot;);"></div>
+                          <div class="best-post-content">
+                             <div class="best-post-content-cat">videograper</div>
+                             <div class="best-post-content-title">Lorem ipsum dolor sit amet, consectetur 2</div>
+                             <div class="best-post-content-sub">Lorem Ipsum, masaüstü yayıncılık ve basın yayın sektöründe kullanılan taklit yazı bloğu olarak tanımlanır. Lipsum, oluşturulacak şablon ve taslaklarda içerik yerine geçerek yazı bloğunu doldurmak için kullanılır.</div>
+                             <p style="float:left">Likes: 20</p>
+                             <p style="margin-left:-10%;float:right">Time: 21 July</p>
+                          </div>
+                       </article>
+                    </a>
+                    <a style="width:285px!important" href="/lorem-ipsum-dolor-sit">
+                       <article class="post__card-2">
+                          <div class="post__card_-2">
+                             <div class="post__card__image-2" style="background-image: url(&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/ad9cb894970549.5e8f28eecdea8.jpg&quot;);"></div>
+                             <div>
+                                <div class="post__card_meta-2">
+                                   <div class="post__card_cat">youtube</div>
+                                   <p class="post__card_title-2">Lorem ipsum dolor sit</p>
+                                   <p class="post__card_alttitle-2">Lorem Ipsum, masaüstü yayıncılık ve basın yayın sektöründe kullanılan...</p>
+                                   <p style="float:left">Likes: 20</p>
+                                   <p style="margin-left:-10%;float:right">Time: 21 July</p>
+                                </div>
+                             </div>
+                          </div>
+                       </article>
+                    </a>
+                    <a style="width:285px!important" href="/lorem-ipsum-dolor-sit">
+                       <article class="post__card-2">
+                          <div class="post__card_-2">
+                             <div class="post__card__image-2" style="background-image: url(&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/7fa56a51087311.5a227b15ad57a.jpg&quot;);"></div>
+                             <div>
+                                <div class="post__card_meta-2">
+                                   <div class="post__card_cat">youtube</div>
+                                   <p class="post__card_title-2">Lorem ipsum dolor sit</p>
+                                   <p class="post__card_alttitle-2">Lorem Ipsum, masaüstü yayıncılık ve basın yayın sektöründe kullanılan...</p>
+                                   <p style="float:left">Likes: 20</p>
+                                   <p style="margin-left:-10%;float:right">Time: 21 July</p>
+                                </div>
+                             </div>
+                          </div>
+                       </article>
+                    </a>
+                    <a style="width:285px!important" href="/lorem-ipsum-dolor-sit">
+                       <article class="post__card-2">
+                          <div class="post__card_-2">
+                             <div class="post__card__image-2" style="background-image: url(&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/7c8a1e90624231.5e997520e9b9b.jpg&quot;);"></div>
+                             <div>
+                                <div class="post__card_meta-2">
+                                   <div class="post__card_cat">youtube</div>
+                                   <p class="post__card_title-2">Lorem ipsum dolor sit</p>
+                                   <p class="post__card_alttitle-2">Lorem Ipsum, masaüstü yayıncılık ve basın yayın sektöründe kullanılan...</p>
+                                   <p style="float:left">Likes: 20</p>
+                                   <p style="margin-left:-10%;float:right">Time: 21 July</p>
+                                </div>
+                             </div>
+                          </div>
+                       </article>
+                    </a>
+                 </div>
+              </div>
+           </div>
         </div>
       </div>
-    </section>
-    <!--================ Blog slider end =================-->  
-
-    <!--================ Start Blog Post Area =================-->
-    <section class="blog-post-area section-margin mt-4">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8">
-            <div class="single-recent-blog-post">
-              <div class="thumb">
-                
-                <img class="img-fluid" src={% static "/landing/img/blog/OOTY.jpg" %} alt="">
-                <ul class="thumb-info">
-                  <li><a href="#"><i class="ti-user"></i>Avinash</a></li>
-                  <li><a href="#"><i class="ti-notepad"></i>5,April,2020</a></li>
-                  <li><a href="#"><i class="ti-themify-favicon"></i>2 Comments</a></li>
-                </ul>
+      <div class="slides" style="display:none;" id="slide2">
+        <div id="blog">
+           <div>
+              <header></header>
+              <div class="container pt-3">
+                 <div class="row">
+                    <a href="/lorem-ipsum-dolor-sit-amet-consectetur">
+                       <article class="best-post">
+                          <div class="best-post-image" style="background-image: url(&quot;https://mir-s3-cdn-cf.behance.net/projects/404/396f5591178321.Y3JvcCwxMjk0LDEwMTIsMCwzODQ.png&quot;);"></div>
+                          <div class="best-post-content">
+                             <div class="best-post-content-cat">videograper</div>
+                             <div class="best-post-content-title">Lorem ipsum dolor sit amet, consectetur 3</div>
+                             <div class="best-post-content-sub">Lorem Ipsum, masaüstü yayıncılık ve basın yayın sektöründe kullanılan taklit yazı bloğu olarak tanımlanır. Lipsum, oluşturulacak şablon ve taslaklarda içerik yerine geçerek yazı bloğunu doldurmak için kullanılır.</div>
+                             <p style="float:left">Likes: 20</p>
+                             <p style="margin-left:-10%;float:right">Time: 21 July</p>
+                          </div>
+                       </article>
+                    </a>
+                    <a style="width:285px!important" href="/lorem-ipsum-dolor-sit">
+                       <article class="post__card-2">
+                          <div class="post__card_-2">
+                             <div class="post__card__image-2" style="background-image: url(&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/ad9cb894970549.5e8f28eecdea8.jpg&quot;);"></div>
+                             <div>
+                                <div class="post__card_meta-2">
+                                   <div class="post__card_cat">youtube</div>
+                                   <p class="post__card_title-2">Lorem ipsum dolor sit</p>
+                                   <p class="post__card_alttitle-2">Lorem Ipsum, masaüstü yayıncılık ve basın yayın sektöründe kullanılan...</p>
+                                   <p style="float:left">Likes: 20</p>
+                                   <p style="margin-left:-10%;float:right">Time: 21 July</p>
+                                </div>
+                             </div>
+                          </div>
+                       </article>
+                    </a>
+                    <a style="width:285px!important" href="/lorem-ipsum-dolor-sit">
+                       <article class="post__card-2">
+                          <div class="post__card_-2">
+                             <div class="post__card__image-2" style="background-image: url(&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/7fa56a51087311.5a227b15ad57a.jpg&quot;);"></div>
+                             <div>
+                                <div class="post__card_meta-2">
+                                   <div class="post__card_cat">youtube</div>
+                                   <p class="post__card_title-2">Lorem ipsum dolor sit</p>
+                                   <p class="post__card_alttitle-2">Lorem Ipsum, masaüstü yayıncılık ve basın yayın sektöründe kullanılan...</p>
+                                   <p style="float:left">Likes: 20</p>
+                                   <p style="margin-left:-10%;float:right">Time: 21 July</p>
+                                </div>
+                             </div>
+                          </div>
+                       </article>
+                    </a>
+                    <a style="width:285px!important" href="/lorem-ipsum-dolor-sit">
+                       <article class="post__card-2">
+                          <div class="post__card_-2">
+                             <div class="post__card__image-2" style="background-image: url(&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/7c8a1e90624231.5e997520e9b9b.jpg&quot;);"></div>
+                             <div>
+                                <div class="post__card_meta-2">
+                                   <div class="post__card_cat">youtube</div>
+                                   <p class="post__card_title-2">Lorem ipsum dolor sit</p>
+                                   <p class="post__card_alttitle-2">Lorem Ipsum, masaüstü yayıncılık ve basın yayın sektöründe kullanılan...</p>
+                                   <p style="float:left">Likes: 20</p>
+                                   <p style="margin-left:-10%;float:right">Time: 21 July</p>
+                                </div>
+                             </div>
+                          </div>
+                       </article>
+                    </a>
+                 </div>
               </div>
-              <div class="details mt-20">
-                <a href="blog-single.html">
-                  <h3>OOTY - Heaven on Earth</h3>
-                </a>
-                <p class="tag-list-inline">Tag: <a href="#">Hill Station</a></p>
-                <p>Ooty (short for Udhagamandalam) is a resort town in the Western Ghats mountains, in southern India's Tamil Nadu state. Founded as a British Raj summer resort, it retains a working steam railway line. Other reminders of its colonial past include Stone House, a 19th-century residence, and the circa-1829 St. Stephen’s Church. Its 55-acre Government Botanical Garden lies on the slopes of Doddabetta Peak</p>
-                <a class="button" href="#">Read More <i class="ti-arrow-right"></i></a>
-              </div>
-            </div>
-
-            <div class="single-recent-blog-post">
-              <div class="thumb">
-                <img class="img-fluid" src={% static "/landing/img/blog/redfort.jpg" %} alt="">
-                <ul class="thumb-info">
-                  <li><a href="#"><i class="ti-user"></i>Admin</a></li>
-                  <li><a href="#"><i class="ti-notepad"></i>January 12,2019</a></li>
-                  <li><a href="#"><i class="ti-themify-favicon"></i>2 Comments</a></li>
-                </ul>
-              </div>
-              <div class="details mt-20">
-                <a href="blog-single.html">
-                  <h3>Woman claims husband wants to name baby girl
-                    after his ex-lover sparking.</h3>
-                </a>
-                <p class="tag-list-inline">Tag: <a href="#">travel</a>, <a href="#">life style</a>, <a href="#">technology</a>, <a href="#">fashion</a></p>
-                <p>Over yielding doesn't so moved green saw meat hath fish he him from given yielding lesser cattle were fruitful lights. Given let have, lesser their made him above gathered dominion sixth. Creeping deep said can't called second. Air created seed heaven sixth created living</p>
-                <a class="button" href="#">Read More <i class="ti-arrow-right"></i></a>
-              </div>
-            </div>
-
-            <div class="single-recent-blog-post">
-              <div class="thumb">
-                <img class="img-fluid" src={% static "/landing/img/blog/blog3.png" %} alt="">
-                <ul class="thumb-info">
-                  <li><a href="#"><i class="ti-user"></i>Admin</a></li>
-                  <li><a href="#"><i class="ti-notepad"></i>January 12,2019</a></li>
-                  <li><a href="#"><i class="ti-themify-favicon"></i>2 Comments</a></li>
-                </ul>
-              </div>
-              <div class="details mt-20">
-                <a href="blog-single.html">
-                  <h3>Tourist deaths in Costa Rica jeopardize safe dest
-                    ination reputation all time. </h3>
-                </a>
-                <p class="tag-list-inline">Tag: <a href="#">travel</a>, <a href="#">life style</a>, <a href="#">technology</a>, <a href="#">fashion</a></p>
-                <p>Over yielding doesn't so moved green saw meat hath fish he him from given yielding lesser cattle were fruitful lights. Given let have, lesser their made him above gathered dominion sixth. Creeping deep said can't called second. Air created seed heaven sixth created living</p>
-                <a class="button" href="#">Read More <i class="ti-arrow-right"></i></a>
-              </div>
-            </div>
-
-            <div class="single-recent-blog-post">
-              <div class="thumb">
-                  
-                <img class="img-fluid" src={% static "/landing/img/blog/blog4.png" %} alt="">
-                <ul class="thumb-info">
-                  <li><a href="#"><i class="ti-user"></i>Admin</a></li>
-                  <li><a href="#"><i class="ti-notepad"></i>January 12,2019</a></li>
-                  <li><a href="#"><i class="ti-themify-favicon"></i>2 Comments</a></li>
-                </ul>
-              </div>
-              <div class="details mt-20">
-                <a href="blog-single.html">
-                  <h3>Tourist deaths in Costa Rica jeopardize safe dest
-                    ination reputation all time.  </h3>
-                </a>
-                <p class="tag-list-inline">Tag: <a href="#">travel</a>, <a href="#">life style</a>, <a href="#">technology</a>, <a href="#">fashion</a></p>
-                <p>Over yielding doesn't so moved green saw meat hath fish he him from given yielding lesser cattle were fruitful lights. Given let have, lesser their made him above gathered dominion sixth. Creeping deep said can't called second. Air created seed heaven sixth created living</p>
-                <a class="button" href="#">Read More <i class="ti-arrow-right"></i></a>
-              </div>
-            </div>
-
-            
-
-            <div class="row">
-              <div class="col-lg-12">
-                  <nav class="blog-pagination justify-content-center d-flex">
-                      <ul class="pagination">
-                          <li class="page-item">
-                              <a href="#" class="page-link" aria-label="Previous">
-                                  <span aria-hidden="true">
-                                      <i class="ti-angle-left"></i>
-                                  </span>
-                              </a>
-                          </li>
-                          <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                          <li class="page-item"><a href="#" class="page-link">2</a></li>
-                          <li class="page-item">
-                              <a href="#" class="page-link" aria-label="Next">
-                                  <span aria-hidden="true">
-                                      <i class="ti-angle-right"></i>
-                                  </span>
-                              </a>
-                          </li>
-                      </ul>
-                  </nav>
-              </div>
-            </div>
-          </div>
-
-          <!-- Start Blog Post Siddebar -->
-          <!-- <div class="col-lg-4 sidebar-widgets">
-              <div class="widget-wrap">
-                <div class="single-sidebar-widget newsletter-widget">
-                  <h4 class="single-sidebar-widget__title">Newsletter</h4>
-                  <div class="form-group mt-30">
-                    <div class="col-autos">
-                      <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Enter email" onfocus="this.placeholder = ''"
-                        onblur="this.placeholder = 'Enter email'">
-                    </div>
-                  </div>
-                  <button class="bbtns d-block mt-20 w-100">Subcribe</button>
-                </div> -->
-
-
-                <div class="single-sidebar-widget post-category-widget">
-                  <h4 class="single-sidebar-widget__title">Category</h4>
-                  <ul class="cat-list mt-20">
-                    <li>
-                      <a href="#" class="d-flex justify-content-between">
-                        <p>Monument</p>
-                        <p>(03)</p>
-                      </a>
-                    </li>
-                    <li>
-                        <a href="#" class="d-flex justify-content-between">
-                          <p>Hill stations</p>
-                          <p>(03)</p>
-                        </a>
-                      </li>
-                    <li>
-                      <a href="#" class="d-flex justify-content-between">
-                        <p>Religious</p>
-                        <p>(12)</p>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" class="d-flex justify-content-between">
-                        <p>Shopping</p>
-                        <p>(02)</p>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#" class="d-flex justify-content-between">
-                        <p>Adventure</p>
-                        <p>(10)</p>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-
-                <div class="single-sidebar-widget popular-post-widget">
-                  <h4 class="single-sidebar-widget__title">Popular Post</h4>
-                  <div class="popular-post-list">
-                    <div class="single-post-list">
-                      <div class="thumb">
-                        <img class="card-img rounded-0" src={% static "/landing/img/blog/thumb/thumb1.png" %} alt="">
-                        <ul class="thumb-info">
-                          <li><a href="#">Adam Colinge</a></li>
-                          <li><a href="#">Dec 15</a></li>
-                        </ul>
-                      </div>
-                      <div class="details mt-20">
-                        <a href="blog-single.html">
-                          <h6>Accused of assaulting flight attendant miktake alaways</h6>
-                        </a>
-                      </div>
-                    </div>
-                    <div class="single-post-list">
-                      <div class="thumb">
-                        <img class="card-img rounded-0" src={% static "/landing/img/blog/thumb/thumb2.png" %} alt="">
-                        <ul class="thumb-info">
-                          <li><a href="#">Adam Colinge</a></li>
-                          <li><a href="#">Dec 15</a></li>
-                        </ul>
-                      </div>
-                      <div class="details mt-20">
-                        <a href="blog-single.html">
-                          <h6>Tennessee outback steakhouse the
-                            worker diagnosed</h6>
-                        </a>
-                      </div>
-                    </div>
-                    <div class="single-post-list">
-                      <div class="thumb">
-                        <img class="card-img rounded-0" src={% static "/landing/img/blog/thumb/thumb3.png" %} alt="">
-                        <ul class="thumb-info">
-                          <li><a href="#">Adam Colinge</a></li>
-                          <li><a href="#">Dec 15</a></li>
-                        </ul>
-                      </div>
-                      <div class="details mt-20">
-                        <a href="blog-single.html">
-                          <h6>Tennessee outback steakhouse the
-                            worker diagnosed</h6>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                  <div class="single-sidebar-widget tag_cloud_widget">
-                    <h4 class="single-sidebar-widget__title">Popular Post</h4>
-                    <ul class="list">
-                      <li>
-                          <a href="#">Beaches</a>
-                      </li>
-                      <li>
-                          <a href="#">love</a>
-                      </li>
-                      <li>
-                          <a href="#">Hill stations</a>
-                      </li>
-                      <li>
-                          <a href="#">travel</a>
-                      </li>
-                      <li>
-                          <a href="#">life style</a>
-                      </li>
-                    
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          <!-- End Blog Post Siddebar -->
+           </div>
         </div>
-    </section>
-    <!--================ End Blog Post Area =================-->
-  </main>
+      </div>
+      <div style="margin-bottom:5%;padding-right:5%;">
+        <div style="width:18%;margin-left:4%;float:left">
+          <a id="prevBtn" href="#" class="fancy-button medium half-right-rounded pomegranate expand">
+            <span class="icon">
+              <i class="fas fa-arrow-circle-left"><span style='font-family:sans-serif;font-weight:200;margin-left:4%;'>Previous</span></i>
+            </span>
+          </a>
+        </div>
+        <div style="width:18%;float:right">
+          <a id="nextBtn" href="#" class="fancy-button medium half-left-rounded pomegranate expand">
+            Next
+            <span class="icon">
+              <i style="margin-left:20%;" class="fas fa-arrow-circle-right"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 sidebar-widgets" style="font-family:'Libre Baskerville', serif;background-color:white;border:1px solid #ccc;border-radius:3px;box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);padding:20px;">
+    <div class="widget-wrap">
+      <div class="single-sidebar-widget post-category-widget">
+        <h4 style="text-align:center;" class="line single-sidebar-widget__title">Catgory</h4>
+        <table style="color:#666;width:90%;margin-left:5%;">
+          <tr>
+            <td class="td" style="width:90%">Technology</td>
+            <td class="td" style="width:10%">(03)</td>
+          </tr>
+          <tr>
+            <td class="td">Software</td>
+            <td class="td">(09)</td>
+          </tr>
+          <tr>
+            <td class="td">Lifestyle</td>
+            <td class="td">(12)</td>
+          </tr>
+          <tr>
+            <td class="td">Shopping</td>
+            <td class="td">(02)</td>
+          </tr>
+          <tr>
+            <td style="border:none" class="td">Food</td>
+            <td style="border:none" class="td">(10)</td>
+          </tr>
+        </table>
+      </div>
 
-  <!--================ Start Footer Area =================-->
+      <div class="single-sidebar-widget popular-post-widget">
+        <h4 style="text-align:center;background-size: 45% 1px;margin-top:5%;" class="line single-sidebar-widget__title">Popular Posts</h4>
+        <a href="#">
+        <div class="row" style="width:114%;margin-left:-7%!important;padding-top:4%;background-color:#eee;padding-bottom:4%;">
+          <div class="col-4">
+            <img style="width:12vh;height:12vh;" src="{% static "/landing/img/blog/blog1.png" %}" alt="">
+          </div>
+          <div style="color:#666;line-height:1.5;" class="col-8">
+            This is another post title <br> <small style="color:#bbb">Aug 11, 20</small>
+          </div>
+        </div>
+        </a>
+        <hr style="color:#eee;width:80%;">
+        <a href="#">
+        <div class="row" style="width:114%;margin-left:-7%!important;padding-top:4%;background-color:#eee;padding-bottom:4%;">
+          <div class="col-4">
+            <img style="width:12vh;height:12vh;" src="{% static "/landing/img/blog/blog1.png" %}" alt="">
+          </div>
+          <div style="color:#666;line-height:1.5;" class="col-8">
+            This is another post title <br> <small style="color:#bbb">Aug 11, 20</small>
+          </div>
+        </div>
+        </a>
+        <hr style="color:#eee;width:80%;">
+        <a href="#">
+        <div class="row" style="width:114%;margin-left:-7%!important;padding-top:4%;background-color:#eee;padding-bottom:4%;">
+          <div class="col-4">
+            <img style="width:12vh;height:12vh;" src="{% static "/landing/img/blog/blog1.png" %}" alt="">
+          </div>
+          <div style="color:#666;line-height:1.5;" class="col-8">
+            This is another post title <br> <small style="color:#bbb">Aug 11, 20</small>
+          </div>
+        </div>
+        </a>
+        <hr style="color:#eee;width:80%;">
+        <a href="#">
+        <div class="row" style="width:114%;margin-left:-7%!important;padding-top:4%;background-color:#eee;padding-bottom:4%;">
+          <div class="col-4">
+            <img style="width:12vh;height:12vh;" src="{% static "/landing/img/blog/blog1.png" %}" alt="">
+          </div>
+          <div style="color:#666;line-height:1.5;" class="col-8">
+            This is another post title <br> <small style="color:#bbb">Aug 11, 20</small>
+          </div>
+        </div>
+        </a>
+      </div>
+      </div>
+  </div>
+</div>
+<br><br><br><br>
+<script type="text/javascript">
+  var next = document.getElementById('nextBtn');
+  var prev = document.getElementById('prevBtn');
+  var current = 0;
+  var total = document.getElementsByClassName('slides').length;
 
+  next.onclick = function(){
+    console.log(current);
+    if(current != total-1){
+      var div1 = document.getElementById('slide'+current.toString());
+      current = current + 1;
+      var div2 = document.getElementById('slide'+current.toString());
+      div1.style.display = "none";
+      div2.style.display = "block";
+    }
+  }
 
- 
-  {% endblock %}
+  prev.onclick = function(){
+    if(current != 0){
+      var div1 = document.getElementById('slide'+current.toString());
+      current = current - 1;
+      var div2 = document.getElementById('slide'+current.toString());
+      div1.style.display = "none";
+      div2.style.display = "block";
+    }
+  }
+
+</script>
+{% endblock %}
