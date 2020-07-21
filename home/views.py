@@ -24,6 +24,20 @@ import urllib
 from django.conf import settings
 from django.utils.dateparse import parse_date
 from datetime import datetime
+import pyrebase
+
+config = {
+    'apiKey': "AIzaSyDvn6TnR5SB4ZHVo90XsKvnChd0ve5C5ps",
+    'authDomain': "traveland-3a34c.firebaseapp.com",
+    'databaseURL': "https://traveland-3a34c.firebaseio.com",
+    'projectId': "traveland-3a34c",
+    'storageBucket': "traveland-3a34c.appspot.com",
+    'messagingSenderId': "832786504613",
+    'appId': "1:832786504613:web:5b3afab39839600e73664c"
+}
+
+firebase = pyrebase.initialize_app(config)
+auth = firebase.auth()
 
 countries = [
     "Afghanistan",
@@ -435,7 +449,7 @@ def addpost(request):
     #         'content':description,
     #         'date':str(str(now.day) + '/' + str(now.month) + '/' + str(now.year)),
     #         'title':title,
-            
+
     #         }
     # )
     # return render(request, 'blog.html')
@@ -457,24 +471,14 @@ def plan(request):
 
 
 def login(request):
-    # if request.method == 'POST':
-    dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table('user')
-    response_api = table.scan(FilterExpression=Attr('is_active').eq(True))
-    print("!!!!!!!!!!!!!!!!!!!!!")
-    print(response_api['Items'][0]['username'])
-    print(response_api['Items'][0]['password'])
-    print("@@@@@@@@@@@@@")
-    print("  ")
-    print("  ")
-    print("  ")
 
     email = request.POST.get('email')
     password = request.POST.get('password')
-    password=hashlib.sha256(password.encode())
-    password=password.hexdigest()
+    password = hashlib.sha256(password.encode())
+    password = password.hexdigest()
 
     recaptcha_response = request.POST.get('g-recaptcha-response')
+
     url = 'https://www.google.com/recaptcha/api/siteverify'
     values = {
         'secret': settings.GOOGLE_RECAPTCHA_SECRET_KEY,
@@ -489,40 +493,16 @@ def login(request):
         messages.error(request, 'Invalid reCAPTCHA. Please try again.')
         return redirect('auth')
 
-    dynamodb = boto3.resource('dynamodb')
-    if(email != '' and password!=''):
-        table = dynamodb.Table('user')
-        response = table.scan(FilterExpression=Attr('email').eq(email))
-        print(response)
-        # response = table.scan(
-        # ProjectionExpression="email,password,organizations_created,organizations_joined,username",
-        # FilterExpression=Attr('email').eq(email)
-        # )
-        print('\n\n\n')
-        print(response['Items'])
-        # print(response['Items'][0])
-
-        print('\n\n\n')
-        if(len(response['Items'])>0):
-            if(response['Items'][0]['password']==password):
-                if(response['Items'][0]['is_active']):
-
-                    request.session['username'] = response['Items'][0]['username']
-                    request.session['email']=response['Items'][0]['email']
-                    print(request.session['username'],request.session['email'])
-
-                    return redirect('home')
-                else:
-                    return redirect('verify')
-            else:
-                messages.success(request, 'Failed to login as the password does not match.')
-                return redirect('auth')
-        else:
-            messages.success(request, 'Failed to login as the email ID is not registered.')
+    try:
+        user = auth.sign_in_with_email_and_password(email, password)
+        return redirect('home')
+    except:
+        if(email != '' and password!=''):
+            messages.success(request, 'Failed to login as the email or password does not match.')
             return redirect('auth')
-    else:
-        messages.success(request, 'Failed to login as the email or password is provided empty')
-        return redirect('auth')
+        else:
+            messages.success(request, 'Failed to login as the email or password is provided empty')
+            return redirect('auth')
 
 
 def signup(request):
