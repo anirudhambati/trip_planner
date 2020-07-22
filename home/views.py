@@ -1,6 +1,6 @@
 from django.shortcuts import render
-import boto3
-from boto3.dynamodb.conditions import Key, Attr
+#import boto3
+#from boto3.dynamodb.conditions import Key, Attr
 from django.http import HttpResponse
 from django.core.mail import send_mail
 import hashlib
@@ -420,7 +420,7 @@ def blogabout(request):
     return render(request, 'blogabout.html')
 
 def addpost(request):
-    return render(request, 'addpost.html')
+    return render(request, 'addpost2.html')
 
 # def upload(request):
 

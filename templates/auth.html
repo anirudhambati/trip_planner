@@ -31,7 +31,7 @@
     	 width: 900px;
     	 height: 550px;
     	 margin: 0 auto 100px;
-    	 background: #fff;
+    	 background: #fafafa;
     }
      .form {
     	 position: relative;
@@ -48,7 +48,7 @@
     	 width: 900px;
     	 height: 100%;
     	 padding-left: 260px;
-    	 background: #fff;
+    	 background: #fafafa;
     	 transition: transform 1.2s ease-in-out;
     }
      .cont.s--signup .sub-cont {
@@ -247,14 +247,28 @@
     .ftco-navbar-light .container{
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
+    #over {
+      position:absolute;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255,255,255,0.8);
+    z-index: 0;
+    }
   </style>
   <script src="https://kit.fontawesome.com/ea0619ce99.js" crossorigin="anonymous"></script>
 {% endblock %}
 
 {% block body %}
-<br><br><br><br>
-<p class="tip"></p>
-<div style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius:3px;margin-top:-2%;height:540px;" class="cont">
+<div style="width:100%;height:100vh;background-size:100%;">
+  <img style="width:100%;height:100vh;" src="{% static 'authbg.jpg' %}" alt="">
+  <div id="over"></div>
+</div>
+<!-- <p class="tip"></p> -->
+<div style="margin-top:-38%;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius:3px;height:540px;" class="cont">
   <div class="form sign-in">
 							<!-- login -->
 	  <form method="POST" action="{% url 'home:login' %}">
