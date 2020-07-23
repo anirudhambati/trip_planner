@@ -1,6 +1,4 @@
 from django.shortcuts import render
-#import boto3
-#from boto3.dynamodb.conditions import Key, Attr
 from django.http import HttpResponse
 from django.core.mail import send_mail
 import hashlib
@@ -26,6 +24,21 @@ from django.utils.dateparse import parse_date
 from .models import post
 import datetime
 import pyrebase
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import *
+from pylab import *
+import seaborn as sns; sns.set()
+from math import sin, cos, sqrt, atan2, radians, ceil
+from datetime import date, time
+from datetime import timedelta
+from django.utils.dateparse import parse_date
+rcParams['figure.figsize'] = 7,7
+from IPython.display import display
+import requests, json
+from collections import defaultdict
+import random
+from .tourplan import *
 
 config = {
     'apiKey': "AIzaSyDvn6TnR5SB4ZHVo90XsKvnChd0ve5C5ps",
@@ -293,8 +306,6 @@ countries = [
 ]
 continents = ["Asia", "Europe", "Africa","North America", "South America"]
 
-
-
 def reset_display(request):
     return render(request,'registration/reset_form.html',{})
 
@@ -337,7 +348,6 @@ def verify_reset_password(request, uidb64, token):
     else:
         return HttpResponse('Activation link is invalid!')
 
-
 def save_password(request):
     email = request.session['email']
     dynamodb = boto3.resource('dynamodb')
@@ -361,13 +371,277 @@ def save_password(request):
     return redirect('landing')
 
 def home(request):
+    if request.method == 'POST':
+        if (request.POST['place'].lower() in continents) or (request.POST['place'].lower() in countries):
+            details = {}
+            details['place'] = request.POST['place']
+            details['checkin'] = request.POST['checkin']
+            details['checkout'] = request.POST['checkout']
+            details['price'] = request.POST['price']
+            details['type'] = 'continent' if (request.POST['place'].lower() in continent) else 'country'
+            return render(request, 'questions.html', details)
+        else:
+            pass
     return render(request, 'home.html')
 
 def questions(request):
-    if request.method == 'POST':
-        print(request.POST)
-        return redirect('/')
-    return render(request, 'questions.html')
+
+    details = {}
+    details['place'] = request.POST['place']
+    details['checkin'] = request.POST['checkin']
+    details['checkout'] = request.POST['checkout']
+    details['price'] = request.POST['price']
+
+    request.session['place'] = details['place']
+    request.session['checkin'] = details['checkin']
+    request.session['checkout'] = details['checkout']
+
+    return render(request, 'questions.html', details)
+
+def plan(request):
+
+    import random
+    import string
+
+    place = request.session['place']
+    checkin = request.session['checkin']
+    checkout = request.session['checkout']
+
+    checkin = checkin.split('/')
+    checkout = checkout.split('/')
+    checkin = date(int(checkin[2]), int(checkin[0]), int(checkin[1]))
+    checkout = date(int(checkout[2]), int(checkout[0]), int(checkout[1]))
+
+    cities = get_data(place)
+
+    # start_date = date(2020, 7, 17)
+    # end_date = date(2020, 7, 19)
+
+    plan = fplan(cities, checkin, checkout)
+    print(plan)
+    # plan = {'start': 'New Delhi, India',
+    #          'finalplan': [{'place': 'Hyderabad, India',
+    #            'lat': 17.3578233,
+    #            'lng': 78.4716897,
+    #            'start_date': str('2020-7-17'),
+    #            'end_date': str('2020-7-19'),
+    #            'places': [{'day': str('2020-7-17'),
+    #              'places': [{'starttime': '10:30',
+    #                'endtime': '12:00',
+    #                'name': 'Shilparamam',
+    #                'lat': 17.452573,
+    #                'lng': 78.3783065,
+    #                'next': '30 min',
+    #                'next_dist': '9.41 km'},
+    #               {'starttime': '12:30',
+    #                'endtime': '15:00',
+    #                'name': 'Qutb Shahi Tombs',
+    #                'lat': 17.3950064,
+    #                'lng': 78.39675419999999,
+    #                'next': '15 min',
+    #                'next_dist': '1.694 km'},
+    #               {'starttime': '15:15',
+    #                'endtime': '17:15',
+    #                'name': 'Golconda Fort',
+    #                'lat': 17.383309,
+    #                'lng': 78.4010528,
+    #                'next': '30 min',
+    #                'next_dist': '10.273 km'},
+    #               {'starttime': '17:45',
+    #                'endtime': '20:15',
+    #                'name': 'Chowmahalla Palace',
+    #                'lat': 17.3578233,
+    #                'lng': 78.4716897}]},
+    #             {'day': str('2020-7-18'),
+    #              'places': [{'starttime': '10:30',
+    #                'endtime': '11:30',
+    #                'name': 'Charminar',
+    #                'lat': 17.3615636,
+    #                'lng': 78.4746645,
+    #                'next': '15 min',
+    #                'next_dist': '1.958 km'},
+    #               {'starttime': '11:45',
+    #                'endtime': '15:45',
+    #                'name': 'Salar Jung Museum',
+    #                'lat': 17.3713224,
+    #                'lng': 78.4803589,
+    #                'next': '15 min',
+    #                'next_dist': '5.751 km'},
+    #               {'starttime': '16:00',
+    #                'endtime': '18:00',
+    #                'name': 'Lumbini Park',
+    #                'lat': 17.4098755,
+    #                'lng': 78.47315180000001,
+    #                'next': '15 min',
+    #                'next_dist': '0.558 km'},
+    #               {'starttime': '18:15',
+    #                'endtime': '20:15',
+    #                'name': 'NTR Gardens',
+    #                'lat': 17.4124512,
+    #                'lng': 78.4688386}]},
+    #             {'day': str('2020-7-19'),
+    #              'places': [{'starttime': '10:30',
+    #                'endtime': '11:30',
+    #                'name': 'Buddha Statue',
+    #                'lat': 17.4155657,
+    #                'lng': 78.474973,
+    #                'next': '15 min',
+    #                'next_dist': '4.872 km'},
+    #               {'starttime': '11:45',
+    #                'endtime': '13:45',
+    #                'name': 'Jalavihar Water Park',
+    #                'lat': 17.4325926,
+    #                'lng': 78.4647823,
+    #                'next': '30 min',
+    #                'next_dist': '7.895 km'},
+    #               {'starttime': '14:15',
+    #                'endtime': '15:15',
+    #                'name': 'Shri Jagannath Temple, Hyderabad',
+    #                'lat': 17.4151421,
+    #                'lng': 78.4261934,
+    #                'next': '15 min',
+    #                'next_dist': '1.621 km'},
+    #               {'starttime': '15:30',
+    #                'endtime': '17:00',
+    #                'name': 'Kasu Brahmanandha Reddy National Park',
+    #                'lat': 17.4237592,
+    #                'lng': 78.41595199999999,
+    #                'next': '30 min',
+    #                'next_dist': '9.551 km'},
+    #               {'starttime': '17:30',
+    #                'endtime': '19:00',
+    #                'name': 'Snow World',
+    #                'lat': 17.4145708,
+    #                'lng': 78.48092249999999}]}],
+    #            'journey': [{'mode': 'Car',
+    #              'distance': '1,551 km',
+    #              'time': '1 day 2 hours'},
+    #             {'mode': 'Bus', 'distance': '1,551 km', 'time': '1 day 2 hours'},
+    #             {'mode': 'Train', 'distance': '1,551 km', 'time': '1 day 2 hours'}]},
+    #           {'place': 'Mumbai, India',
+    #            'lat': 19.0168159,
+    #            'lng': 72.8302491,
+    #            'start_date': str('2020-7-17'),
+    #            'end_date': str('2020-7-17'),
+    #            'places': [{'day': str('2020-7-17'),
+    #              'places': [{'starttime': '10:30',
+    #                'endtime': '13:00',
+    #                'name': 'Chhatrapati Shivaji Maharaj Vastu Sangrahalaya',
+    #                'lat': 18.9269015,
+    #                'lng': 72.83269159999999,
+    #                'next': '2.5 hr 30 min',
+    #                'next_dist': '36.44 km'},
+    #               {'starttime': '15:30',
+    #                'endtime': '18:00',
+    #                'name': 'Gateway Of India Mumbai',
+    #                'lat': 18.9219841,
+    #                'lng': 72.8346543,
+    #                'next': '14.75 hr 45 min',
+    #                'next_dist': '750.127 km'},
+    #               {'starttime': '08:45',
+    #                'endtime': '11:15',
+    #                'name': 'Veer Mata Jijabai Bhosale Udyan And Zoo',
+    #                'lat': 18.97871,
+    #                'lng': 72.8351211,
+    #                'next': '45 min',
+    #                'next_dist': '15.295 km'},
+    #               {'starttime': '12:00',
+    #                'endtime': '14:30',
+    #                'name': 'Shri Siddhi Vinayak Ganpati Mandir',
+    #                'lat': 19.0168159,
+    #                'lng': 72.8302491,
+    #                'next': '45 min',
+    #                'next_dist': '14.212 km'},
+    #               {'starttime': '15:15',
+    #                'endtime': '17:45',
+    #                'name': 'Mahakali Caves',
+    #                'lat': 19.1300798,
+    #                'lng': 72.8731738,
+    #                'next': '45 min',
+    #                'next_dist': '13.731 km'},
+    #               {'starttime': '18:30',
+    #                'endtime': '21:00',
+    #                'name': 'Shri Siddhi Vinayak Ganpati Mandir',
+    #                'lat': 19.0168159,
+    #                'lng': 72.8302491}]}],
+    #            'journey': [{'mode': 'Car',
+    #              'distance': '709 km',
+    #              'time': '12 hours 36 mins'},
+    #             {'mode': 'Bus', 'distance': '709 km', 'time': '12 hours 36 mins'},
+    #             {'mode': 'Train', 'distance': '709 km', 'time': '12 hours 36 mins'}]},
+    #           {'place': 'Mumbai Suburban, India',
+    #            'lat': 19.100097,
+    #            'lng': 72.915849,
+    #            'start_date': str('2020-7-18'),
+    #            'end_date': str('2020-7-19'),
+    #            'places': [{'day': str('2020-7-18'),
+    #              'places': [{'starttime': '10:30',
+    #                'endtime': '13:00',
+    #                'name': 'Kanheri Caves',
+    #                'lat': 19.2058509,
+    #                'lng': 72.9068504,
+    #                'next': '1.5 hr 30 min',
+    #                'next_dist': '31.274 km'},
+    #               {'starttime': '14:30',
+    #                'endtime': '17:00',
+    #                'name': 'EsselWorld',
+    #                'lat': 19.231546,
+    #                'lng': 72.80505769999999,
+    #                'next': '14.0 hr 0 min',
+    #                'next_dist': '747.532 km'},
+    #               {'starttime': '07:00',
+    #                'endtime': '09:30',
+    #                'name': 'Global Vipassana Pagoda',
+    #                'lat': 19.228499,
+    #                'lng': 72.8059425,
+    #                'next': '12.75 hr 45 min',
+    #                'next_dist': '709.216 km'},
+    #               {'starttime': '22:15',
+    #                'endtime': '00:45',
+    #                'name': 'Red Carpet Wax Museum',
+    #                'lat': 19.100097,
+    #                'lng': 72.915849}]},
+    #             {'day': str('2020-7-19'),
+    #              'places': [{'starttime': '10:30',
+    #                'endtime': '13:00',
+    #                'name': 'Hanging Gardens Mumbai',
+    #                'lat': 18.9568662,
+    #                'lng': 72.8049626,
+    #                'next': '30 min',
+    #                'next_dist': '13.426 km'},
+    #               {'starttime': '13:30',
+    #                'endtime': '16:00',
+    #                'name': 'Band Stand',
+    #                'lat': 19.0451833,
+    #                'lng': 72.81908659999999}]}],
+    #            'journey': [{'mode': 'Car', 'distance': '10.5 km', 'time': '33 mins'},
+    #             {'mode': 'Bus', 'distance': '10.5 km', 'time': '33 mins'},
+    #             {'mode': 'Train', 'distance': '10.5 km', 'time': '33 mins'}]}],
+    #          'end': {'place': 'New Delhi, India',
+    #                 'journey': [{'mode': 'Car', 'distance': '1,393 km', 'time': '23 hours 1 min'},
+    #                             {'mode': 'Bus', 'distance': '1,393 km', 'time': '23 hours 1 min'},
+    #                             {'mode': 'Train', 'distance': '1,393 km', 'time': '23 hours 1 min'}]
+    #                 }
+    #         }
+    # #print(plan)
+    # days = 2
+    # pid = ''.join([random.choice(string.ascii_letters + string.digits) for n in range(5)])
+    # idtoken = request.session['uid']
+    # a = authe.get_account_info(idtoken)
+    # a = a['users'][0]['localId']
+    # print('ID------'+str(a))
+    # data = {
+    #     'plan_name': place,
+    #     'pid': pid,
+    #     'plan': plan,
+    #     'checkin': checkin,
+    #     'checkout': checkout,
+    #     'days': days
+    # }
+    #
+    # database.child('users').child(a).child('plans').child(pid).set(data)
+
+    return render(request, 'trip_overview.html')
 
 def review(request):
     if request.method == 'POST':
@@ -397,11 +671,7 @@ def landing(request):
             return render(request, 'questions.html', details)
         else:
             pass
-    # try:
-    #     request.user.social_auth.filter(provider="google-oauth2")
-    # except NameError:
-    #     print("error")
-    # print("-------------------------------")
+
     return render(request, 'index.html')
 
 def blog(request):
@@ -415,54 +685,11 @@ def blog(request):
     print(queryset)
     return render(request, 'blog3.html', context)
 
-
 def blogabout(request):
     return render(request, 'blogabout.html')
 
 def addpost(request):
     return render(request, 'addpost2.html')
-
-# def upload(request):
-
-    # myfile = request.FILES['sentFile']
-    # fs = FileSystemStorage()
-    # filename = fs.save(myfile.name, myfile)
-    # f = request.FILES['sentFile']
-    # f="./media/"+str(myfile)
-    # s3 = boto3.client('s3')
-    # bucket = 'tripplannerbucket'
-
-    # file_name = str(f)
-    # key_name = str(myfile)
-    # ###
-
-    # s3.upload_file(file_name, bucket, key_name)
-
-    # bucket_location = boto3.client('s3').get_bucket_location(Bucket=bucket)
-    # link = "https://s3-ap-south-1.amazonaws.com/{0}/{1}".format(
-    #         bucket,
-    #         key_name)
-    # email="saiavinash.d17@iiits.in"
-    # category="monument"
-    # description=request.POST.get['Description']
-    # title=request.POST.get['Title']
-    # dynamoDB = boto3.resource('dynamodb')
-    # dynamoTable = dynamoDB.Table('blog')
-
-    # scan = dynamoTable.scan()
-
-    # dynamoTable.put_item(
-    #     Item={
-    #         'email': email,
-    #         'category': category,
-    #         'content':description,
-    #         'date':str(str(now.day) + '/' + str(now.month) + '/' + str(now.year)),
-    #         'title':title,
-
-    #         }
-    # )
-    # return render(request, 'blog.html')
-
 
 def about(request):
     return render(request, 'hotels.html')
@@ -473,18 +700,10 @@ def timeline(request):
 def auth(request):
     return render(request, 'auth.html')
 
-def plan(request):
-    return render(request, 'plan.html')
-
-
-
-
 def login(request):
 
     email = request.POST.get('email')
     password = request.POST.get('password')
-    password = hashlib.sha256(password.encode())
-    password = password.hexdigest()
 
     recaptcha_response = request.POST.get('g-recaptcha-response')
 
@@ -518,63 +737,22 @@ def login(request):
     return redirect('home')
 
 def signup(request):
+
     username = request.POST.get('username')
     email = request.POST.get('email')
     password = request.POST.get('password')
     re_password = request.POST.get('repassword')
 
-    user = authe.create_user_with_email_and_password(email, password)
+    try:
+        user = authe.create_user_with_email_and_password(email, password)
+        uid = user['localId']
+        data = {'name':username}
+        database.child('users').child(uid).child('details').set(data, user['idToken'])
+    except:
+         messages.success(request, 'Failed to sign up')
+         return redirect('auth')
 
-    if (username != '' and email != '' and password != '' and re_password != ''):
-        if (password == re_password):
-
-            dynamodb = boto3.resource('dynamodb')
-            table = dynamodb.Table('user')
-
-            response = table.scan(
-                ProjectionExpression="email",
-                FilterExpression=Attr('email').eq(email)
-            )
-            password = hashlib.sha256(password.encode())
-            password = password.hexdigest()
-
-            if (len(response['Items']) == 0):
-                response = table.put_item(
-                    Item={
-                        'username': username,
-                        'email': email,
-                        'password': password,
-                        'is_active': False,
-                    }
-                )
-
-
-                # request.session['username'] = username
-                # request.session['email'] = email
-                #
-                # return redirect('landing')
-                current_site = get_current_site(request)
-                mail_subject = 'Activate your account.'
-                message = render_to_string('acc_active_email.html', {
-                    'user': username,
-                    'domain': current_site.domain,
-                    'uid': urlsafe_base64_encode(force_bytes(email)),
-                    'token': account_activation_token.make_token(email),
-                })
-
-                send_mail(mail_subject, message, 'tripplanneread@gmail.com', [email])
-                return redirect('verify')
-
-
-            else:
-                messages.success(request, 'The email ID is already registerd')
-                return redirect('auth')
-        else:
-            messages.success(request, 'Failed to register as the password and confirm password do not match')
-            return redirect('auth')
-    else:
-        messages.success(request, 'Fill all the fields')
-        return redirect('auth')
+    return redirect('home')
 
 def logout_view(request):
     logout(request)
@@ -1145,7 +1323,7 @@ def maps(request):
     return render(request, 'maps.html', finalplan)
 
 def overview(request):
-    return render(request, 'trip_overview.html', finalplan)
+    return render(request, 'trip_overview.html')
 
 class loginapi(APIView):
 
