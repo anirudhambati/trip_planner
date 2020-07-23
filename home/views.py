@@ -1,6 +1,4 @@
 from django.shortcuts import render
-import boto3
-from boto3.dynamodb.conditions import Key, Attr
 from django.http import HttpResponse
 from django.core.mail import send_mail
 import hashlib
@@ -293,8 +291,6 @@ countries = [
 ]
 continents = ["Asia", "Europe", "Africa","North America", "South America"]
 
-
-
 def reset_display(request):
     return render(request,'registration/reset_form.html',{})
 
@@ -337,7 +333,6 @@ def verify_reset_password(request, uidb64, token):
     else:
         return HttpResponse('Activation link is invalid!')
 
-
 def save_password(request):
     email = request.session['email']
     dynamodb = boto3.resource('dynamodb')
@@ -361,13 +356,41 @@ def save_password(request):
     return redirect('landing')
 
 def home(request):
+    if request.method == 'POST':
+        if (request.POST['place'].lower() in continents) or (request.POST['place'].lower() in countries):
+            details = {}
+            details['place'] = request.POST['place']
+            details['checkin'] = request.POST['checkin']
+            details['checkout'] = request.POST['checkout']
+            details['price'] = request.POST['price']
+            details['type'] = 'continent' if (request.POST['place'].lower() in continent) else 'country'
+            return render(request, 'questions.html', details)
+        else:
+            pass
     return render(request, 'home.html')
 
 def questions(request):
-    if request.method == 'POST':
-        print(request.POST)
-        return redirect('/')
-    return render(request, 'questions.html')
+
+    details = {}
+    details['place'] = request.POST['place']
+    details['checkin'] = request.POST['checkin']
+    details['checkout'] = request.POST['checkout']
+    details['price'] = request.POST['price']
+
+    request.session['place'] = details['place']
+    request.session['checkin'] = details['checkin']
+    request.session['checkout'] = details['checkout']
+
+    return render(request, 'questions.html', details)
+
+def plan(request):
+
+    place = request.session['place']
+    checkin = request.session['checkin']
+    checkout = request.session['checkout']
+    data = {'place': place, 'checkin': checkin, 'checkout': checkout}
+
+    return render(request, 'trip_overview.html', data)
 
 def review(request):
     if request.method == 'POST':
@@ -397,11 +420,7 @@ def landing(request):
             return render(request, 'questions.html', details)
         else:
             pass
-    # try:
-    #     request.user.social_auth.filter(provider="google-oauth2")
-    # except NameError:
-    #     print("error")
-    # print("-------------------------------")
+
     return render(request, 'index.html')
 
 def blog(request):
@@ -415,54 +434,11 @@ def blog(request):
     print(queryset)
     return render(request, 'blog3.html', context)
 
-
 def blogabout(request):
     return render(request, 'blogabout.html')
 
 def addpost(request):
     return render(request, 'addpost.html')
-
-# def upload(request):
-
-    # myfile = request.FILES['sentFile']
-    # fs = FileSystemStorage()
-    # filename = fs.save(myfile.name, myfile)
-    # f = request.FILES['sentFile']
-    # f="./media/"+str(myfile)
-    # s3 = boto3.client('s3')
-    # bucket = 'tripplannerbucket'
-
-    # file_name = str(f)
-    # key_name = str(myfile)
-    # ###
-
-    # s3.upload_file(file_name, bucket, key_name)
-
-    # bucket_location = boto3.client('s3').get_bucket_location(Bucket=bucket)
-    # link = "https://s3-ap-south-1.amazonaws.com/{0}/{1}".format(
-    #         bucket,
-    #         key_name)
-    # email="saiavinash.d17@iiits.in"
-    # category="monument"
-    # description=request.POST.get['Description']
-    # title=request.POST.get['Title']
-    # dynamoDB = boto3.resource('dynamodb')
-    # dynamoTable = dynamoDB.Table('blog')
-
-    # scan = dynamoTable.scan()
-
-    # dynamoTable.put_item(
-    #     Item={
-    #         'email': email,
-    #         'category': category,
-    #         'content':description,
-    #         'date':str(str(now.day) + '/' + str(now.month) + '/' + str(now.year)),
-    #         'title':title,
-
-    #         }
-    # )
-    # return render(request, 'blog.html')
-
 
 def about(request):
     return render(request, 'about.html')
@@ -473,18 +449,10 @@ def timeline(request):
 def auth(request):
     return render(request, 'auth.html')
 
-def plan(request):
-    return render(request, 'plan.html')
-
-
-
-
 def login(request):
 
     email = request.POST.get('email')
     password = request.POST.get('password')
-    password = hashlib.sha256(password.encode())
-    password = password.hexdigest()
 
     recaptcha_response = request.POST.get('g-recaptcha-response')
 
@@ -518,63 +486,22 @@ def login(request):
     return redirect('home')
 
 def signup(request):
+
     username = request.POST.get('username')
     email = request.POST.get('email')
     password = request.POST.get('password')
     re_password = request.POST.get('repassword')
 
-    user = authe.create_user_with_email_and_password(email, password)
+    try:
+        user = authe.create_user_with_email_and_password(email, password)
+        uid = user['localId']
+        data = {'name':username}
+        database.child('users').child('uid').child('details').set(data, user['idToken'])
+    except:
+         messages.success(request, 'Failed to sign up')
+         return redirect('auth')
 
-    if (username != '' and email != '' and password != '' and re_password != ''):
-        if (password == re_password):
-
-            dynamodb = boto3.resource('dynamodb')
-            table = dynamodb.Table('user')
-
-            response = table.scan(
-                ProjectionExpression="email",
-                FilterExpression=Attr('email').eq(email)
-            )
-            password = hashlib.sha256(password.encode())
-            password = password.hexdigest()
-
-            if (len(response['Items']) == 0):
-                response = table.put_item(
-                    Item={
-                        'username': username,
-                        'email': email,
-                        'password': password,
-                        'is_active': False,
-                    }
-                )
-
-
-                # request.session['username'] = username
-                # request.session['email'] = email
-                #
-                # return redirect('landing')
-                current_site = get_current_site(request)
-                mail_subject = 'Activate your account.'
-                message = render_to_string('acc_active_email.html', {
-                    'user': username,
-                    'domain': current_site.domain,
-                    'uid': urlsafe_base64_encode(force_bytes(email)),
-                    'token': account_activation_token.make_token(email),
-                })
-
-                send_mail(mail_subject, message, 'tripplanneread@gmail.com', [email])
-                return redirect('verify')
-
-
-            else:
-                messages.success(request, 'The email ID is already registerd')
-                return redirect('auth')
-        else:
-            messages.success(request, 'Failed to register as the password and confirm password do not match')
-            return redirect('auth')
-    else:
-        messages.success(request, 'Fill all the fields')
-        return redirect('auth')
+    return redirect('home')
 
 def logout_view(request):
     logout(request)
@@ -1145,7 +1072,7 @@ def maps(request):
     return render(request, 'maps.html', finalplan)
 
 def overview(request):
-    return render(request, 'trip_overview.html', finalplan)
+    return render(request, 'trip_overview.html')
 
 class loginapi(APIView):
 
