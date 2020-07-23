@@ -709,6 +709,25 @@ body {
   display: none;
 }
 
+.bgoverlay {
+  position: absolute;
+  bottom: 0;
+  background: rgb(0, 0, 0);
+  background: rgba(0, 0, 0, 0.5); /* Black see-through */
+  color: #f1f1f1;
+  width: 100%;
+  transition: .5s ease;
+  opacity:0;
+  color: white;
+  font-size: 20px;
+  padding: 20px;
+  text-align: center;
+}
+.hotels:hover .bgoverlay {
+  opacity: 1;
+}
+
+
 /* Hide scrollbar for IE and Edge */
 #scrollbar {
   -ms-overflow-style: none;
@@ -717,6 +736,8 @@ body {
 </style>
 <script src="jquery-3.4.1.min.js"></script>
 <link href='//fonts.googleapis.com/css?family=Roboto:200,400,600' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Raleway:200,400,600' rel='stylesheet' type='text/css'>
+
 <script src="https://kit.fontawesome.com/ea0619ce99.js" crossorigin="anonymous"></script>
 
 {% endblock %}
@@ -744,7 +765,7 @@ body {
           <div class="cd-timeline-img cd-picture">
             {% if plan.journey.0.mode == 'Fly' %}
                 <i style="color:white;margin-left:31%;margin-top:31%;font-size:24px;" class="fas fa-plane"></i>
-            {% elif plan.journey.0.mode == 'Subway' %}
+            {% elif plan.journey.0.mode == 'Train' %}
                 <i style="color:white;margin-left:31%;margin-top:31%;font-size:24px;" class="fas fa-subway"></i>
             {% elif plan.journey.0.mode == 'Bus' %}
                 <i style="color:white;margin-left:31%;margin-top:31%;font-size:24px;" class="fas fa-bus"></i>
@@ -794,7 +815,7 @@ body {
                     <td style="width:35%;padding-top:4%;padding-bottom:2%;">
                       {% if opt.mode == 'Fly' %}
                           <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-plane"></i>
-                      {% elif opt.mode == 'Subway' %}
+                      {% elif opt.mode == 'Train' %}
                           <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-subway"></i>
                       {% elif opt.mode == 'Bus' %}
                           <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-bus"></i>
@@ -817,7 +838,7 @@ body {
         <span style="cursor: pointer;color:#6b9ee8">End: </span>{{ end.place }}
         {% if end.journey.0.mode == 'Fly' %}
             <i style="color:#6b9ee8; cursor:pointer" onclick="opt()" id="endsym" class="fas fa-plane"> +</i>
-        {% elif end.journey.0.mode == 'Subway' %}
+        {% elif end.journey.0.mode == 'Train' %}
             <i style="color:#6b9ee8; cursor:pointer" onclick="opt()" id="endsym" class="fas fa-subway"> +</i>
         {% elif end.journey.0.mode == 'Bus' %}
             <i style="color:#6b9ee8; cursor:pointer" onclick="opt()" id="endsym" class="fas fa-bus"> +</i>
@@ -833,7 +854,7 @@ body {
               <td style="width:35%;padding-top:4%;padding-bottom:2%;">
                 {% if opt.mode == 'Fly' %}
                     <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-plane"></i>
-                {% elif opt.mode == 'Subway' %}
+                {% elif opt.mode == 'Train' %}
                     <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-subway"></i>
                 {% elif opt.mode == 'Bus' %}
                     <i style="margin-left:40%;color:#6b9ee8;font-size:20px;" class="fas fa-bus"></i>
@@ -854,7 +875,12 @@ body {
   </div>
 </div>
 
-<div style="display:block;clear:both;font-weight:bold;margin-left:22%; font-size:200%;">
+<div class="hotels" style="margin-left:-5%;width:100%;height:500px;background-size:100%;">
+  <img style="width:100%;height:500px;z-index:0;" src="{% static 'blogbg.jpg' %}" alt="">
+  <div class="bgoverlay">My Name is John</div>
+</div>
+
+<!-- <div style="display:block;clear:both;font-weight:bold;margin-left:22%; font-size:200%;">
   Day 1: New Delhi
 </div>
 <br><br>
@@ -904,7 +930,7 @@ body {
       <td style="width:15%; margin-left:25%; font-size:80%;">Rashtrapathi Bhavan <br> 10:00 AM, 15-02-2020</td>
     </tr>
   </table>
-</div>
+</div> -->
 <br><br><br><br><br><br><br>
 
 <script>
@@ -956,14 +982,240 @@ body {
 {% block extrajs %}
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCe2otGPKiUf4Qq35MmOfDWHaQm-Cjtopw&libraries=places&callback=initMap" async defer></script>
 <script>
-
   var locations = [];
 
   function initMap() {
+    var styledMapType = new google.maps.StyledMapType([
+  {
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#ebe3cd"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#523735"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "color": "#f5f1e6"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative",
+    "elementType": "geometry.stroke",
+    "stylers": [
+      {
+        "color": "#c9b2a6"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative.land_parcel",
+    "elementType": "geometry.stroke",
+    "stylers": [
+      {
+        "color": "#dcd2be"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative.land_parcel",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#ae9e90"
+      }
+    ]
+  },
+  {
+    "featureType": "landscape.natural",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#dfd2ae"
+      }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#dfd2ae"
+      }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#93817c"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "geometry.fill",
+    "stylers": [
+      {
+        "color": "#a5b076"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#447530"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#f5f1e6"
+      }
+    ]
+  },
+  {
+    "featureType": "road.arterial",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#fdfcf8"
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#f8c967"
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "geometry.stroke",
+    "stylers": [
+      {
+        "color": "#e9bc62"
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway.controlled_access",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#e98d58"
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway.controlled_access",
+    "elementType": "geometry.stroke",
+    "stylers": [
+      {
+        "color": "#db8555"
+      }
+    ]
+  },
+  {
+    "featureType": "road.local",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#806b63"
+      }
+    ]
+  },
+  {
+    "featureType": "transit.line",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#dfd2ae"
+      }
+    ]
+  },
+  {
+    "featureType": "transit.line",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#8f7d77"
+      }
+    ]
+  },
+  {
+    "featureType": "transit.line",
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "color": "#ebe3cd"
+      }
+    ]
+  },
+  {
+    "featureType": "transit.station",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#dfd2ae"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "geometry.fill",
+    "stylers": [
+      {
+        "color": "#b9d3c2"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#92998d"
+      }
+    ]
+  }
+],{name: 'Travel Map'})
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 12,
-      center: {lat: -34.397, lng: 150.644}
+      center: {lat: -34.397, lng: 150.644},
+      mapTypeControlOptions: {
+        mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain',
+                'styled_map']
+      }
     });
+
+    map.mapTypes.set('styled_map', styledMapType);
+    map.setMapTypeId('styled_map');
+    const symbol = {
+      path: "M -2,-2 2,2 M 2,-2 -2,2",
+      strokeColor: "#292",
+      strokeWeight: 3
+    };
 
     var latlngs = document.getElementsByClassName('latlng');
     var names = document.getElementsByClassName('title');
@@ -971,20 +1223,35 @@ body {
     for(var i=0;i<latlngs.length;i++){
       latlng = latlngs[i].innerHTML.split(" ");
       pointer_list.push({lat:parseFloat(latlng[0]), lng:parseFloat(latlng[1])});
+      if(i !== latlngs.length-1){
+        latlng2 = latlngs[i+1].innerHTML.split(" ");
+        var flightPath = new google.maps.Polyline({
+          path: [
+            {lat:parseFloat(latlng[0]), lng:parseFloat(latlng[1])},
+            {lat:parseFloat(latlng2[0]), lng:parseFloat(latlng2[1])}
+          ],
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2,
+          icons: [
+            {
+              icon: symbol,
+              offset: "0%"
+            },
+            {
+              icon: symbol,
+              offset: "100%"
+            }
+          ],
+        });
+        flightPath.setMap(map);
+      }
     }
     mark_pointers(map, pointer_list, names);
-
-    var flightPath = new google.maps.Polyline({
-      path: pointer_list,
-      geodesic: true,
-      strokeColor: '#FF0000',
-      strokeOpacity: 1.0,
-      strokeWeight: 2
-    });
-    flightPath.setMap(map);
-
   }
 
+  const image = "{% static 'location.png' %}";
   function mark_pointers(map, list, names){
     var bounds = new google.maps.LatLngBounds();
     for(var i=0;i<list.length;i++){
@@ -993,12 +1260,16 @@ body {
       bounds.extend(position);
       var marker = new google.maps.Marker({
         position: position,
-        title: names[i].innerHTML.split('<')[0]
+        animation: google.maps.Animation.DROP,
+        title: names[i].innerHTML.split('<')[0],
+        icon: image,
+        label:(i+1).toString()
       });
       map.fitBounds(bounds);
       marker.setMap(map);
     }
   }
+
 
 </script>
 {% endblock %}

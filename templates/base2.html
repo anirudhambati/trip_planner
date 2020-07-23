@@ -26,7 +26,123 @@
     <link rel="stylesheet" href={% static "/landing/css/icomoon.css" %}>
     <link rel="stylesheet" href={% static "/landing/css/style.css" %}>
     <style media="screen">
+    /* @keyframes spin {
+from {
+  transform: rotate(0);
+}
+to{
+  transform: rotate(359deg);
+}
+}
 
+@keyframes spin3D {
+from {
+  transform: rotate3d(.5,.5,.5, 360deg);
+}
+to{
+  transform: rotate3d(0deg);
+}
+}
+
+@keyframes configure-clockwise {
+0% {
+  transform: rotate(0);
+}
+25% {
+  transform: rotate(90deg);
+}
+50% {
+  transform: rotate(180deg);
+}
+75% {
+  transform: rotate(270deg);
+}
+100% {
+  transform: rotate(360deg);
+}
+}
+
+@keyframes configure-xclockwise {
+0% {
+  transform: rotate(45deg);
+}
+25% {
+  transform: rotate(-45deg);
+}
+50% {
+  transform: rotate(-135deg);
+}
+75% {
+  transform: rotate(-225deg);
+}
+100% {
+  transform: rotate(-315deg);
+}
+}
+
+@keyframes pulse {
+from {
+  opacity: 1;
+  transform: scale(1);
+}
+to {
+  opacity: .25;
+  transform: scale(.75);
+}
+}
+.spinner-box {
+  width: 500px;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+}
+.leo {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 50%;
+}
+.blue-orbit {
+	width: 200px;
+	height: 200px;
+  border: 2px solid #91daffa5;
+  -webkit-animation: spin3D 3s linear .2s infinite;
+}
+
+.green-orbit {
+	width: 170px;
+	height: 170px;
+  border: 2px solid #91ffbfa5;
+  -webkit-animation: spin3D 2s linear 0s infinite;
+}
+
+.red-orbit {
+	width: 120px;
+	height: 120px;
+  border: 2px solid #ffca91a5;
+  -webkit-animation: spin3D 1s linear 0s infinite;
+}
+
+.white-orbit {
+	width: 80px;
+	height: 80px;
+  border: 4px solid #ffffff;
+  -webkit-animation: spin3D 10s linear 0s infinite;
+}
+.w1 {
+  transform: rotate3D(1, 1, 1, 90deg);
+}
+
+.w2 {
+  transform: rotate3D(1, 2, .5, 90deg);
+}
+
+.w3 {
+  transform: rotate3D(.5, 1, 2, 90deg);
+} */
         #navbar2 {
           overflow: hidden;
           background-color: white;
@@ -69,6 +185,7 @@
 
   </head>
   <body>
+    <div id="page">
 	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
 	      <a class="navbar-brand" href="index.html"><span>Traveland</span></a>
@@ -168,12 +285,29 @@
       </div>
     </footer>
 
+        </div>
 
 
   <!-- loader -->
 
-  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="100px" height="100px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+  <!-- <div style="background-color:rgba(0,0,0,0.5);height:100vh;width:100%;background-color:#1d2630;position:fixed;" id="loading">
+    <div style="top:15%;left:30%;position:fixed;" class="spinner-box">
+      <div class="blue-orbit leo">
+      </div>
 
+      <div class="green-orbit leo">
+      </div>
+
+      <div class="red-orbit leo">
+      </div>
+
+      <div class="white-orbit w1 leo">
+      </div><div class="white-orbit w2 leo">
+      </div><div class="white-orbit w3 leo">
+      </div>
+    </div>
+  </div> -->
 
   <script src={% static "/landing/js/jquery.min.js" %}></script>
   <script src={% static "/landing/js/jquery-migrate-3.0.1.min.js" %}></script>
@@ -190,6 +324,37 @@
   <script src={% static "/landing/js/scrollax.min.js" %}></script>
   <script src={% static "/landing/js/google-map.js" %}></script>
   <script src={% static "/landing/js/main.js" %}></script>
+  <!-- <script type="text/javascript">
+    //   function onReady(callback) {
+    //   var intervalID = window.setInterval(checkReady, 5000);
+    //
+    //   function checkReady() {
+    //       if (document.getElementsByTagName('body')[0] !== undefined) {
+    //           window.clearInterval(intervalID);
+    //           callback.call(this);
+    //       }
+    //   }
+    // }
+    //
+    // function show(id, value) {
+    //   document.getElementById(id).style.display = value ? 'block' : 'none';
+    // }
+    //
+    // onReady(function () {
+    //   show('page', true);
+    //   show('loading', false);
+    // });
+    var myVar;
+
+function myFunction() {
+  myVar = setTimeout(showPage, 2000);
+}
+
+function showPage() {
+  document.getElementById("loading").style.display = "none";
+  document.getElementById("page").style.display = "block";
+}
+  </script> -->
 
   {% block extrajs %}
 
