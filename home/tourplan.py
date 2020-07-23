@@ -148,6 +148,22 @@ def check_time(t1, t2):
     time = datetime.datetime(100, 1, 1, t1.hour, t1.minute, t1.second) - datetime.datetime(100, 1, 1, t2.hour, t2.minute, t2.second)
     return time.total_seconds()/60
 
+def journey(origin, dest):
+    dist_url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins={}&destinations={}&mode={}&key={}'
+    api_key = 'AIzaSyCn12sRqYwxSTVWD8debtCCpBBNwFU-6js'
+    arr = []
+    r = requests.get(dist_url.format(origin, dest, 'DRIVING', api_key)).json()
+    dist, time = r['rows'][0]['elements'][0]['distance']['text'], r['rows'][0]['elements'][0]['duration']['text']
+    arr.append({'mode': "Car", 'distance':dist, 'time': time})
+    r = requests.get(dist_url.format(origin, dest, 'TRANSIT', api_key)+'&transit_mode=BUS').json()
+    dist, time = r['rows'][0]['elements'][0]['distance']['text'], r['rows'][0]['elements'][0]['duration']['text']
+    arr.append({'mode': "Bus", 'distance':dist, 'time': time})
+    r = requests.get(dist_url.format(origin, dest, 'TRANSIT', api_key)+'&transit_mode=TRAIN').json()
+    dist, time = r['rows'][0]['elements'][0]['distance']['text'], r['rows'][0]['elements'][0]['duration']['text']
+    arr.append({'mode': "Train", 'distance':dist, 'time': time})
+
+    return arr
+
 def fplan(cities, start_date, end_date):
     num_days = end_date - start_date
     num_days = num_days.days+1
@@ -194,7 +210,7 @@ def fplan(cities, start_date, end_date):
     max_time = time(20, 30)
     max_l = max(city)
     for dayid in range(num_days):
-        day = {"day":parse_date(date.strftime("%Y-%m-%d")), "places": []}
+        day = {"day":str(parse_date(date.strftime("%Y-%m-%d"))), "places": []}
         t = time(10, 30)
         for _ in range(5):
             if(len(city) == 0):
@@ -240,8 +256,50 @@ def fplan(cities, start_date, end_date):
             strt = t.strftime("%H:%M")
             end = (datetime.datetime(100, 1, 1, t.hour, t.minute, t.second) + timedelta(minutes=rt)).time()
             end = round_time(end)
-            place = {"starttime":strt, "endtime":end.strftime("%H:%M"), "name":name, "lat":lat, "lng":lng}
+            place = {"starttime":str(strt), "endtime":str(end.strftime("%H:%M")), "name":name, "lat":lat, "lng":lng}
             day['places'].append(place)
         idx += 1
 
-    return plan
+# ------------------------- city extracts here ---------------------------
+
+    data = plan
+    coords = []
+    for day in data:
+        place_lat = day['places'][-1]['lat']
+        place_lng = day['places'][-1]['lng']
+        coords.append((place_lat, place_lng))
+
+    url = "https://maps.googleapis.com/maps/api/geocode/json?latlng={},{}&key={}"
+    key = 'AIzaSyCe2otGPKiUf4Qq35MmOfDWHaQm-Cjtopw'
+    cities = []
+    for coord in coords:
+        r = requests.get(url.format(coord[0], coord[1], key))
+        result_city = r.json()['results'][0]['address_components'][-4]['long_name']
+        result_country = r.json()['results'][0]['address_components'][-2]['long_name']
+        cities.append(result_city+", "+result_country)
+
+    final_obj = []
+    visited = []
+    city_dict = {}
+    for i, city in enumerate(cities, 0):
+        #print(city)
+        if city not in visited:
+            final_obj.append(city_dict)
+            visited.append(city)
+            city_dict = {'place':city, 'lat':coords[i][0], 'lng':coords[i][1], 'start_date':str(data[i]['day']), 'end_date':str(data[i]['day']), 'places':[data[i]]}
+        else:
+            city_dict['end_date'] = str(data[i]['day'])
+            city_dict['places'].append(data[i])
+    final_obj.append(city_dict)
+    final_obj = final_obj[1:]
+
+    start_city = 'New Delhi, India'
+    end_city = 'New Delhi, India'
+    final_obj = {"start":start_city, 'finalplan':final_obj, 'end':{"place": end_city, "journey":[]}}
+
+    final_obj['finalplan'][0]['journey'] = journey(start_city, final_obj['finalplan'][0]['place'])
+    for i, city in enumerate(final_obj['finalplan'][:-1], 0):
+        final_obj['finalplan'][i+1]['journey'] = journey(final_obj['finalplan'][i]['place'], final_obj['finalplan'][i+1]['place'])
+    final_obj['end']['journey'] = journey(final_obj['finalplan'][-1]['place'], end_city)
+
+    return final_obj
