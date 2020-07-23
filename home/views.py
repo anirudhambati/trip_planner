@@ -438,7 +438,7 @@ def blogabout(request):
     return render(request, 'blogabout.html')
 
 def addpost(request):
-    return render(request, 'addpost.html')
+    return render(request, 'addpost2.html')
 
 def about(request):
     return render(request, 'about.html')
