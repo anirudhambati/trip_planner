@@ -485,7 +485,7 @@ def addpost(request):
     return render(request, 'addpost2.html')
 
 def about(request):
-    return render(request, 'about.html')
+    return render(request, 'hotels.html')
 
 def timeline(request):
     return render(request, 'timeline.html')
@@ -600,7 +600,7 @@ finalplan = {"start": 'New Delhi, India',
                                         "time": 2
                                     },
                                     {
-                                        "mode": 'Subway',
+                                        "mode": 'Train',
                                         "distance": 1900,
                                         "time": 48
                                     },
@@ -697,7 +697,7 @@ finalplan = {"start": 'New Delhi, India',
                         "lng":80.2707,
                         'journey':[
                                     {
-                                        "mode": 'Subway',
+                                        "mode": 'Train',
                                         "distance": 900,
                                         "time": 12
                                     },
@@ -1003,7 +1003,7 @@ finalplan = {"start": 'New Delhi, India',
                                         "time": 3
                                     },
                                     {
-                                        "mode": 'Subway',
+                                        "mode": 'Train',
                                         "distance": 150,
                                         "time": 5
                                     }
@@ -1099,7 +1099,7 @@ finalplan = {"start": 'New Delhi, India',
                             "time": 2
                         },
                         {
-                            "mode": 'Subway',
+                            "mode": 'Train',
                             "distance": 1900,
                             "time": 24
                         },

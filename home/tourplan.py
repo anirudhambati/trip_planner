@@ -169,26 +169,24 @@ def fplan(cities, start_date, end_date):
     num_days = num_days.days+1
     print(num_days)
     print(len(cities))
-    if num_days > 1:
-        if num_days*6 < len(cities):
-            R = [[place['location']['lat'], place['location']['lng']] for place in cities[:num_days*6]]
-            ncity = len(R)
-            maxSteps = 100*ncity
-            maxAccepted = 10*ncity
-            city = list(range(ncity))
-            dist = TotalDistance(city, R)
-            n = zeros(6, dtype=int)
-            nct = len(R)
+    if num_days*6 < len(cities):
+        R = [[place['location']['lat'], place['location']['lng']] for place in cities[:num_days*6]]
+        ncity = len(R)
+        maxSteps = 100*ncity
+        maxAccepted = 10*ncity
+        city = list(range(ncity))
+        dist = TotalDistance(city, R)
+        n = zeros(6, dtype=int)
+        nct = len(R)
 
-            #Plot(city, R, dist, 'Initial')
+        #Plot(city, R, dist, 'Initial')
 
-            dist, city = simulation(R, ncity, maxSteps, maxAccepted, city, dist, n, nct)
+        dist, city = simulation(R, ncity, maxSteps, maxAccepted, city, dist, n, nct)
 
-            #Plot(city, R, dist, 'Final')
-        else:
-            city = list(range(len(cities)))
+        #Plot(city, R, dist, 'Final')
     else:
-        city = [0, 1, 2]
+        R = [[place['location']['lat'], place['location']['lng']] for place in cities]
+        city = list(range(len(cities)))
 
     print(city)
 
