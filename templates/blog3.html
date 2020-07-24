@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'basein.html' %}
 {% load static %}
 
 {% block extrahead %}
@@ -45,7 +45,7 @@
                 </header>
                 <p>{{ obj.overview|linebreaks|truncatechars:200 }}</p>
                 <footer class="post-footer d-flex align-items-center"><a href="#" class="author d-flex align-items-center flex-wrap">
-                   
+
                     <div class="title"><span>{{ obj.author }}</span></div></a>
                   <div class="date"><i class="icon-clock"></i> {{ obj.timestamp|timesince }} ago</div>
                   <div class="comments"><i class="icon-comment"></i>{{ obj.comment_count }}</div>
@@ -61,13 +61,13 @@
       </div>
     </section>
     <!-- Divider Section-->
-   
+
     <!-- Latest Posts -->
-    <section class="latest-posts"> 
+    <section class="latest-posts">
       <div class="container">
-        <header> 
+        <header>
           <h2>Latest from the blog</h2>
-         
+
         </header>
         <div class="row">
           {% for obj in latest %}
@@ -90,7 +90,7 @@
         </div>
       </div>
     </section>
-   
-   
+
+
 
 {% endblock %}
