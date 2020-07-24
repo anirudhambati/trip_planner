@@ -471,11 +471,18 @@ def landing(request):
     return render(request, 'index.html')
 
 def blog(request):
-    queryset = post.objects.filter(featured=True)
-    latest = post.objects.order_by('-timestamp')[0:3]
-    context = {
-        'object_list': queryset,
-        'latest': latest,
+    # queryset = post.objects.filter(featured=True)
+    # latest = post.objects.order_by('-timestamp')[0:3]
+    # image= "/media/venom.jpg"
+    # title= ["venom","new"]
+    # description= ["venom is a good film","new is a new post"]
+    # timestamp= "21 jun 2020"
+    # context = {
+    #     'img': image,
+    #     'title': title,
+    #     'description': description,
+    #     'time':timestamp,
+        
     }
 
     
