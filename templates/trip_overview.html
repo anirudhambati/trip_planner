@@ -848,11 +848,18 @@ body {
 
 {% block body %}
 
-  <div id="navbar2" style="box-shadow: 0 4px 2px -2px gray;width:100%">
+  <!-- <div id="navbar2" style="box-shadow: 0 4px 2px -2px gray;width:100%">
     <div style="margin-left: 36%;">
       <a href="/overview#navbar2">Overview</a>
-      <!-- <a href="">Timeline</a> -->
+       <a href="">Timeline</a>
       <a style="color:#222831" href="/maps#navbar2">Day-Wise Maps</a>
+    </div>
+  </div> -->
+  <div id="navbar2" style="box-shadow: 0 4px 2px -2px gray;width:100%">
+    <div style="margin-left: 30%;">
+      <a class="active" href="{% url 'home:plan' %}">Overview</a>
+      <a style="color:#222831" href="{% url 'home:timeline' %}">Timeline</a>
+      <a style="color:#222831" href="{% url 'home:maps' %}">Day-Wise Maps</a>
     </div>
   </div>
 
