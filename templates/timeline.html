@@ -58,7 +58,7 @@
       color: #8D8D8D !important;
       position: absolute !important;
       width:100px !important;
-      left: -50%; !important
+      left: -30%; !important
       text-align: right !important;
       font-size: 12px !important;
   }
@@ -159,6 +159,11 @@ button {
 
 {% endblock %}
 
+{% block travel %}
+<h1 style="margin-top:-35%;" class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">{{ plan_name }} tour plan</h1>
+<p style="margin-top:0%;" class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">{{checkin}} to {{checkout}}</p>
+<p style="margin-top:0%;" class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">{{days}} day(s)</p>
+{% endblock %}
 
 {% block body %}
 <div id="navbar2" style="box-shadow: 0 4px 2px -2px gray;width:100%">
@@ -168,81 +173,48 @@ button {
     <a style="color:#222831" href="{% url 'home:maps' %}">Day-Wise Maps</a>
   </div>
 </div>
+<br><br><br>
 
 <div class="" style="font-weight:bold; margin-left:22%; font-size:200%;">
-  {{ data['name'] }} Tour Plan
+  {{ plan_name }} tour plan
 </div>
+<span style="font-size:100%;margin-left:22%">{{checkin}} to {{checkout}} - {{days}} day(s)</span><br><br>
 
 
-<div class="" style="font-weight:bold; margin-left:22%; font-size:200%;">
-  Day 1 : 3rd March, 2015
-</div>
-
-<br>
-
-<div class="history-tl-container" style='line-height:1.3em; min-width:920px;'>
-  <ul class="tl">
-    <li class="tl-item" ng-repeat="item in retailer_history">
-      <div class="timestamp">
-        3rd March 2015<br> 7:00 PM
-      </div>
-      <div class="item-title">Delhi</div>
-      <div class="item-detail">Don't forget the ring</div>
-    </li>
-    <li class="tl-item" ng-repeat="item in retailer_history">
-      <div class="timestamp">
-        19th March 2015<br> 3:00 PM
-      </div>
-      <div class="item-title">Agra</div>
-      <div class="item-detail">Don't enter the caves!!</div>
-    </li>
-    <li class="tl-item" ng-repeat="item in retailer_history">
-      <div class="timestamp">
-        1st June 2015<br> 7:00 PM
-      </div>
-      <div class="item-title">Jaipur &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-      <div class="item-detail">Also, throw that Gollum too</div>
-    </li>
-
-  </ul>
-  <br><br><br><br>
-
-</div>
-
-
+{% for p in plan.finalplan %}
+  {% for d in p.places %}
   <div class="" style="font-weight:bold; margin-left:22%; font-size:200%;">
-    Day 2 : 4th March, 2015
+    {{d.day}}
   </div>
-
-  <br>
 
   <div class="history-tl-container" style='line-height:1.3em; min-width:920px;'>
     <ul class="tl">
+
+      {% for l in d.places %}
       <li class="tl-item" ng-repeat="item in retailer_history">
         <div class="timestamp">
-          3rd March 2015<br> 7:00 PM
+          {{d.day}}<br> {{l.starttime}} - {{l.endtime}}
+          <!-- <br><br> Next: {{l.next}} -->
         </div>
-        <div class="item-title">Delhi</div>
-        <div class="item-detail">Don't forget the ring</div>
+        <div class="item-title">{{ l.name }}</div>
+        <div class="item-detail">
+          type:
+          {% for c in l.type %} {{c }}
+          {% endfor %} <br>
+          rating: {{l.rating}}</div>
       </li>
-      <li class="tl-item" ng-repeat="item in retailer_history">
-        <div class="timestamp">
-          19th March 2015<br> 3:00 PM
-        </div>
-        <div class="item-title">Agra</div>
-        <div class="item-detail">Don't enter the caves!!</div>
-      </li>
-      <li class="tl-item" ng-repeat="item in retailer_history">
-        <div class="timestamp">
-          1st June 2015<br> 7:00 PM
-        </div>
-        <div class="item-title">Jaipur &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-        <div class="item-detail">Also, throw that Gollum too</div>
-      </li>
+      {% endfor %}
+
+
 
     </ul>
     <br><br><br><br>
+
   </div>
+
+  {% endfor %}
+{% endfor %}
+
 
 <br><br><br>
 {% endblock %}

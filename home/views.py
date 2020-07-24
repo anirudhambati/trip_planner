@@ -485,11 +485,18 @@ def landing(request):
     return render(request, 'index.html')
 
 def blog(request):
-    queryset = post.objects.filter(featured=True)
-    latest = post.objects.order_by('-timestamp')[0:3]
-    context = {
-        'object_list': queryset,
-        'latest': latest,
+    # queryset = post.objects.filter(featured=True)
+    # latest = post.objects.order_by('-timestamp')[0:3]
+    # image= "/media/venom.jpg"
+    # title= ["venom","new"]
+    # description= ["venom is a good film","new is a new post"]
+    # timestamp= "21 jun 2020"
+    # context = {
+    #     'img': image,
+    #     'title': title,
+    #     'description': description,
+    #     'time':timestamp,
+
     }
 
     return render(request, 'blog3.html', context)
@@ -513,6 +520,31 @@ def addpost(request):
         database.child('blog').child(a).child('post').child(title).child(description).child(image).set(data)
 
     return render(request, 'addpost2.html')
+
+def post_add(request):
+
+    import random
+    import string
+
+    title = request.POST['title']
+    description = request.POST['description']
+    cat_list=["hill station","temple","monument"]
+    pid = 'b'.join([random.choice(string.ascii_letters + string.digits) for n in range(5)])
+
+    data = {
+        'pid': pid,
+        'title': title,
+        'description': description,
+        'image':"1.jpg",
+        'category': cat_list,}
+
+    idtoken = request.session['uid']
+
+    a = authe.get_account_info(idtoken)
+    a = a['users'][0]['localId']
+
+    database.child('blog').child(a).child('post').set(data)
+    return HttpResponse('success')
 
 def about(request):
     return render(request, 'addpost2.html')
@@ -1145,8 +1177,8 @@ finalplan = {"start": 'New Delhi, India',
         }
 
 def maps(request):
-    finalplan = request.session['pdata']
-    finalplan = finalplan['plan']
+    finalplan1 = request.session['pdata']
+    finalplan = finalplan1['plan']
     return render(request, 'maps.html', finalplan)
 
 def overview(request):

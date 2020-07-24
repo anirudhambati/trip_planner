@@ -11,6 +11,7 @@ urlpatterns = [
     path('questions/', views.questions, name="questions"),
     path('plan/', views.plan, name="plan"),
     path('timeline/', views.timeline, name="timeline"),
-    path('maps/', views.maps, name="maps")
+    path('maps/', views.maps, name="maps"),
+    path('upload/', views.post_add, name='upload')
 
     ]
