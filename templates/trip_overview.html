@@ -775,6 +775,53 @@ body {
   text-align: right;
 }
 
+.form__list-item {
+  position: relative;
+  vertical-align: top;
+  display: inline-block;
+  width: 50%;
+  padding: 0 .5rem;
+  margin-bottom: 1rem;
+}
+.form__list-item--full {
+  width: 100%;
+}
+.form__input {
+  border: 1px solid #ddd;
+  width: 100%;
+  border-radius: 2px;
+  outline: none;
+  font-size: 1rem;
+  padding: 0.94rem 1rem;
+  -webkit-transition: all 200ms;
+  transition: all 200ms;
+  font-family: 'Georgia';
+}
+.form__input:focus {
+  border-color: aquamarine;
+  box-shadow: 0 0 0 2px aquamarine inset;
+}
+.form__input:valid {
+  padding: 1.5rem 1rem .38rem;
+}
+.form__input:valid + .form__label {
+  font-size: .75rem;
+  top: .5rem;
+  opacity: 1;
+  z-index: 1;
+}
+.form__label {
+  position: absolute;
+  top: 1.25rem;
+  font-size: 1rem;
+  font-family: 'Georgia';
+  left: 1.5rem;
+  color: #999;
+  opacity: 0;
+  z-index: -1;
+  -webkit-transition: all 200ms;
+  transition: all 200ms;
+}
 
 /* Hide scrollbar for IE and Edge */
 #scrollbar {
@@ -798,11 +845,12 @@ body {
       <a style="color:#222831" href="/maps#navbar2">Day-Wise Maps</a>
     </div>
   </div> -->
+
   <div id="navbar2" style="box-shadow: 0 4px 2px -2px gray;width:100%">
     <div style="margin-left: 30%;">
-      <a class="active" href="{% url 'home:plan' %}">Overview</a>
-      <a style="color:#222831" href="{% url 'home:timeline' %}">Timeline</a>
-      <a style="color:#222831" href="{% url 'home:maps' %}">Day-Wise Maps</a>
+      <a class="active" href="{% url 'home:plan' %}{% if id %}?id={{ id }}{% endif %}">Overview</a>
+      <a style="color:#222831" href="{% url 'home:timeline' %}{% if id %}?id={{ id }}{% endif %}">Timeline</a>
+      <a style="color:#222831" href="{% url 'home:maps' %}{% if id %}?id={{ id }}{% endif %}">Day-Wise Maps</a>
     </div>
   </div>
 
@@ -928,7 +976,7 @@ body {
   </div>
 </div>
 
-<div class="hotels" style="padding-left:5%;padding-top:2%;margin-top:3%;margin-left:3%;width:100%;height:550px;background-size:cover;background-image:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{% static 'hotel.jpg' %}')">
+<div class="hotels" style="padding-left:5%;padding-top:2%;margin-top:3%;margin-left:0%;width:100%;height:550px;background-size:cover;background-image:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{% static 'hotel.jpg' %}')">
   <h2 style="color:#f3f3f3;">FIND YOUR HOTEL</h2>
   <div class="row">
     <div id="hotel" style="height:450px;" class="col-7">
@@ -937,6 +985,10 @@ body {
     <div class="col-5">
       <div id="locationField">
         <input id="autocomplete" placeholder="Enter a city" type="text" />
+        <!-- <div class="form__list-item">
+          <input id="autocomplete" type="text" name="first_name" placeholder="First Name" class="form__input" />
+          <label for="first_name" class="form__label">First Name</label>
+        </div> -->
       </div>
 
       <div style="display:none;" id="controls">

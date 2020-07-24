@@ -454,6 +454,7 @@ def plan(request):
         a = authe.get_account_info(idtoken)
         a = a['users'][0]['localId']
         plan = database.child('users').child(a).child('plans').child(id).child('plan').get().val()
+        plan['id'] = id
 
     return render(request, 'trip_overview.html', plan)
 
@@ -553,8 +554,16 @@ def about(request):
     return render(request, 'addpost2.html')
 
 def timeline(request):
-    data = request.session['pdata']
-    print(type(data))
+    id = request.GET.get('id', '')
+    if id == "":
+        data = request.session['pdata']
+        print(type(data))
+    else:
+        idtoken = request.session['uid']
+        a = authe.get_account_info(idtoken)
+        a = a['users'][0]['localId']
+        data = database.child('users').child(a).child('plans').child(id).child('plan').get().val()
+        data['id'] = id
     return render(request, 'timeline.html', data)
 
 def auth(request):
@@ -1180,8 +1189,16 @@ finalplan = {"start": 'New Delhi, India',
         }
 
 def maps(request):
-    finalplan1 = request.session['pdata']
-    finalplan = finalplan1['plan']
+    id = request.GET.get('id', '')
+    if id == '':
+        finalplan1 = request.session['pdata']
+        finalplan = finalplan1['plan']
+    else:
+        idtoken = request.session['uid']
+        a = authe.get_account_info(idtoken)
+        a = a['users'][0]['localId']
+        finalplan = database.child('users').child(a).child('plans').child(id).child('plan').get().val()
+        finalplan['id'] = id
     return render(request, 'maps.html', finalplan)
 
 def overview(request):
