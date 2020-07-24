@@ -488,43 +488,18 @@ def landing(request):
     return render(request, 'index.html')
 
 def blog(request):
-    # queryset = post.objects.filter(featured=True)
-    # latest = post.objects.order_by('-timestamp')[0:3]
-    # image= "/media/venom.jpg"
-    # title= ["venom","new"]
-    # description= ["venom is a good film","new is a new post"]
-    # timestamp= "21 jun 2020"
-    # context = {
-    #     'img': image,
-    #     'title': title,
-    #     'description': description,
-    #     'time':timestamp,
 
-    #}
+    blogs = database.child('blog').get().val()
+    for x in blogs:
+        print(x)
+    print(blogs)
 
-
-
-
-    return render(request, 'blog2.html',context )
+    return render(request, 'blog2.html' )
 
 def blogabout(request):
     return render(request, 'blogabout.html')
 
 def addpost(request):
-    if request.method == "POST":
-
-        title= request.post['title']
-        description=request.post['description']
-        cat_list=["hill station","temple","monument"]
-
-        data = {
-            'title': title,
-            'description': description,
-            'image':"1.jpg",
-            'category': cat_list,}
-
-        database.child('blog').child(a).child('post').child(title).child(description).child(image).set(data)
-
     return render(request, 'addpost2.html')
 
 def post_add(request):
@@ -532,25 +507,36 @@ def post_add(request):
     import random
     import string
 
+    c1 = request.POST['check1']
+    c2 = request.POST['check2']
+    c3 = request.POST['check3']
+    c4 = request.POST['check4']
+    c5 = request.POST['check5']
+    c6 = request.POST['check6']
+
     title = request.POST['title']
+    image = request.POST['image']
     description = request.POST['description']
-    cat_list=["hill station","temple","monument"]
+    cat=[c1,c2,c3,c4,c5,c6]
+
+    while("" in cat) :
+        cat.remove("")
+
     pid = 'b'.join([random.choice(string.ascii_letters + string.digits) for n in range(5)])
-
-    data = {
-        'pid': pid,
-        'title': title,
-        'description': description,
-        'image':"1.jpg",
-        'category': cat_list,}
-
     idtoken = request.session['uid']
-
     a = authe.get_account_info(idtoken)
     a = a['users'][0]['localId']
 
-    database.child('blog').child(a).child('post').set(data)
-    return HttpResponse('success')
+    data = {
+        'pid': pid,
+        'idToken':a,
+        'title': title,
+        'description': description,
+        'image': image,
+        'category': cat,}
+
+    database.child('blog').child(pid).set(data)
+    return redirect('blog')
 
 def about(request):
     return render(request, 'addpost2.html')
