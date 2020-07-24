@@ -51,6 +51,7 @@ config = {
 }
 
 firebase = pyrebase.initialize_app(config)
+storage= firebase.storage()
 authe = firebase.auth()
 database = firebase.database()
 countries = [
@@ -432,6 +433,8 @@ def plan(request):
         'days': int(str(days))
     }
 
+    request.session['pdata'] = data
+
     database.child('users').child(a).child('plans').child(pid).set(data)
 
     return render(request, 'trip_overview.html', plan)
@@ -474,21 +477,37 @@ def blog(request):
         'object_list': queryset,
         'latest': latest,
     }
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    print(queryset)
+
+    
     return render(request, 'blog3.html', context)
 
 def blogabout(request):
     return render(request, 'blogabout.html')
 
 def addpost(request):
+    if request.method == "POST":
+        
+        title= request.post['title']
+        description=request.post['description']
+        cat_list=["hill station","temple","monument"]
+        
+        data = {
+            'title': title,
+            'description': description,
+            'image':"1.jpg",
+            'category': cat_list,}
+
+        database.child('blog').child(a).child('post').child(title).child(description).child(image).set(data)
+        
     return render(request, 'addpost2.html')
 
 def about(request):
-    return render(request, 'hotels.html')
+    return render(request, 'addpost2.html')
 
 def timeline(request):
-    return render(request, 'timeline.html')
+    data = request.session['pdata']
+    print(type(data))
+    return render(request, 'timeline.html', data)
 
 def auth(request):
     return render(request, 'auth.html')
@@ -1113,6 +1132,8 @@ finalplan = {"start": 'New Delhi, India',
         }
 
 def maps(request):
+    finalplan = request.session['pdata']
+    finalplan = finalplan['plan']
     return render(request, 'maps.html', finalplan)
 
 def overview(request):
