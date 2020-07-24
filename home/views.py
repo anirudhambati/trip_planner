@@ -503,7 +503,10 @@ def blog(request):
 
     #}
 
-    return render(request, 'blog3.html', context)
+
+
+
+    return render(request, 'blog2.html',context )
 
 def blogabout(request):
     return render(request, 'blogabout.html')

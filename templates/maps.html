@@ -193,6 +193,7 @@
   </div>
 </div>
 <br>
+
 <div class="header" style="margin-top:-2%;background-image:linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{% static "mapbg.jpg" %}');background-size:cover;">
   <div class="overlay">
     <div class="row" style="width:100%;padding-top:2%;padding-bottom:2%;">
@@ -200,10 +201,10 @@
         <tr>
           <td style="width:35%;">
             <div id="scrollbar" class="row" style="overflow-y:scroll;height:460px;overflow-x:hidden;">
-              <ul style="margin-left:79%;list-style-type:none;line-height:250%;">
+              <ul style="margin-left:70%;list-style-type:none;line-height:250%;">
                 {% for plan in finalplan %}
                   {% for places in plan.places %}
-                    <li class="dates"> <span class="tooltip--left" data-tooltip="{{ plan.place }}"> {{ places.day|date:"d/m" }} </span> </li>
+                    <li class="dates"> <span class="tooltip--left" data-tooltip="{{ plan.place }}"> {{ places.day }} </span> </li>
                   {% endfor %}
                 {% endfor %}
               </ul>
@@ -212,14 +213,14 @@
           <td style="width:62%">
             <div class="row" style="background: #fdfdfd;border:1px solid #ddd;width:100%;height:460px;padding:1%;box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);margin-left:5%;">
               <div class="col-9">
-                <div id="map" style="width:90vh;height:71vh;margin-left:-3%;"></div>
+                <div id="map" style="width:70vh;height:50vh;margin-left:-3%;"></div>
               </div>
               {% for plan in finalplan %}
                 {% for places in plan.places %}
                   <div style="display:none;margin-left:-2.5%;width:100%;" class="details col-3">
                     <h4 style="line-height:1.2;margin-top:3%;" class="city">{{ plan.place }}</h4>
                     <h6 style="margin-top:-2%;">{{ places.day|date:"l, d b" }}</h6><br>
-                    <div id="example" style="margin-left:-17%;margin-top:-10%;width:40vh;height:52vh;overflow-y:scroll;">
+                    <div id="example" style="margin-left:-17%;margin-top:-10%;width:40vh;height:40vh;overflow-y:scroll;">
                       <ul style="font-family: Roboto;margin-top:3%;margin-left:25%;" class="timeline">
                         {% for area in places.places %}
                           <li class="event" data-date="{{ area.starttime }} {{ area.endtime }}">
