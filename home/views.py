@@ -498,7 +498,7 @@ def addpost(request):
     }
 
     database.child('blog').child('post').child(title).child(description).child(image).set(data)
-    return render(request, 'addpost2.html')
+    return render(request, 'blog3.html')
 
 def about(request):
     return render(request, 'about.html')
