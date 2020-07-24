@@ -383,7 +383,18 @@ def home(request):
             return render(request, 'questions.html', details)
         else:
             pass
-    return render(request, 'home.html')
+
+    idtoken = request.session['uid']
+    a = authe.get_account_info(idtoken)
+    a = a['users'][0]['localId']
+
+    plans = database.child('users').child(a).child('plans').shallow().get().val()
+    trips = []
+    for key in list(plans):
+        obj = database.child('users').child(a).child('plans').child(key).get().val()
+        new_obj = {'checkin':obj['checkin'], 'checkout':obj['checkout'], 'days':obj['days'], 'pid':obj['pid'], 'name':obj['plan_name']}
+        trips.append(new_obj)
+    return render(request, 'home.html', {'plans':trips})
 
 def questions(request):
 
@@ -400,42 +411,49 @@ def questions(request):
     return render(request, 'questions.html', details)
 
 def plan(request):
+    id = request.GET.get('id', '')
+    print(id)
+    if id == '':
+        import random
+        import string
 
-    import random
-    import string
+        place = request.session['place']
+        checkin = request.session['checkin']
+        checkout = request.session['checkout']
 
-    place = request.session['place']
-    checkin = request.session['checkin']
-    checkout = request.session['checkout']
+        checkin = checkin.split('/')
+        checkout = checkout.split('/')
+        checkin = date(int(checkin[2]), int(checkin[0]), int(checkin[1]))
+        checkout = date(int(checkout[2]), int(checkout[0]), int(checkout[1]))
+        days = str(checkout - checkin)
+        days = days.split()[0]
+        cities = get_data(place)
 
-    checkin = checkin.split('/')
-    checkout = checkout.split('/')
-    checkin = date(int(checkin[2]), int(checkin[0]), int(checkin[1]))
-    checkout = date(int(checkout[2]), int(checkout[0]), int(checkout[1]))
-    days = str(checkout - checkin)
-    days = days.split()[0]
-    cities = get_data(place)
+        plan = fplan(cities, checkin, checkout)
+        print(plan)
 
-    plan = fplan(cities, checkin, checkout)
-    print(plan)
+        pid = ''.join([random.choice(string.ascii_letters + string.digits) for n in range(5)])
+        idtoken = request.session['uid']
+        a = authe.get_account_info(idtoken)
+        a = a['users'][0]['localId']
 
-    pid = ''.join([random.choice(string.ascii_letters + string.digits) for n in range(5)])
-    idtoken = request.session['uid']
-    a = authe.get_account_info(idtoken)
-    a = a['users'][0]['localId']
+        data = {
+            'plan_name': place,
+            'pid': pid,
+            'plan': plan,
+            'checkin': str(checkin),
+            'checkout': str(checkout),
+            'days': int(str(days))
+        }
 
-    data = {
-        'plan_name': place,
-        'pid': pid,
-        'plan': plan,
-        'checkin': str(checkin),
-        'checkout': str(checkout),
-        'days': int(str(days))
-    }
+        request.session['pdata'] = data
 
-    request.session['pdata'] = data
-
-    database.child('users').child(a).child('plans').child(pid).set(data)
+        database.child('users').child(a).child('plans').child(pid).set(data)
+    else:
+        idtoken = request.session['uid']
+        a = authe.get_account_info(idtoken)
+        a = a['users'][0]['localId']
+        plan = database.child('users').child(a).child('plans').child(id).child('plan').get().val()
 
     return render(request, 'trip_overview.html', plan)
 
@@ -467,7 +485,6 @@ def landing(request):
             return render(request, 'questions.html', details)
         else:
             pass
-
     return render(request, 'index.html')
 
 def blog(request):
@@ -482,10 +499,11 @@ def blog(request):
     #     'title': title,
     #     'description': description,
     #     'time':timestamp,
-        
-    # }
-    
 
+    # }
+
+
+    #}
 
     return render(request, 'blog3.html', context)
 
@@ -493,6 +511,20 @@ def blogabout(request):
     return render(request, 'blogabout.html')
 
 def addpost(request):
+    if request.method == "POST":
+
+        title= request.post['title']
+        description=request.post['description']
+        cat_list=["hill station","temple","monument"]
+
+        data = {
+            'title': title,
+            'description': description,
+            'image':"1.jpg",
+            'category': cat_list,}
+
+        database.child('blog').child(a).child('post').child(title).child(description).child(image).set(data)
+
     return render(request, 'addpost2.html')
 
 def post_add(request):
