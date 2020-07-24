@@ -51,6 +51,7 @@ config = {
 }
 
 firebase = pyrebase.initialize_app(config)
+storage= firebase.storage()
 authe = firebase.auth()
 database = firebase.database()
 countries = [
@@ -474,18 +475,33 @@ def blog(request):
         'object_list': queryset,
         'latest': latest,
     }
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-    print(queryset)
+
+    
     return render(request, 'blog3.html', context)
 
 def blogabout(request):
     return render(request, 'blogabout.html')
 
 def addpost(request):
+    if request.method == "POST":
+        
+        title= request.post['title']
+        description=request.post['description']
+        cat_list=["hill station","temple","monument"]
+        
+        data = {
+            'title': title,
+            'description': description,
+            'image':"1.jpg",
+            'category': cat_list,
+        
+    }
+
+    database.child('blog').child('post').child(title).child(description).child(image).set(data)
     return render(request, 'addpost2.html')
 
 def about(request):
-    return render(request, 'hotels.html')
+    return render(request, 'about.html')
 
 def timeline(request):
     return render(request, 'timeline.html')
