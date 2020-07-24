@@ -433,6 +433,8 @@ def plan(request):
         'days': int(str(days))
     }
 
+    request.session['pdata'] = data
+
     database.child('users').child(a).child('plans').child(pid).set(data)
 
     return render(request, 'trip_overview.html', plan)
@@ -503,7 +505,9 @@ def about(request):
     return render(request, 'addpost2.html')
 
 def timeline(request):
-    return render(request, 'timeline.html')
+    data = request.session['pdata']
+    print(type(data))
+    return render(request, 'timeline.html', data)
 
 def auth(request):
     return render(request, 'auth.html')
@@ -1128,6 +1132,8 @@ finalplan = {"start": 'New Delhi, India',
         }
 
 def maps(request):
+    finalplan = request.session['pdata']
+    finalplan = finalplan['plan']
     return render(request, 'maps.html', finalplan)
 
 def overview(request):
