@@ -435,7 +435,7 @@ def plan(request):
 
     request.session['pdata'] = data
 
-    #database.child('users').child(a).child('plans').child(pid).set(data)
+    database.child('users').child(a).child('plans').child(pid).set(data)
 
     return render(request, 'trip_overview.html', plan)
 
@@ -485,20 +485,32 @@ def blogabout(request):
     return render(request, 'blogabout.html')
 
 def addpost(request):
-    if request.method == "POST":
-
-        title= request.post['title']
-        description=request.post['description']
-        cat_list=["hill station","temple","monument"]
-        data = {
-            'title': title,
-            'description': description,
-            'image':"1.jpg",
-            'category': cat_list,}
-
-        database.child('blog').child(a).child('post').child(title).child(description).child(image).set(data)
-
     return render(request, 'addpost2.html')
+
+def post_add(request):
+
+    import random
+    import string
+
+    title = request.POST['title']
+    description = request.POST['description']
+    cat_list=["hill station","temple","monument"]
+    pid = 'b'.join([random.choice(string.ascii_letters + string.digits) for n in range(5)])
+
+    data = {
+        'pid': pid,
+        'title': title,
+        'description': description,
+        'image':"1.jpg",
+        'category': cat_list,}
+
+    idtoken = request.session['uid']
+
+    a = authe.get_account_info(idtoken)
+    a = a['users'][0]['localId']
+
+    database.child('blog').child(a).child('post').set(data)
+    return HttpResponse('success')
 
 def about(request):
     return render(request, 'addpost2.html')
