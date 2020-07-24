@@ -222,6 +222,7 @@ def fplan(cities, start_date, end_date):
             lng = cities[city[0]]['location']['lng']
             type = cities[city[0]]['type']
             rating = cities[city[0]]['rating']
+            url = cities[city[0]]['url']
             t = round_time(t)
             strt = t.strftime("%H:%M")
             end = (datetime.datetime(100, 1, 1, t.hour, t.minute, t.second) + timedelta(minutes=60)).time()
@@ -231,7 +232,7 @@ def fplan(cities, start_date, end_date):
             for k in type:
                 n.append(k.replace('_', ' '))
 
-            place = {"starttime":strt, "endtime":end.strftime("%H:%M"), "name":name, "lat":lat, "lng":lng, "type":n, "rating":rating}
+            place = {"starttime":strt, "endtime":end.strftime("%H:%M"), "name":name, "lat":lat, "lng":lng, "type":n, "rating":rating,'url':url}
             if(len(city) != 1):
                 next_time = Distance(R[city[0]], R[city[1]], mode=1)
                 next_time = ceil(next_time*1.0/15)*15
@@ -260,6 +261,8 @@ def fplan(cities, start_date, end_date):
             lat = cities[idx]['location']['lat']
             lng = cities[idx]['location']['lng']
             type = cities[idx]['type']
+            url = cities[idx]['url']
+
             n=[]
             for k in type:
                 n.append(k.replace('_', ' '))
@@ -269,7 +272,7 @@ def fplan(cities, start_date, end_date):
             strt = t.strftime("%H:%M")
             end = (datetime.datetime(100, 1, 1, t.hour, t.minute, t.second) + timedelta(minutes=rt)).time()
             end = round_time(end)
-            place = {"starttime":str(strt), "endtime":str(end.strftime("%H:%M")), "name":name, "lat":lat, "lng":lng, "type":n, "rating":rating}
+            place = {"starttime":str(strt), "endtime":str(end.strftime("%H:%M")), "name":name, "lat":lat, "lng":lng, "type":n, "rating":rating, 'url':url}
             day['places'].append(place)
         idx += 1
 
