@@ -157,15 +157,15 @@ to {
     <div id="page">
 	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
-	      <a class="navbar-brand" href="index.html"><span>Traveland</span></a>
+	      <a class="navbar-brand" href="/"><span>Traveland</span></a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
 	      </button>
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
-	          <li class="nav-item"><a href="#" class="nav-link">Blog</a></li>
+	          <li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
+	          <li class="nav-item"><a href="/auth" class="nav-link">Blog</a></li>
 	          <li class="nav-item"><a href="#foot" class="nav-link">Contact</a></li>
               {% if user.username %}
                 <li class="nav-item cta"><a href="{% url 'logout' %}" class="nav-link">Logout {{ user.username }}</a></li>
@@ -181,9 +181,12 @@ to {
     {% block body %}
 
     {% endblock %}
-    <footer id="foot" class="ftco-footer ftco-footer-2 ftco-section">
+    <footer style="padding-top:8em;padding-bottom:0.1em;" id="foot" class="ftco-footer ftco-footer-2 ftco-section">
       <div class="container">
         <div class="row mb-5">
+          <div class="col-md">
+            <img style="width:50vh;height:50vh" src="{% static 'logo.jpg' %}" alt="">
+          </div>
           <div class="col-md">
             <div class="ftco-footer-widget mb-4">
               <h2 class="ftco-heading-2">Traveland</h2>
@@ -195,7 +198,7 @@ to {
               </ul>
             </div>
           </div>
-          <div class="col-md">
+          <!-- <div class="col-md">
             <div class="ftco-footer-widget mb-4 ml-md-5">
               <h2 class="ftco-heading-2">Infromation</h2>
               <ul class="list-unstyled">
@@ -220,7 +223,7 @@ to {
                 <li><a href="#" class="py-2 d-block">Party</a></li>
               </ul>
             </div>
-          </div>
+          </div> -->
           <div class="col-md">
             <div class="ftco-footer-widget mb-4">
             	<h2 class="ftco-heading-2">Have a Questions?</h2>
@@ -234,14 +237,14 @@ to {
             </div>
           </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
           <div class="col-md-12 text-center">
 
-            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            <p>
   Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+</p>
           </div>
-        </div>
+        </div> -->
       </div>
     </footer>
 

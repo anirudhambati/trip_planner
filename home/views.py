@@ -435,7 +435,7 @@ def plan(request):
 
     request.session['pdata'] = data
 
-    database.child('users').child(a).child('plans').child(pid).set(data)
+    #database.child('users').child(a).child('plans').child(pid).set(data)
 
     return render(request, 'trip_overview.html', plan)
 
@@ -485,7 +485,7 @@ def blog(request):
         
     }
 
-    
+
     return render(request, 'blog3.html', context)
 
 def blogabout(request):
@@ -493,11 +493,10 @@ def blogabout(request):
 
 def addpost(request):
     if request.method == "POST":
-        
+
         title= request.post['title']
         description=request.post['description']
         cat_list=["hill station","temple","monument"]
-        
         data = {
             'title': title,
             'description': description,
@@ -505,7 +504,7 @@ def addpost(request):
             'category': cat_list,}
 
         database.child('blog').child(a).child('post').child(title).child(description).child(image).set(data)
-        
+
     return render(request, 'addpost2.html')
 
 def about(request):
@@ -1139,8 +1138,8 @@ finalplan = {"start": 'New Delhi, India',
         }
 
 def maps(request):
-    finalplan = request.session['pdata']
-    finalplan = finalplan['plan']
+    finalplan1 = request.session['pdata']
+    finalplan = finalplan1['plan']
     return render(request, 'maps.html', finalplan)
 
 def overview(request):

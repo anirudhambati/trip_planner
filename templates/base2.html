@@ -195,10 +195,10 @@ to {
 
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
-	          <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
-	          <li class="nav-item"><a href="#" class="nav-link">Blog</a></li>
+	          <li class="nav-item active"><a href="/home" class="nav-link">Home</a></li>
+	          <li class="nav-item"><a href="/blog" class="nav-link">Blog</a></li>
 	          <li class="nav-item"><a href="#foot" class="nav-link">Contact</a></li>
-	          <li class="nav-item cta"><a href="{% url 'auth' %}" class="nav-link">Log In</a></li>
+	          <li class="nav-item cta"><a href="/" class="nav-link">Logout</a></li>
 	        </ul>
 	      </div>
 	    </div>
@@ -209,29 +209,35 @@ to {
       <div class="container">
         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-end" data-scrollax-parent="true">
           <div class="col-md-7 ftco-animate mt-5" data-scrollax=" properties: { translateY: '70%' }">
+
+            {% block travel %}
             <h1 style="margin-top:-35%;" class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Be a Traveler not a Tourist</h1>
             <p style="margin-top:0%;" class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Travel to the any corner of the world, without going around in circles</p>
+            {% endblock %}
+
           </div>
         </div>
       </div>
     </div>
 
-    <div id="navbar2" style="background-color:rgb(153, 255, 255);width:100%">
+    <!-- <div id="navbar2" style="box-shadow: 0 4px 2px -2px gray;width:100%">
       <div style="margin-left: 26%;">
         <a class="active" href="{% url 'home:plan' %}">Overview</a>
         <a href="{% url 'home:timeline' %}">Timeline</a>
         <a href="{% url 'home:maps' %}">Maps</a>
       </div>
-    </div><br><br>
-  <br>
+    </div> -->
 
     {% block body %}
 
     {% endblock %}
 
-    <footer id="foot" class="ftco-footer ftco-footer-2 ftco-section">
+    <footer style="padding-top:8em;padding-bottom:0.1em;" id="foot" class="ftco-footer ftco-footer-2 ftco-section">
       <div class="container">
         <div class="row mb-5">
+          <div class="col-md">
+            <img style="width:50vh;height:50vh" src="{% static 'logo.jpg' %}" alt="">
+          </div>
           <div class="col-md">
             <div class="ftco-footer-widget mb-4">
               <h2 class="ftco-heading-2">Traveland</h2>
@@ -243,7 +249,7 @@ to {
               </ul>
             </div>
           </div>
-          <div class="col-md">
+          <!-- <div class="col-md">
             <div class="ftco-footer-widget mb-4 ml-md-5">
               <h2 class="ftco-heading-2">Infromation</h2>
               <ul class="list-unstyled">
@@ -268,28 +274,28 @@ to {
                 <li><a href="#" class="py-2 d-block">Party</a></li>
               </ul>
             </div>
-          </div>
+          </div> -->
           <div class="col-md">
             <div class="ftco-footer-widget mb-4">
-            	<h2 class="ftco-heading-2">Have a Questions?</h2>
-            	<div class="block-23 mb-3">
-	              <ul>
-	                <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-	                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a></li>
-	                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a></li>
-	              </ul>
-	            </div>
+              <h2 class="ftco-heading-2">Have a Questions?</h2>
+              <div class="block-23 mb-3">
+                <ul>
+                  <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
+                  <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a></li>
+                  <li><a href="#"><span class="icon icon-envelope"></span><span class="text">info@yourdomain.com</span></a></li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
           <div class="col-md-12 text-center">
 
-            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            <p>
   Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+</p>
           </div>
-        </div>
+        </div> -->
       </div>
     </footer>
 
