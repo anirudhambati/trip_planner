@@ -712,10 +712,10 @@ body {
 #listing {
   position: absolute;
   width: 300px;
-  height: 410px;
+  height: 380px;
   overflow: auto;
   left: 23px;
-  top: 40px;
+  top: 68px;
   cursor: pointer;
   overflow-x: hidden;
 }
@@ -774,6 +774,63 @@ body {
 .iw_table_icon {
   text-align: right;
 }
+.form__list-item {
+  position: relative;
+  vertical-align: top;
+  display: inline-block;
+  width: 100%;
+  padding: 0 .5rem;
+  margin-bottom: 5rem;
+}
+.form__input {
+  border: none;
+  border-bottom: 2px solid #ffb400;
+  width: 100%;
+  border-radius: 2px;
+  outline: none;
+  font-size: 1rem;
+  padding: 0.2rem 0.7rem;
+  -webkit-transition: all 200ms;
+  transition: all 200ms;
+  font-family: 'Georgia';
+  background-color: rgba(0, 0, 0, 0);
+  color: #f3f3f3;
+}
+
+.form__input:valid {
+  padding: 1.5rem 1rem .38rem;
+}
+.form__input:valid + .form__label {
+  font-size: .75rem;
+  top: .5rem;
+  opacity: 1;
+  z-index: 1;
+}
+.form__label {
+  position: absolute;
+  top: 1.25rem;
+  font-size: 1rem;
+  font-family: 'Georgia';
+  left: 1.5rem;
+  color: #ffb400;
+  opacity: 0;
+  z-index: -1;
+  -webkit-transition: all 200ms;
+  transition: all 200ms;
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #ffb400;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #ffb400;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #ffb400;
+}
+
 
 
 /* Hide scrollbar for IE and Edge */
@@ -914,15 +971,20 @@ body {
   </div>
 </div>
 
-<div class="hotels" style="padding-left:5%;padding-top:2%;margin-top:3%;margin-left:3%;width:100%;height:550px;background-size:cover;background-image:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{% static 'hotel.jpg' %}')">
+<div class="hotels" style="padding-left:5%;padding-top:2%;margin-top:3%;width:100%;height:550px;background-size:cover;background-image:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{% static 'hotel.jpg' %}')">
   <h2 style="color:#f3f3f3;">FIND YOUR HOTEL</h2>
   <div class="row">
-    <div id="hotel" style="height:450px;" class="col-7">
+    <div id="hotel" style="height:450px;border-radius:.2em;" class="col-7">
 
     </div>
     <div class="col-5">
       <div id="locationField">
-        <input id="autocomplete" placeholder="Enter a city" type="text" />
+        <!-- <input id="autocomplete" placeholder="Enter a city" type="text" /> -->
+        <div class="form__list-item">
+          <input id="autocomplete" type="text" name="first_name" required placeholder="Enter your city..." class="form__input" />
+          <label for="first_name" class="form__label">Enter your city</label>
+        </div>
+
       </div>
 
       <div style="display:none;" id="controls">
