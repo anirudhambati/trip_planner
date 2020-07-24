@@ -483,7 +483,8 @@ def blog(request):
     #     'description': description,
     #     'time':timestamp,
         
-    }
+    # }
+    
 
 
     return render(request, 'blog3.html', context)
