@@ -498,18 +498,20 @@ display: inline-block;
               <header></header>
               <div class="container pt-3">
                  <div class="row">
+                  {% for i in ti %}
                     <a href="/lorem-ipsum-dolor-sit-amet-consectetur">
                        <article class="best-post">
                           <div class="best-post-image" style="background-image: url(&quot;https://mir-s3-cdn-cf.behance.net/projects/404/396f5591178321.Y3JvcCwxMjk0LDEwMTIsMCwzODQ.png&quot;);"></div>
                           <div class="best-post-content">
                              <div class="best-post-content-cat">videograper</div>
-                             <div class="best-post-content-title">Lorem ipsum dolor sit amet, consectetur 1</div>
-                             <div class="best-post-content-sub">Lorem Ipsum, masaüstü yayıncılık ve basın yayın sektöründe kullanılan taklit yazı bloğu olarak tanımlanır. Lipsum, oluşturulacak şablon ve taslaklarda içerik yerine geçerek yazı bloğunu doldurmak için kullanılır.</div>
-                             <p style="float:left">Likes: 20</p>
+                             <div class="best-post-content-title">{{ title}}</div>
+                             <div class="best-post-content-sub">{{ title }}</div>
+                            
                              <p style="margin-left:-10%;float:right">Time: 21 July</p>
                           </div>
                        </article>
                     </a>
+                    {% endfor %}
                     <a style="width:285px!important" href="/lorem-ipsum-dolor-sit">
                        <article class="post__card-2">
                           <div class="post__card_-2">
@@ -558,6 +560,7 @@ display: inline-block;
                           </div>
                        </article>
                     </a>
+                    
                  </div>
               </div>
            </div>
