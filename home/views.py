@@ -488,24 +488,25 @@ def landing(request):
     return render(request, 'index.html')
 
 def blog(request):
-    # queryset = post.objects.filter(featured=True)
-    # latest = post.objects.order_by('-timestamp')[0:3]
-    # image= "/media/venom.jpg"
-    # title= ["venom","new"]
-    # description= ["venom is a good film","new is a new post"]
-    # timestamp= "21 jun 2020"
-    # context = {
-    #     'img': image,
-    #     'title': title,
-    #     'description': description,
-    #     'time':timestamp,
-
-    # }
 
 
-    #}
 
-    return render(request, 'blog3.html', context)
+    image= "/media/venom.jpg"
+    title= ["venom"]
+    description= ["venom is a good film"]
+
+    context = {
+        'img': image,
+        'title': title,
+        'description': description,
+
+
+    }
+
+
+
+
+    return render(request, 'blog2.html',context )
 
 def blogabout(request):
     return render(request, 'blogabout.html')
