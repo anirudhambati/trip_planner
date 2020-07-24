@@ -187,9 +187,9 @@
 </div> -->
 <div id="navbar2" style="box-shadow: 0 4px 2px -2px gray;width:100%">
   <div style="margin-left: 30%;">
-    <a style="color:#222831" class="active" href="{% url 'home:plan' %}">Overview</a>
-    <a style="color:#222831" href="{% url 'home:timeline' %}">Timeline</a>
-    <a href="{% url 'home:maps' %}">Day-Wise Maps</a>
+    <a style="color:#222831" class="active" href="{% url 'home:plan' %}{% if id %}?id={{ id }}{% endif %}">Overview</a>
+    <a style="color:#222831" href="{% url 'home:timeline' %}{% if id %}?id={{ id }}{% endif %}">Timeline</a>
+    <a href="{% url 'home:maps' %}{% if id %}?id={{ id }}{% endif %}">Day-Wise Maps</a>
   </div>
 </div>
 <br>
