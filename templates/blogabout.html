@@ -103,32 +103,28 @@
   <div style="width:100%;height:450px;background-size:100%;">
     <img style="width:100%;height:450px;" src="{% static 'landing/blogbg.jpeg' %}" alt="">
     <div id="over"></div>
-    <span style="font-family:oswald;position:absolute;color:white;font-size:50px;text-align: center;top:0;left:0;right:0;bottom:0;z-index:2;margin-top:11%;">This is the title</span>
-    <span style="position:absolute;color:white;text-align:center;top:0;left:0;right:0;bottom:0;z-index:2;margin-top:17%;">
+    <span style="font-family:oswald;position:absolute;color:white;font-size:50px;text-align: center;top:0;left:0;right:0;bottom:0;z-index:2;margin-top:11%;">{{ blog.title }}</span>
 
-    </span>
   </div>
   <div class="row" style="width:100%;margin-top:-5%;margin-bottom:10%;z-index:10;">
     <div class="col-lg-1"></div>
-    <div class="col-lg-6">
+    <div class="col-lg-10">
       <div class="main_blog_details" style="background-color:white;border:1px solid #ccc;border-radius:3px;box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);padding:20px;margin-left:5%;width:95%;">
-        <img class="img-fluid" src={% static "/landing/img/blog/blog1.png" %} alt="">
+        <img class="img-fluid" src={{ blog.image }} alt="">
 
          <div class="tags" style="margin-top:3%;margin-bottom:-1%;">
-           <span class="tag">Nature</span>
-           <span class="tag">Beachs</span>
+           {% for tag in blog.category %}
+           <span class="tag">{{ tag }}</span>
+           {% endfor %}
          </div>
-         <p style="text-align:justify;font-family:'Libre Baskerville', serif">MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction of the camp price. However, who has the willpower.<br>
-           MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction of the camp price. However, who has the willpower.<br>
-           MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction of the camp price. However, who has the willpower.<br>
-         MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at a fraction of the camp price. However, who has the willpower.<br></p>
+         <p style="text-align:justify;font-family:'Libre Baskerville', serif">{{ blog.description }}<br></p>
          <hr style="width:65%;margin-left:17.5%;">
          <div class="row" style="width:60%;margin-left:20%;">
            <div class="col-2">
              <img style="border:2px solid white;width:7vh;height:7vh;border-radius:50%;" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80" alt="dp">
            </div>
            <div class="col-10" style="margin-top:2%;">
-             <span style="color:#6b9ee8;font-size:18px;">Roshan</span>
+             <span style="color:#6b9ee8;font-size:18px;">{{ user }}</span>
              - <small>Traveller and blogger</small>
            </div>
          </div>

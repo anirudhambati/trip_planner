@@ -493,12 +493,25 @@ def blog(request):
     blogs = database.child('blog').get().val()
     for x in blogs:
         print(x)
-    print(blogs)
+    blogs = list(blogs)
+    blog_list = []
+    for blog in blogs:
+        blog_obj = database.child('blog').child(blog).get().val()
+        user = database.child('users').child(blog_obj['idToken']).child('details').child('name').get().val()
+        print(user)
+        obj = {'category':blog_obj['category'], 'bid':blog, 'description':blog_obj['description'], 'image':blog_obj['image'], 'user':user, 'title':blog_obj['title']}
+        blog_list.append(obj)
+    print(blog_list[0])
 
-    return render(request, 'blog2.html' )
+    return render(request, 'blog2.html', {'blogs':blog_list})
 
 def blogabout(request):
-    return render(request, 'blogabout.html')
+    bid = request.GET.get('bid', '')
+    if bid == '':
+        return redirect('/blog')
+    blog = database.child('blog').child(bid).get().val()
+    user = database.child('users').child(blog['idToken']).child('details').child('name').get().val()
+    return render(request, 'blogabout.html', {'blog':blog, 'user':user})
 
 def addpost(request):
     return render(request, 'addpost2.html')

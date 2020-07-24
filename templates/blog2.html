@@ -472,6 +472,10 @@ display: inline-block;
   }
 }
 
+#addpost:hover{
+  color: #ffb400;
+}
+
 </style>
 
 <link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
@@ -484,15 +488,16 @@ display: inline-block;
 <div style="width:100%;height:430px;background-size:100%;">
   <img style="width:100%;height:430px;" src="{% static 'blogbg.jpg' %}" alt="">
   <div id="over"></div>
-  <span style="font-family:oswald;position:absolute;color:white;font-size:56px;text-align: center;top:0;left:0;right:0;bottom:0;z-index:2;margin-top:12%;">Travel Diaries</span>
-  <span style="position:absolute;color:white;text-align:center;top:0;left:0;right:0;bottom:0;z-index:2;margin-top:17%;">
+  <span style="font-family:oswald;position:absolute;color:white;font-size:56px;text-align: center;top:0;left:0;right:0;bottom:0;z-index:2;margin-top:11%;">Travel Diaries</span>
+  <span style="position:absolute;color:white;text-align:center;top:0;left:0;right:0;bottom:0;z-index:2;margin-top:18%;">
+   <a id="addpost" style="color:white" href="/addpost">Add Post +</a>
   </span>
 </div>
 
 <div class="row" style="width:100%;margin-top:-4%!important;margin-bottom:10%;z-index:10;">
-  <div style="margin-left:-3%;" class="col-lg-9">
+  <div style="margin-left:-3%;" class="col-lg-12">
     <div class="your-class main_blog_details" style="background-color:white;border:1px solid #ccc;border-radius:3px;box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);padding:20px;margin-left:5%;width:95%;">
-      <div class="slides" id="slide0">
+      <!-- <div class="slides" id="slide0">
         <div id="blog">
            <div>
               <header></header>
@@ -711,8 +716,54 @@ display: inline-block;
               </div>
            </div>
         </div>
-      </div>
-      <div style="margin-bottom:5%;padding-right:5%;">
+      </div> -->
+        <div class="slides">
+          <div id="blog">
+             <div>
+                <div class="container pt-3">
+                   <div class="row">
+                     {% for blog in blogs %}
+                     {% if forloop.counter0|divisibleby:4 %}
+                     <a style="margin-right:5%;width:100%;" href="/blogabout/?bid={{ blog.bid }}">
+                        <article class="best-post">
+                           <div class="best-post-image" style="background-image: url({{blog.image}});"></div>
+                           <div class="best-post-content">
+                             {% for category in blog.category %}
+                              <div class="best-post-content-cat">{{ category }}</div>
+                             {% endfor %}
+                              <div class="best-post-content-title">{{ blog.title }}</div>
+                              <div class="best-post-content-sub">{{ blog.description|truncatechars:100 }}...</div>
+                              <p style="float:left">By: {{ blog.user }}</p>
+                           </div>
+                        </article>
+                     </a>
+                     {% else %}
+                     <a style="width:285px!important;margin-right:5%;" href="/blogabout/?bid={{ blog.bid }}">
+                        <article class="post__card-2">
+                           <div class="post__card_-2">
+                              <div class="post__card__image-2" style="background-image: url({{blog.image}});"></div>
+                              <div>
+                                 <div class="post__card_meta-2">
+                                   {% for category in blog.category %}
+                                    <div class="best-post-content-cat">{{ category }}</div>
+                                   {% endfor %}
+                                    <p class="post__card_title-2">{{ blog.title }}</p>
+                                    <p class="post__card_alttitle-2">{{ blog.description|truncatechars:50 }}...</p>
+                                    <p style="float:left">By: {{ blog.user }}</p>
+                                 </div>
+                              </div>
+                           </div>
+                        </article>
+                     </a>
+                     {% endif %}
+                     {% endfor %}
+                   </div>
+                </div>
+             </div>
+          </div>
+        </div>
+
+      <!-- <div style="margin-bottom:5%;padding-right:5%;">
         <div style="width:18%;margin-left:4%;float:left">
           <a id="prevBtn" href="#" class="fancy-button medium half-right-rounded pomegranate expand">
             <span class="icon">
@@ -728,10 +779,10 @@ display: inline-block;
             </span>
           </a>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
-  <div class="col-lg-3 sidebar-widgets" style="font-family:'Libre Baskerville', serif;background-color:white;border:1px solid #ccc;border-radius:3px;box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);padding:20px;">
+  <!-- <div class="col-lg-3 sidebar-widgets" style="font-family:'Libre Baskerville', serif;background-color:white;border:1px solid #ccc;border-radius:3px;box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);padding:20px;">
     <div class="widget-wrap">
       <div class="single-sidebar-widget post-category-widget">
         <h4 style="text-align:center;" class="line single-sidebar-widget__title">Catgory</h4>
@@ -806,7 +857,7 @@ display: inline-block;
         </a>
       </div>
       </div>
-  </div>
+  </div> -->
 </div>
 <br><br><br><br>
 <script type="text/javascript">
