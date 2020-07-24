@@ -493,15 +493,14 @@ def addpost(request):
             'title': title,
             'description': description,
             'image':"1.jpg",
-            'category': cat_list,
-        
-    }
+            'category': cat_list,}
 
-    database.child('blog').child('post').child(title).child(description).child(image).set(data)
-    return render(request, 'blog3.html')
+        database.child('blog').child(a).child('post').child(title).child(description).child(image).set(data)
+        
+    return render(request, 'addpost2.html')
 
 def about(request):
-    return render(request, 'about.html')
+    return render(request, 'addpost2.html')
 
 def timeline(request):
     return render(request, 'timeline.html')
