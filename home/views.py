@@ -450,6 +450,9 @@ def plan(request):
 
         database.child('users').child(a).child('plans').child(pid).set(data)
     else:
+        idtoken = request.session['uid']
+        a = authe.get_account_info(idtoken)
+        a = a['users'][0]['localId']
         plan = database.child('users').child(a).child('plans').child(id).child('plan').get().val()
 
     return render(request, 'trip_overview.html', plan)
@@ -497,7 +500,7 @@ def blog(request):
     #     'description': description,
     #     'time':timestamp,
 
-    }
+    #}
 
     return render(request, 'blog3.html', context)
 
