@@ -402,7 +402,6 @@ def questions(request):
     details['place'] = request.POST['place']
     details['checkin'] = request.POST['checkin']
     details['checkout'] = request.POST['checkout']
-    details['price'] = request.POST['price']
 
     request.session['place'] = details['place']
     request.session['checkin'] = details['checkin']
@@ -559,12 +558,13 @@ def timeline(request):
     id = request.GET.get('id', '')
     if id == "":
         data = request.session['pdata']
-        print(type(data))
+        print(data)
     else:
         idtoken = request.session['uid']
         a = authe.get_account_info(idtoken)
         a = a['users'][0]['localId']
-        data = database.child('users').child(a).child('plans').child(id).child('plan').get().val()
+        data = database.child('users').child(a).child('plans').child(id).get().val()
+        print(data)
         data['id'] = id
     return render(request, 'timeline.html', data)
 
